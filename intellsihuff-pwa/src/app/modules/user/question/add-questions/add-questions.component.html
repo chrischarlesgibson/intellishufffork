@@ -1,0 +1,138 @@
+<div class="container ">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+              <div class="col d-flex align-items-center">
+                <h3>
+                  Add Questions
+                </h3>
+              </div>
+              <div class="col-auto button justify-content-end" >
+                <button type="" class="btn btn-primary" >Import FIle</button>
+          
+              </div>
+              <div class="col-auto button justify-content-end" >
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Subject</button>
+              </div>
+            </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="aboutQuestionFg">
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group m-2">
+                      <label for="password">Subject</label>
+                      <select class="form-select mb-3" formControlName="subject">
+                        <option *ngFor="let sub of subjects" [value]="sub.id">{{sub.name}}</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL">
+                    <label for="password">Classes</label>
+                    <select class="form-select mb-3" formControlName="scchoolClass">
+                      <option [value]="SchoolCLass.FIRST">{{SchoolCLass.FIRST}}</option>
+                      <option [value]="SchoolCLass.SECOND">{{SchoolCLass.SECOND}}</option>
+                      <option [value]="SchoolCLass.THIRD">{{SchoolCLass.THIRD}}</option>
+                      <option [value]="SchoolCLass.FOURTH">{{SchoolCLass.FOURTH}}</option>
+                      <option [value]="SchoolCLass.FIFTH">{{SchoolCLass.FIFTH}}</option>
+                      <option [value]="SchoolCLass.SIXTH">{{SchoolCLass.SIXTH}}</option>
+                      <option [value]="SchoolCLass.SEVENTH">{{SchoolCLass.SEVENTH}}</option>
+                      <option [value]="SchoolCLass.EIGHTH">{{SchoolCLass.EIGHTH}}</option>
+                      <option [value]="SchoolCLass.NINTH">{{SchoolCLass.NINTH}}</option>
+                      <option [value]="SchoolCLass.TENTH">{{SchoolCLass.TENTH}}</option>
+                    </select>
+                </div>
+                <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.COLLEGE">
+                  <label for="password">Year</label>
+                  <select class="form-select mb-3" formControlName="collegeYear">
+                    <option [value]="Year.FIRSTYEAR">{{Year.FIRSTYEAR}}</option>
+                    <option [value]="Year.SECONDYEAR">{{Year.SECONDYEAR}}</option>
+                  </select>
+              </div>
+              <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.UNIVERSITY">
+                <label for="password">Semister</label>
+                <select class="form-select mb-3" formControlName="institutionType">
+                  <option [value]="Semisters.FIRST">{{Semisters.FIRST}}</option>
+                  <option [value]="Semisters.SECOND">{{Semisters.SECOND}}</option>
+                  <option [value]="Semisters.THIRD">{{Semisters.THIRD}}</option>
+                  <option [value]="Semisters.FOURTH">{{Semisters.FOURTH}}</option>
+                  <option [value]="Semisters.FIFTH">{{Semisters.FIFTH}}</option>
+                  <option [value]="Semisters.SIXTH">{{Semisters.SIXTH}}</option>
+                  <option [value]="Semisters.SEVENTH">{{Semisters.SEVENTH}}</option>
+                  <option [value]="Semisters.EIGHTH">{{Semisters.EIGHTH}}</option>
+                </select>
+              </div>
+              </div>
+            </div>
+          </form>
+
+          <form [formGroup]="mcqFormGroup">
+            <div class="row">
+              <div class="col-12">
+                <div class="input-group mb-3" id="question">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Question</span>
+                  </div>
+                  <input class="form-control" aria-label="large" formControlName="questionText">
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div formArrayName="options">
+                <div *ngFor="let option of optionControls; let i = index" [formGroupName]="i" class="row mb-3">
+                  <div class="col-8">
+                    <input class="form-control" formControlName="text" placeholder="Enter option text">
+                  </div>
+                  <div class="col-4 justify-content-end">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" formControlName="isOptionCorrect" (change)="updateOptionSelection(i)">
+                      <label class="form-check-label">Correct Option</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="row">
+            <div class="col button justify-content-start">
+              <button type="submit"  class="btn btn-primary" (click)="onSubmitClicked(mcqFormGroup.value)"
+                 [disabled]="!(mcqFormGroup.valid && aboutQuestionFg.valid)">Submit Question</button>
+            </div>
+            <div class="col-auto button justify-content-end">
+              <button class="btn btn-primary" (click)="addOption()">Add option</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addSubjectFg">
+          <div class="col-md-12">
+            <div class="form-group m-2">
+              <label for="recipient-name" class="col-form-label">Subject name</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

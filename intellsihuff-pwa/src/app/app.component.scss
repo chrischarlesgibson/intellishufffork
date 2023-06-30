@@ -1,0 +1,118 @@
+  a{
+    img{
+      width: 100px;
+    }
+  }
+.navbar {
+    .navbar-toggler-icon {
+      /* Set the menu icon */
+      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3E%3Cpath stroke="%23000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+    }
+    .navbar-brand {
+      /* Set the brand logo styles */
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .navbar-nav {
+      /* Set the menu items styles */
+      text-align: right;
+      li {
+        margin-left: 1rem;
+        a {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    /* Set the menu animation styles */
+    &.menu-open {
+      .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        ul {
+          flex-direction: column;
+          li {
+            margin: 1rem 0;
+            a {
+              font-size: 2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+.container{
+    form{
+  margin-top: 100px;
+
+        margin: 16px;
+        .row{
+            .button{
+                button{
+                width: 100%;
+    
+                }
+            }
+        }
+    }
+    
+    .card{
+        margin: 16px ;
+        span{
+        }
+        .mcqs{
+            margin: 16px;
+            display: flex;
+            justify-content: space-between;
+        
+            h3{
+                text-align: center;
+            }
+            .mcq{
+                width: 85%;
+        
+                // &.underline{
+                //     border-bottom: 5px solid;
+                //     margin-bottom: 25px;
+                // }
+               
+                .quest{
+                    display: flex;
+                    margin-bottom: 8px;
+    
+                    button{
+                        position: absolute;
+                        right: 0;
+                    }
+                }
+                .option{
+                    display: flex;
+                    margin: 0 0px 0px 10px;
+
+                    button{
+                      position: absolute;
+                      right: 0;
+                    }
+                }
+            }
+            .row{
+              .button{
+                button{
+                  min-height: 37px;
+                  min-width: 37px;
+                 
+                }
+              }
+            }
+        }
+    }
+}

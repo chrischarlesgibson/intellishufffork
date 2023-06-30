@@ -1,0 +1,113 @@
+a{
+
+    img{
+      width: 100px;
+    }
+  }
+
+.navbar {
+  background-image: url(/assets/images/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0px 0px 20px 0px #666;
+  margin-bottom: 30px;
+  border-radius: 0 0 1  0px 10px;
+    .navbar-toggler-icon {
+      /* Set the menu icon */
+    }
+    .navbar-brand {
+      /* Set the brand logo styles */
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+      font-style: oblique;
+    }
+    .navbar-nav {
+      /* Set the menu items styles */
+      text-align: right;
+
+      li {
+        margin-left: 1rem;
+        a {
+          font-size: 1.2rem;
+          &.active{
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    /* Set the menu animation styles */
+    &.menu-open {
+      animation: menu-item-appear 1s ease-in-out;
+
+      .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ul {
+          flex-direction: column;
+          li {
+            margin: 1rem 0;
+            a {
+              font-size: 2rem;
+            }
+          }
+        }
+      }
+    }
+
+    ion-toggle {
+      padding: 12px;
+    
+      --handle-width: 25px;
+      --handle-height: 27px;
+      --handle-max-height: auto;
+      --handle-spacing: 6px;
+    
+      contain: none;
+    }
+    
+    ion-toggle::part(track),
+    ion-toggle.toggle-checked::part(track) {
+      height: 10px;
+      width: 65px;
+    
+      background: #ddd;
+    
+      /* Required for iOS handle to overflow the height of the track */
+      overflow: visible;
+    }
+    
+    ion-toggle::part(handle) {
+      background: var(--dark-bg);
+    
+      border-radius: 4px;
+      box-shadow: none;
+    }
+    
+    ion-toggle.toggle-checked::part(handle) {
+      background: #fff;
+    }
+  }
+  .accordion-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .accordion-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .accordion-content {
+    padding: 10px;
+  }

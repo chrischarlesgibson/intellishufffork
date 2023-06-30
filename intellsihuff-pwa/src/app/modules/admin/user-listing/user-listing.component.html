@@ -1,0 +1,31 @@
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>User Role</th>
+            <th>User Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <select [(ngModel)]="user.role" class="form-select" (change)="onRoleChanged(user, $event)">
+                  <option  [value]="userRole.USER">{{ userRole.USER }}</option>
+                  <option  [value]="userRole.ADMIN">{{ userRole.ADMIN }}</option>
+              </select>
+            </td>
+            <td>
+                <select [(ngModel)]="user.status" class="form-select" (change)="onStatusChanged(user, $event)">
+                    <option  [value]="userStatus.APPROVED">{{ userStatus.APPROVED }}</option>
+                    <option  [value]="userStatus.PENDING">{{ userStatus.PENDING }}</option>
+                </select>
+            </td>
+            
+          </tr>
+        </tbody>
+    </table>
+</div>

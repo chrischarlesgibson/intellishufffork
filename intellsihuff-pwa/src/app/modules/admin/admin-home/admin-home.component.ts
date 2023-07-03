@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { BasePage } from 'src/app/universal/base.page';
 
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
   styleUrls: ['./admin-home.component.scss']
 })
-export class AdminHomeComponent implements OnInit {
-  @ViewChild('routerOutlet', { static: true }) routerOutlet: RouterOutlet;
-
+export class AdminHomeComponent extends BasePage implements OnInit {
   isChildComponentActivated: boolean = false;
   constructor(
-    private router: Router
-  ) { }
+  ) { 
+    super();
+  }
 
   ngOnInit(): void {
 
@@ -20,8 +19,7 @@ export class AdminHomeComponent implements OnInit {
 
   onLogoClicked() {
     this.router.navigate(['/admin']);
-    this.isChildComponentActivated = false;
-
+    this.isChildComponentActivated = true;
   }
 
   onChildComponentActivate(event: any): void {

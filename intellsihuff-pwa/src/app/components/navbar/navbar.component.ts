@@ -16,36 +16,30 @@ import { HelperService } from 'src/app/universal/helper.service';
         </button>
         
         <a class="navbar-brand" routerLink="/home">
-          {{currentUser.institution.name}}
+          {{currentUser?.institution?.name}}
         </a>
       
         <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item" *ngIf="currentUser?.role === userRole.ADMIN" routerLink="/admin">
+            <li class="nav-item"  routerLink="/admin">
               <a class="nav-link" [class.active]="activePage == 'admin-home'">Admin</a>
             </li>
             <li class="nav-item" (click)="onHomeClicked()">
               <a class="nav-link" [class.active]="activePage == 'home'">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" >About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/home/contact" [class.active]="activePage == 'contact'">Contact</a>
-            </li>
-
-            <li class="nav-item dropdown">
+ 
+            <li class="nav-item dropdown"  role="menu">
               <a class="nav-link dropdown-toggle" 
                 id="navbarDropdownMenuLink" role="button" 
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{currentUser.name}}
+                {{currentUser?.name}}
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li class="nav-item">
                   <a class="nav-link text-danger"  (click)="onLogOutClicked()">log out</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link"  [routerLink]="['/register']" [queryParams]="{ id: currentUser.id }" style="color: var(--color-primary);">Profile</a>
+                  <a class="nav-link"  [routerLink]="['/register']" [queryParams]="{ id: currentUser?.id }" style="color: var(--color-primary);">Profile</a>
                 </li>
               </div>
             </li>

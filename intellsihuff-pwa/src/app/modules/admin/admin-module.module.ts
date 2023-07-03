@@ -4,6 +4,7 @@ import { UserListingComponent } from './user-listing/user-listing.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ComponentsWithFormsModule } from 'src/app/components/components-with-forms.module';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 
@@ -11,7 +12,8 @@ import { ComponentsWithFormsModule } from 'src/app/components/components-with-fo
 @NgModule({
   declarations: [
     AdminHomeComponent,
-    UserListingComponent
+    UserListingComponent,
+    AddUserComponent
   ],
   imports: [
     AdminRoutingModule,

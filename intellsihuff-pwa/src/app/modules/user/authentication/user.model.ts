@@ -5,7 +5,7 @@ export interface IRegister {
     password: string
     role: UserRole
     status: UserStatus
-    institution: IInstitution
+    institution?: IInstitution
 }
 
 export interface IInstitution {
@@ -42,7 +42,7 @@ export enum  UserStatus {
 
 export enum InstitutionType {
     UNIVERSITY = 'university',
-    SCHOOL = 'shcool',
+    SCHOOL = 'School',
     COLLEGE = 'college',
 }
 

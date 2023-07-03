@@ -7,7 +7,6 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrls: ['./admin-home.component.scss']
 })
 export class AdminHomeComponent implements OnInit {
-
   @ViewChild('routerOutlet', { static: true }) routerOutlet: RouterOutlet;
 
   isChildComponentActivated: boolean = false;

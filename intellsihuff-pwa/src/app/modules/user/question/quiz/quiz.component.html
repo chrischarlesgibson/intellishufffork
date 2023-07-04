@@ -1,0 +1,44 @@
+<div class="container"  *ngIf="quizMcqs && quizMcqs.length">
+    <div class="card" *ngIf="currentQuestionIndex < quizMcqs.length">
+        <div class="row m-3">
+            <div class="col d-flex">
+                <span class="badge">
+                    {{timer}}
+                </span>  
+            </div>
+        </div>
+
+        <div class="card-body" id="mcq">
+            <div class="mcq">
+                <div class="row">
+                    <div class="quest" id="q">
+                        <b>{{currentQuestionIndex+1}}</b>{{ quizMcqs[currentQuestionIndex].text }}
+                    </div>
+                </div>
+                <div class="row" *ngFor="let op of quizMcqs[currentQuestionIndex]?.options; let i = index">
+                    <div class="col-6">
+                        <div class="option">
+                            <div class="text" id="a">
+                            <b>{{ getLetter(i) }}</b>: {{ op.text }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                type="checkbox"
+                                [(ngModel)]="op.isOptionCorrect"
+                                (change)="uncheckOtherOptions(op, quizMcqs[currentQuestionIndex])">
+                            <label class="form-check-label">Correct Option</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="currentQuestionIndex < quizMcqs.length ">
+                <div class="col-12">
+                    <button class="btn btn-primary" [disabled]="!quizMcqs[currentQuestionIndex].options" (click)="nextQuestion(quizMcqs[currentQuestionIndex])">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

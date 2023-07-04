@@ -8,6 +8,7 @@ import { AuthGuard } from './authentication/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { RegistrationGuard } from './authentication/registration.guard';
+import { QuizComponent } from './question/quiz/quiz.component';
 
 const routes: Routes = [
     {
@@ -15,7 +16,8 @@ const routes: Routes = [
         children: [
             { path: 'contact', component: ContactComponent },
             { path: 'add-questions', component: AddQuestionsComponent },
-            { path: 'questions-bank', component: QuestionsBankComponent }
+            { path: 'questions-bank', component: QuestionsBankComponent },
+            { path: 'quiz', component: QuizComponent }
         ]
     },
     {

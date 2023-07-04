@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { QuestionService } from '../question.service';
 import {  IUser, InstitutionType } from '../../authentication/user.model';
 import { SubjectService } from '../../subject/subject.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CollegeYear, IOptions, IQuestion, SchoolCLass, Semisters } from '../question.model';
-import { HelperService } from 'src/app/universal/helper.service';
 
 import { jsPDF } from "jspdf";
 import { ISubject } from '../../subject/subject.model';
 import { UserSettingService } from '../../user-setting.service';
 import { BasePage } from 'src/app/universal/base.page';
+import { NavigationExtras } from '@angular/router';
+import { SharedService } from '../shared.service';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'questions-bank',
   templateUrl: './questions-bank.component.html',
@@ -29,16 +31,18 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   Semisters = Semisters;
   Year = CollegeYear;
 
+  faFilter = faFilter;
+
   getLetter(index: number): string {
     return String.fromCharCode(97 + index);
   }
-
   
   constructor(
     private questionSvc: QuestionService
     , private subjectSvc: SubjectService
     , private formBuilder: FormBuilder
     , private userSettingSvc: UserSettingService
+    , private sharedService: SharedService
   ) {
     super();
     this.formGroup = this.formBuilder.group({
@@ -57,6 +61,11 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
     // this.questions = await this.questionSvc.getAllQuestions();
     this.getQuestionsCount();
     this.subjects = await this.subjectSvc.getAllSubjects();
+  }
+
+  onPrepareLinkClicked() {
+    this.sharedService.setMcqs(this.shuffled);
+    this.router.navigate(['/home/quiz']);
   }
 
   onAddQuestionsClicked() {

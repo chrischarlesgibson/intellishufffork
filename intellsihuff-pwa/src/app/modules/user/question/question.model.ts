@@ -25,7 +25,8 @@ export interface IQuestion {
 }
 
 export interface IOptions {
-    text: string
+    text: string;
+    isOptionCorrect: boolean;
 }
 
 export enum CollegeYear {

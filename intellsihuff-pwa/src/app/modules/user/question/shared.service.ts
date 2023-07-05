@@ -9,7 +9,7 @@ export class SharedService {
   mcqs$ = this.mcqsSubject.asObservable();
 
   setMcqs(mcqs: any) {
-    this.mcqsSubject.next(mcqs);
+    this.mcqsSubject.next([...mcqs]);
   }
 }
  

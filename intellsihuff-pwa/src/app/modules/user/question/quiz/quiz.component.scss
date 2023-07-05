@@ -1,8 +1,29 @@
 .container{
     .card{
-        width: 70%;
-        /* display: flex; */
-        margin: 20px auto;
+      width: 70%;
+      /* display: flex; */
+      margin: 0 auto;
+      position: relative;
+
+      .quest{
+        margin: 16px 0;
+
+      }
+      .icon{
+        position: absolute;
+        right: 20px;
+        top: 25%;
+        bottom: 0;
+        button{
+          &:active{
+            border-color: none !important; 
+          }
+          i{
+            font-size: 100px;
+            color: var(--color-primary) !important;
+          }
+        }
+      }
     }
     .card-timer {
         width: 200px;

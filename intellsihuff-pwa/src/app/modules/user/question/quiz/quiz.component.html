@@ -1,5 +1,5 @@
 <div class="container"  *ngIf="quizMcqs && quizMcqs.length">
-    <div class="card" *ngIf="currentQuestionIndex < quizMcqs.length">
+    <div class="card" *ngIf="currentQuestionIndex < quizMcqs.length; else renderElse">
         <div class="row m-3">
             <div class="col d-flex">
                 <span class="badge">
@@ -11,8 +11,10 @@
         <div class="card-body" id="mcq">
             <div class="mcq">
                 <div class="row">
-                    <div class="quest" id="q">
-                        <b>{{currentQuestionIndex+1}}</b>{{ quizMcqs[currentQuestionIndex].text }}
+                    <div class="col-12">
+                        <div class="quest" id="q">
+                            <b>{{currentQuestionIndex+1}}: </b>{{ quizMcqs[currentQuestionIndex].text }}
+                        </div>
                     </div>
                 </div>
                 <div class="row" *ngFor="let op of quizMcqs[currentQuestionIndex]?.options; let i = index">
@@ -34,11 +36,25 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="currentQuestionIndex < quizMcqs.length ">
-                <div class="col-12">
-                    <button class="btn btn-primary" [disabled]="!quizMcqs[currentQuestionIndex].options" (click)="nextQuestion(quizMcqs[currentQuestionIndex])">Next</button>
-                </div>
+            <div class="icon">
+                <button #nextIcon *ngIf="currentQuestionIndex < quizMcqs.length"
+                class="btn transparent-btn" [disabled]="!quizMcqs[currentQuestionIndex].options" 
+                    (click)="nextQuestion(quizMcqs[currentQuestionIndex])"
+                        (mouseenter)="animateOnHover(nextIcon)" (mouseleave)="resetAnimation(nextIcon)" 
+                            [disabled]="!quizMcqs[currentQuestionIndex].options">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
+
         </div>
     </div>
 </div>
+
+
+<ng-template #renderElse>
+    <div class="card">
+        <div class="card-headedr">
+            Your score is {{correctCount}}
+        </div>
+    </div>
+</ng-template>

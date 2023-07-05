@@ -1,11 +1,12 @@
-import { AfterViewChecked, AfterViewInit, Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { BasePage } from 'src/app/universal/base.page';
 import { IOptions, IQuestion } from '../question.model';
 import { SharedService } from '../shared.service';
 
 import * as moment from 'moment'; 
-import { QuestionService } from '../question.service';
 import { Subscription } from 'rxjs';
+import { gsap } from 'gsap';
+
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
@@ -30,16 +31,16 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
 
   constructor(
     private sharedSvc: SharedService,
-    private questionSvc: QuestionService) {
+    private renderer: Renderer2 ) {
     super();
   }
 
   ngOnInit(): void {
     this.sharedSvc.mcqs$.subscribe(mcqs => {
       if (mcqs) {
-        this.quizMcqs = mcqs;
-        this.quizMcqs.filter(m => {
-          m.options.map(o => {
+        this.quizMcqs = JSON.parse(JSON.stringify(mcqs));
+        this.quizMcqs.forEach(m => {
+          m.options.forEach(o => {
             o.isOptionCorrect = false;
           });
         });
@@ -49,24 +50,38 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
     this._startTimer();
   }
 
-  ngOnDestroy(): void {
-    this._subscription.unsubscribe();
+  ngOnDestroy() {
+    if(this._subscription) {
+      this._subscription.unsubscribe();
+    }
   }
 
-  handleElseRendered() {
-    console.log('else fired');
+  
+  animateOnHover(icon: HTMLElement) {
+    this.renderer.setStyle(icon, 'cursor', 'pointer');
+    gsap.to(icon, { scale: 1.2, duration: 0.3 });
   }
+
+  resetAnimation(icon: HTMLElement) {
+    this.renderer.removeStyle(icon, 'cursor');
+    gsap.to(icon, { scale: 1, duration: 0.3 });
+  }
+
 
   async nextQuestion(currentMcq?) {
-    this.userSolvedMcqs.push(currentMcq);
+    this.userSolvedMcqs.push({...currentMcq});
     
     if(this.quizMcqs.length == this.userSolvedMcqs.length) {
-
+      // all questions completed
       this._subscription = this.sharedSvc.mcqs$.subscribe(mcqs => {
         if (mcqs) {
-          this.quizMcqs = mcqs;
+          this.quizMcqs = JSON.parse(JSON.stringify(mcqs));
+          
           for (const userMcq of this.userSolvedMcqs) {
             const quizMcq = this.quizMcqs.find(q => q.id === userMcq.id);
+            // console.log('userMcq',userMcq);
+            // console.log('quizMcq',quizMcq);
+            
             if (quizMcq) {
               // Find the index of the selected option in the user's answer
               const selectedOptionIndex = userMcq.options.findIndex(option => option.isOptionCorrect);
@@ -80,7 +95,6 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
             }
           }
 
-          this.helperSvc.presentAlert(`Your score is ${this.correctCount}`, '',5000 );
           return;
         }
       });

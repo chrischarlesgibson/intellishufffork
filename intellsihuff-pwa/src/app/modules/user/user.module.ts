@@ -31,7 +31,6 @@ import { RegistrationGuard } from './authentication/registration.guard';
     RegistrationGuard,
     QuestionService,
     SubjectService,
-    UserSettingService
   ],
   exports: [
     RouterModule

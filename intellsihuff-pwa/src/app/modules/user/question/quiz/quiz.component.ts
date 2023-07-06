@@ -67,8 +67,12 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
     gsap.to(icon, { scale: 1, duration: 0.3 });
   }
 
+  
+  async nextQuestion(currentMcq?, skip = false) {
+    if(!this.atLeastOneOptionSelected() && !skip) {
+      return;
+    }
 
-  async nextQuestion(currentMcq?) {
     this.userSolvedMcqs.push({...currentMcq});
     
     if(this.quizMcqs.length == this.userSolvedMcqs.length) {
@@ -112,6 +116,13 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
     })
   }
   
+  atLeastOneOptionSelected(): boolean {
+    if (this.quizMcqs && this.quizMcqs[this.currentQuestionIndex]) {
+      return this.quizMcqs[this.currentQuestionIndex].options.some(op => op.isOptionCorrect);
+    }
+    return false;
+  }
+  
 
   private _startTimer() {
     const endTime = moment().add(1, 'minutes');
@@ -129,7 +140,7 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
       if (duration.asSeconds() <= 0) {
         // One minute has completed
         clearInterval(this.timerInterval);
-        this.nextQuestion(this.quizMcqs[this.currentQuestionIndex]);
+        this.nextQuestion(this.quizMcqs[this.currentQuestionIndex], true);
       } else {
         this.timer = `${seconds} seconds`;
       }
@@ -139,8 +150,8 @@ export class QuizComponent extends BasePage implements OnInit, OnDestroy {
 
   @HostListener('document:visibilitychange', ['$event'])
   onVisibilityChange(event: Event): void {
-    if (document.visibilityState !== 'hidden') {
-      this.nextQuestion(this.quizMcqs[this.currentQuestionIndex]);
+    if (document.visibilityState === 'hidden') {
+      this.nextQuestion(this.quizMcqs[this.currentQuestionIndex], true);
     }
   }
 }

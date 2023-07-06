@@ -5,15 +5,19 @@ import { ComponentsWithFormsModule } from "src/app/components/components-with-fo
 import { QuestionService } from "./question.service";
 import { DatePipe } from "@angular/common";
 import { MaxLengthDirective } from "src/app/directives/maxLength.directive";
+import { QuizComponent } from "./quiz/quiz.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @NgModule({
     declarations: [
         AddQuestionsComponent,
         QuestionsBankComponent,
-        MaxLengthDirective
+        QuizComponent,
+        MaxLengthDirective,
     ],
     imports: [
-        ComponentsWithFormsModule
+        ComponentsWithFormsModule,
+        FontAwesomeModule
     ],
     providers: [QuestionService, DatePipe],
   })

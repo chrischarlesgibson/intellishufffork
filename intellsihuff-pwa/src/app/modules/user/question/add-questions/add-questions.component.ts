@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubjectService } from '../../subject/subject.service';
 import { QuestionService } from '../question.service';
@@ -6,6 +6,8 @@ import { HelperService } from 'src/app/universal/helper.service';
 import { CollegeYear, IQuestion, SchoolCLass, Semisters } from '../question.model';
 import { IUser, InstitutionType } from '../../authentication/user.model';
 import { UserSettingService } from '../../user-setting.service';
+import { AuthService } from '../../authentication/auth.service';
+import introJs from 'intro.js';
 
 
 @Component({
@@ -32,11 +34,13 @@ export class AddQuestionsComponent implements OnInit {
   }
 
   constructor(
+    private elementRef: ElementRef,
     private formBuilder: FormBuilder
     , private questionSvc: QuestionService
     , private userSettingSvc: UserSettingService
     , private subjectSvc: SubjectService
     , private helperSvc: HelperService  
+    , private authSvc: AuthService
   ) {
     this.mcqFormGroup = this.formBuilder.group({
       questionText: [null, Validators.required],
@@ -56,10 +60,16 @@ export class AddQuestionsComponent implements OnInit {
    }
 
   async ngOnInit() {
-    await this._getCurrentUser();
-    await this._getAllSubjects();
     this.addOption();
+    await this._getAllSubjects();
+    await this._getCurrentUser();
+
+    if(!this.currentUser.tourVisited) {
+      this.startTour();
+    }
+
   }
+
 
   addOption() {
     const optionFormGroup = this.formBuilder.group({
@@ -90,9 +100,6 @@ export class AddQuestionsComponent implements OnInit {
     }
   }
   
-  
-  
-
 
   async onAddSubjectClicked(data: any) {
     // const loader = await this.helperSvc.loader;
@@ -118,20 +125,19 @@ export class AddQuestionsComponent implements OnInit {
   async onSubmitClicked(mcq: any) {
     // const loader = await this.helperSvc.loader;
     // await loader.present();
-
+   const  options:any = JSON.stringify(this.mcqFormGroup.value.options); 
     const question: IQuestion = {
       text: mcq.questionText,
       createdBy: this.currentUser,
       updatedBy: null,
       createdOn: new Date(),
       subject: this.aboutQuestionFg.controls['subject'].value,
-      options: this.mcqFormGroup.value.options,
+      options: options,
       institutionType: this.currentUser?.institution.type,
       collegeYear: this.aboutQuestionFg.controls['collegeYear'].value ,
       scchoolClass: this.aboutQuestionFg.controls['scchoolClass'].value ,
     }
-    console.log(question);
-    
+    this.helperSvc.presentLoader('Adding Question');    
     try {
       const resp = await this.questionSvc.addQuestion(question);
       if(resp.status) {
@@ -140,19 +146,85 @@ export class AddQuestionsComponent implements OnInit {
     } catch (error) {
       
     } finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();    
     }
+    
     this.mcqFormGroup.reset();
       
   }
 
+    
+    startTour() {
+      const intro = introJs();
+      let steps = [
+        {
+          intro: " Welcome! Let's start tour"
+        },
+        {
+          element: '#select-subject',
+          intro: " Select subject "
+        }
+        
+      ];
+
+      if(this.currentUser?.institution.type == InstitutionType.SCHOOL) {
+        const school = {
+          element: '#select-class',
+          intro: " Select class "
+        }
+        steps.push(school);
+      }
+
+      if(this.currentUser?.institution.type == InstitutionType.COLLEGE) {
+        const college = {
+          element: '#select-year',
+          intro: " Select college year"
+        }
+        steps.push(college);
+      }
+
+      steps.push(
+        {
+          element: '#add-question',
+          intro: " Add question "
+        }
+      );
+
+      intro.setOptions({
+        showProgress: true,
+        steps: steps,
+        exitOnOverlayClick: false,
+        // Add event listener for when the tour is completed
+        
+      });
+  
+      intro.oncomplete(() =>  {
+        this.currentUser.tourVisited = true;
+         this.authSvc.updateTourStatus(this.currentUser )
+      });
+      
+      intro.onexit( () => {
+        this.currentUser.tourVisited = true;
+        this.authSvc.updateTourStatus(this.currentUser ) 
+      });
+  
+      intro.start();
+    
+    }
+ 
+ 
+
   private async _getCurrentUser() {
     const user: any = await this.userSettingSvc.getCurrentUser();
     this.currentUser = user;
+    console.log(this.currentUser);
+    
   }
 
   private async _getAllSubjects() {
     this.subjects = await this.subjectSvc.getAllSubjects();
-
   }  
+
+  isElementVisible = () => true; // Default visibility function, always returns true
+
 }

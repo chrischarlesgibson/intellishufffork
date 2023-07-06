@@ -58,13 +58,11 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
 
   async ngOnInit() {
     await this._getCurrentUser();
-    // this.questions = await this.questionSvc.getAllQuestions();
-    this.getQuestionsCount();
     this.subjects = await this.subjectSvc.getAllSubjects();
   }
 
   onPrepareLinkClicked() {
-    this.sharedService.setMcqs(this.shuffled);
+    this.sharedService.setMcqs([...this.shuffled]);
     this.router.navigate(['/home/quiz']);
   }
 
@@ -102,22 +100,26 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
     const date = this.helperSvc.formatDate(this.formGroup.controls['createdOn'].value);
     data.createdOn = date;
 
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
+    this.helperSvc.presentLoader('Filtering Questions');
     try {
       const resp:any = await this.questionSvc.filterQuestions(data);
       if(resp.message) {
         this.helperSvc.presentAlert(resp.message, 'warning');
         return;
       }
+
       this.questions = resp.data;
+      this.questions.forEach((question:any) => {
+        question.options = JSON.parse(question.options);
+      });
+
       this.shuffled = this.questions;
       this.getQuestionsCount();
       
     } catch (error) {
       
     } finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();
     }
   }
 

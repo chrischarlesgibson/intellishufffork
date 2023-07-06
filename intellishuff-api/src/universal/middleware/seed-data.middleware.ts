@@ -26,7 +26,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         await this.userSvc.register({
           email: 'dev.faisalK@gmail.com',
           name: 'faisal khan',
-          password: 'faisal256',
+          password: '</>Intellishuff256',
           role: UserRole.ADMIN,
           status: UserStatus.APPROVED,
           tourVisited: true,
@@ -44,183 +44,142 @@ export class SeedDataMiddleware implements NestMiddleware {
           };
           await this.subjectSvc.addSubject(subject);
   
-        const question1 = {
-          text: 'What is the capital of France?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Paris' },
-            { text: 'London' },
-            { text: 'Berlin' },
-            { text: 'Madrid' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question1);
-        
-        const question2 = {
-          text: 'Who painted the Mona Lisa?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Leonardo da Vinci' },
-            { text: 'Pablo Picasso' },
-            { text: 'Vincent van Gogh' },
-            { text: 'Michelangelo' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question2);
-        
-        const question3 = {
-          text: 'Which planet is known as the Red Planet?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Mars' },
-            { text: 'Venus' },
-            { text: 'Mercury' },
-            { text: 'Jupiter' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question3);
-  
-        // Question 4
-        const question4 = {
-          text: 'What is the largest ocean in the world?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Pacific Ocean' },
-            { text: 'Atlantic Ocean' },
-            { text: 'Indian Ocean' },
-            { text: 'Arctic Ocean' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question4);
-    
-        // Question 5
-        const question5 = {
-          text: 'Who wrote the novel "Pride and Prejudice"?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Jane Austen' },
-            { text: 'William Shakespeare' },
-            { text: 'Charles Dickens' },
-            { text: 'Mark Twain' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question5);
-    
-        // Question 6
-        const question6 = {
-          text: 'What is the chemical symbol for gold?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Au' },
-            { text: 'Ag' },
-            { text: 'Fe' },
-            { text: 'Cu' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question6);
-    
-        // Question 7
-        const question7 = {
-          text: 'Which country won the FIFA World Cup in 2018?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'France' },
-            { text: 'Brazil' },
-            { text: 'Germany' },
-            { text: 'Spain' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question7);
-    
-        // Question 8
-        const question8 = {
-          text: 'What is the formula for calculating the area of a circle?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'πr²' },
-            { text: '2πr' },
-            { text: 'πd' },
-            { text: '2πd' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question8);
-    
-        // Question 9
-        const question9 = {
-          text: 'Who is the current Prime Minister of Canada?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Justin Trudeau' },
-            { text: 'Stephen Harper' },
-            { text: 'Andrew Scheer' },
-            { text: 'Jagmeet Singh' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question9);
-    
-        // Question 10
-        const question10 = {
-          text: 'What is the largest planet in our solar system?',
-          createdOn: new Date(),
-          institutionType: InstitutionType.SCHOOL,
-          subject: {
-            id: 1,
-            name: 'mathematics1',
-          },
-          options: [
-            { text: 'Jupiter' },
-            { text: 'Saturn' },
-            { text: 'Neptune' },
-            { text: 'Uranus' },
-          ],
-        };
-        await this.questionSvc.addQuesition(question10);
-        
+          const question1 = {
+            text: 'What is the capital of France?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'Paris', isOptionCorrect: true },
+              { text: 'London', isOptionCorrect: false },
+              { text: 'Berlin', isOptionCorrect: false },
+              { text: 'Madrid', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question1);
+          
+          const question2 = {
+            text: 'Who painted the Mona Lisa?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'Leonardo da Vinci', isOptionCorrect: true },
+              { text: 'Pablo Picasso', isOptionCorrect: false },
+              { text: 'Vincent van Gogh', isOptionCorrect: false },
+              { text: 'Michelangelo', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question2);
+          
+          const question3 = {
+            text: 'Which planet is known as the Red Planet?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'Mars', isOptionCorrect: true },
+              { text: 'Venus', isOptionCorrect: false },
+              { text: 'Mercury', isOptionCorrect: false },
+              { text: 'Jupiter', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question3);
+          
+          const question4 = {
+            text: 'What is the largest ocean in the world?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'Pacific Ocean', isOptionCorrect: true },
+              { text: 'Atlantic Ocean', isOptionCorrect: false },
+              { text: 'Indian Ocean', isOptionCorrect: false },
+              { text: 'Arctic Ocean', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question4);
+          
+          const question5 = {
+            text: 'Who wrote the novel "Pride and Prejudice"?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'Jane Austen', isOptionCorrect: true },
+              { text: 'William Shakespeare', isOptionCorrect: false },
+              { text: 'Charles Dickens', isOptionCorrect: false },
+              { text: 'Mark Twain', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question5);
+          
+          const question6 = {
+            text: 'What is the chemical symbol for gold?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+ 
+          options: JSON.stringify([
+              { text: 'Au', isOptionCorrect: true },
+              { text: 'Ag', isOptionCorrect: false },
+              { text: 'Fe', isOptionCorrect: false },
+              { text: 'Cu', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question6);
+          
+          const question7 = {
+            text: 'Which country won the FIFA World Cup in 2018?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'France', isOptionCorrect: true },
+              { text: 'Brazil', isOptionCorrect: false },
+              { text: 'Germany', isOptionCorrect: false },
+              { text: 'Spain', isOptionCorrect: false },
+            ]),
+          };
+          await this.questionSvc.addQuesition(question7);
+          
+          const question8 = {
+            text: 'What is the formula for calculating the area of a circle?',
+            createdOn: new Date(),
+            institutionType: InstitutionType.SCHOOL,
+            subject: {
+              id: 1,
+              name: 'mathematics1',
+            },
+            options: JSON.stringify([
+              { text: 'πr²', isOptionCorrect: true },
+              { text: '2πr', isOptionCorrect: false },
+              { text: 'πd', isOptionCorrect: false },
+              { text: '2πd', isOptionCorrect: false },
+            ]),
+          };
+          
       }
 
     next();

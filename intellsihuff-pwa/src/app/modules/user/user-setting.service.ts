@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AppSettingService } from "src/app/universal/app-setting.service";
 import { UserConstant } from "./user-constant";
-import { IUser } from "./authentication/user.model";
 import { Router } from "@angular/router";
+import { IUser } from "../authentication/auth.model";
 
 
 @Injectable({

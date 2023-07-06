@@ -4,10 +4,10 @@ import { SubjectService } from '../../subject/subject.service';
 import { QuestionService } from '../question.service';
 import { HelperService } from 'src/app/universal/helper.service';
 import { CollegeYear, IQuestion, SchoolCLass, Semisters } from '../question.model';
-import { IUser, InstitutionType } from '../../authentication/user.model';
 import { UserSettingService } from '../../user-setting.service';
-import { AuthService } from '../../authentication/auth.service';
 import introJs from 'intro.js';
+import { IUser, InstitutionType } from 'src/app/modules/authentication/auth.model';
+import { AuthService } from 'src/app/modules/authentication/auth.service';
 
 
 @Component({

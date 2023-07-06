@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HelperService } from 'src/app/universal/helper.service';
-import { AuthService } from '../../user/authentication/auth.service';
+import { AuthService } from '../../authentication/auth.service';
 
 @Component({
   selector: 'contact',

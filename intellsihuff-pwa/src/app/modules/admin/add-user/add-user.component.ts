@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRegister } from '../../user/authentication/user.model';
 import { IResponse } from 'src/app/universal/shared.model';
-import { AuthService } from '../../user/authentication/auth.service';
 import { BasePage } from 'src/app/universal/base.page';
+import { AuthService } from '../../authentication/auth.service';
+import { IRegister } from '../../authentication/auth.model';
 
 @Component({
   selector: 'app-add-user',

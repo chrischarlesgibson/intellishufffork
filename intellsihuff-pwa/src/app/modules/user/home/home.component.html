@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow" #card1 (click)="onCardClicked('/home/add-questions')"
+        <div class="card mb-4 larger-card shadow add-question" #card1 (click)="onCardClicked('/home/add-questions')"
           (mouseenter)="animateOnHover(card1)" (mouseleave)="resetAnimation(card1)" data-toggle="modal" data-target="#modal">
           <div class="card-body add-question">
             <h5 class="card-title">Add Questions</h5>
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow " #card2 (click)="onCardClicked('/home/questions-bank')"
+        <div class="card mb-4 larger-card shadow questions-bank" #card2 (click)="onCardClicked('/home/questions-bank')"
           (mouseenter)="animateOnHover(card2)" (mouseleave)="resetAnimation(card2)">
           <div class="card-body questions-bank">
             <h5 class="card-title">Questions bank</h5>
@@ -19,22 +19,16 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow" #card3 (mouseleave)="resetAnimation(card3)" (mouseenter)="animateOnHover(card3)">
-          <div class="card-body">
-            <h5 class="card-title">Card 3</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow" #card4 (mouseenter)="animateOnHover(card4)" (mouseleave)="resetAnimation(card4)">
-          <div class="card-body">
-            <h5 class="card-title">Card 4</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      
+     <!-- <div class="col-md-4">
+        <div class="card mb-4 larger-card shadow quiz" (click)="onCardClicked('/home/quiz')"
+          #card3 (mouseleave)="resetAnimation(card3)" (mouseenter)="animateOnHover(card3)">
+          <div class="card-body quiz">
+            <h5 class="card-title">Quiz</h5>
           </div>
         </div>
       </div> -->
+
     </div>
     
   </div>

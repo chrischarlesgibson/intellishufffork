@@ -11,7 +11,7 @@
                 <button type="" class="btn btn-primary" >Import FIle</button>
           
               </div>
-              <div class="col-auto button justify-content-end" >
+              <div class="col-auto button justify-content-end">
                   <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Subject</button>
               </div>
             </div>
@@ -20,7 +20,7 @@
           <form [formGroup]="aboutQuestionFg">
             <div class="row">
               <div class="col-md-6">
-                  <div class="form-group m-2">
+                  <div class="form-group m-2" id="select-subject">
                       <label for="password">Subject</label>
                       <select class="form-select mb-3" formControlName="subject">
                         <option *ngFor="let sub of subjects" [value]="sub.id">{{sub.name}}</option>
@@ -28,7 +28,8 @@
                   </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL">
+                <div #selectClassRef class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL"
+                id="select-clas">
                     <label for="password">Classes</label>
                     <select class="form-select mb-3" formControlName="scchoolClass">
                       <option [value]="SchoolCLass.FIRST">{{SchoolCLass.FIRST}}</option>
@@ -43,14 +44,15 @@
                       <option [value]="SchoolCLass.TENTH">{{SchoolCLass.TENTH}}</option>
                     </select>
                 </div>
-                <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.COLLEGE">
+                <div #selectYearRef class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.COLLEGE"
+                  id="select-year">
                   <label for="password">Year</label>
                   <select class="form-select mb-3" formControlName="collegeYear">
                     <option [value]="Year.FIRSTYEAR">{{Year.FIRSTYEAR}}</option>
                     <option [value]="Year.SECONDYEAR">{{Year.SECONDYEAR}}</option>
                   </select>
               </div>
-              <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.UNIVERSITY">
+              <!-- <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.UNIVERSITY">
                 <label for="password">Semister</label>
                 <select class="form-select mb-3" formControlName="institutionType">
                   <option [value]="Semisters.FIRST">{{Semisters.FIRST}}</option>
@@ -62,7 +64,7 @@
                   <option [value]="Semisters.SEVENTH">{{Semisters.SEVENTH}}</option>
                   <option [value]="Semisters.EIGHTH">{{Semisters.EIGHTH}}</option>
                 </select>
-              </div>
+              </div> -->
               </div>
             </div>
           </form>
@@ -70,7 +72,7 @@
           <form [formGroup]="mcqFormGroup">
             <div class="row">
               <div class="col-12">
-                <div class="input-group mb-3" id="question">
+                <div class="input-group mb-3" id="add-question">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Question</span>
                   </div>

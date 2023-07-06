@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRegister, IUser, InstitutionType, UserRole } from '../user.model';
+import { IRegister, IUser, InstitutionType, UserRole } from '../auth.model';
 import { AuthService } from '../auth.service';
 import { HelperService } from 'src/app/universal/helper.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { IResponse } from 'src/app/universal/shared.model';
+import { AppConstant } from 'src/app/universal/app-constant';
 
 @Component({
   selector: 'register',
@@ -50,7 +51,9 @@ export class RegisterComponent implements OnInit {
       }
     }    
 
-    this._preFill();
+    if(AppConstant.DEBUG) {
+      // this._preFill();
+    }
   }
 
   togglePasswordVisibility() {

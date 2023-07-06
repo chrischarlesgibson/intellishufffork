@@ -1,13 +1,13 @@
 import { Component} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { HelperService } from './universal/helper.service';
-import { AuthService } from './modules/user/authentication/auth.service';
-import { IUser } from './modules/user/authentication/user.model';
 import { UserSettingService } from './modules/user/user-setting.service';
 import { NgxPubSubService } from './universal/pub-sub';
 import { UserConstant } from './modules/user/user-constant';
 import { IResponse } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
+import { AuthService } from './modules/authentication/auth.service';
+import { IUser } from './modules/authentication/auth.model';
 
 
 @Component({
@@ -30,9 +30,9 @@ export class AppComponent {
 
   shouldShowNavbar() {
     const currentUrl = this.router.url;
-    return currentUrl.includes('/login')
-      || currentUrl.includes('/register')
-        ||currentUrl.includes('/admin') ? false : true;
+    return currentUrl.includes('/login') ||
+        currentUrl.includes('/register') ||
+          currentUrl.includes('/admin') ? false : true;
   }
 
    initializeWeb() {
@@ -43,10 +43,6 @@ export class AppComponent {
           this.existingRouteUrl = val.url;
         }
         
-        // const user:any = await this.userSettingSvc.getCurrentUser();
-        // if(( user && user.role != UserRole.ADMIN )  && val.url.includes('/admin')) {
-        //   this.router.navigate(['/home'])
-        // } 
       }
     });
     
@@ -242,8 +238,8 @@ export class AppComponent {
       await this._navigateTo(this.existingRouteUrl);
       return;
     }
-    
-    await this._navigateTo('/login');
+    this.router.navigate(['/home'])
+    // await this._navigateTo('/home');
   }
 
   private async _navigateTo(path, args?, replaceUrl = false) {

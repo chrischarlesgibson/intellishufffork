@@ -1,4 +1,4 @@
-import { InstitutionType } from "../authentication/user.model";
+import { InstitutionType } from "../../authentication/auth.model";
 import { ISubject } from "../subject/subject.model"
 
 export interface IQuestionFilter {

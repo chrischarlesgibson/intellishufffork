@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { QuestionService } from '../question.service';
-import {  IUser, InstitutionType } from '../../authentication/user.model';
 import { SubjectService } from '../../subject/subject.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CollegeYear, IOptions, IQuestion, SchoolCLass, Semisters } from '../question.model';
@@ -12,6 +11,7 @@ import { BasePage } from 'src/app/universal/base.page';
 import { NavigationExtras } from '@angular/router';
 import { SharedService } from '../shared.service';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { IUser, InstitutionType } from 'src/app/modules/authentication/auth.model';
 @Component({
   selector: 'questions-bank',
   templateUrl: './questions-bank.component.html',

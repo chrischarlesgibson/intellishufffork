@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/modules/user/authentication/auth.service';
-import { IUser, UserRole, UserStatus } from 'src/app/modules/user/authentication/user.model';
 import { HelperService } from 'src/app/universal/helper.service';
+import { AuthService } from '../../authentication/auth.service';
+import { IUser, UserRole, UserStatus } from '../../authentication/auth.model';
 
 @Component({
   selector: 'app-user-listing',

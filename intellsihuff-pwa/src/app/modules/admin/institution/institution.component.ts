@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BasePage } from 'src/app/universal/base.page';
-import { IUser, InstitutionType } from '../../user/authentication/user.model';
 import { UserSettingService } from '../../user/user-setting.service';
-import { AuthService } from '../../user/authentication/auth.service';
+import { IUser, InstitutionType } from '../../authentication/auth.model';
+import { AuthService } from '../../authentication/auth.service';
 
 @Component({
   selector: 'app-institution',

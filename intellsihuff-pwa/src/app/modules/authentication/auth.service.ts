@@ -1,5 +1,5 @@
 import { BaseService } from "src/app/universal/base.service";
-import { IRegister, IUser, Ilogin, UserRole, UserStatus } from "./user.model";
+import { IRegister, IUser, Ilogin, UserRole, UserStatus } from "./auth.model";
 import { IResponse } from "src/app/universal/shared.model";
 
 
@@ -13,6 +13,16 @@ export class AuthService extends BaseService {
     }
 
 
+    uploadLogo(args, image) {
+        console.log(args, image);
+        return this.postData<any>({
+            url: `institution/uploadLogo`,
+            body: {
+                args: args,
+                image: image
+            }
+        })
+    }
 
     getAllUsers() {
         return this.getData({

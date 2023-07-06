@@ -10,8 +10,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { NgxPubSubService } from './universal/pub-sub';
 import { BaseService } from './universal/base.service';
-import { AdminModule } from './modules/admin/admin-module.module';
+import { AdminModule } from './modules/admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthModule } from './modules/authentication/auth.module';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BrowserModule,
     HttpClientModule,
     UserModule,
+    AuthModule,
     AdminModule,
     AppRoutingModule,
     FontAwesomeModule
-    // RouterModule,
   ],
   providers: [
     BaseService,

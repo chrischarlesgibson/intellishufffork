@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IUser, UserRole } from 'src/app/modules/user/authentication/user.model';
+import { IUser, UserRole } from 'src/app/modules/authentication/auth.model';
 import { UserSettingService } from 'src/app/modules/user/user-setting.service';
 import { HelperService } from 'src/app/universal/helper.service';
 

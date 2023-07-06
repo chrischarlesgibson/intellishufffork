@@ -7,11 +7,10 @@ import { gsap } from 'gsap';
 
 // import introJs from 'intro.js';
 import introJs from 'intro.js';
-import { IUser, UserRole } from '../authentication/user.model';
-import { AuthService } from '../authentication/auth.service';
 import { UserSettingService } from '../user-setting.service';
 import Swal from 'sweetalert2';
 import { BasePage } from 'src/app/universal/base.page';
+import { IUser, UserRole } from '../../authentication/auth.model';
 
 
 @Component({

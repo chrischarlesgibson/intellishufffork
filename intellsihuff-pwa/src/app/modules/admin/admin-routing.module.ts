@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "../user/authentication/auth.guard";
 import { AdminHomeComponent } from "./admin-home/admin-home.component";
 import { UserListingComponent } from "./user-listing/user-listing.component";
 import { AddUserComponent } from "./add-user/add-user.component";
 import { ContactComponent } from "./contact/contact.component";
 import { InstitutionComponent } from "./institution/institution.component";
+import { AuthGuard } from "../authentication/auth.guard";
 
 const routes: Routes = [
     {

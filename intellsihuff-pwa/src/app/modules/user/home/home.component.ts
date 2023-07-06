@@ -1,8 +1,6 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
-import { jsPDF } from "jspdf";
-import { HelperService } from 'src/app/universal/helper.service';
 import { gsap } from 'gsap';
   
       // in tsconfig set "allowSyntheticDefaultImports": true,
@@ -12,6 +10,8 @@ import introJs from 'intro.js';
 import { IUser, UserRole } from '../authentication/user.model';
 import { AuthService } from '../authentication/auth.service';
 import { UserSettingService } from '../user-setting.service';
+import Swal from 'sweetalert2';
+import { BasePage } from 'src/app/universal/base.page';
 
 
 @Component({
@@ -19,7 +19,7 @@ import { UserSettingService } from '../user-setting.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BasePage implements OnInit {
   @ViewChild('modal') modal: ElementRef;
   @ViewChild('routerOutlet', { static: true }) routerOutlet: RouterOutlet;
 
@@ -27,14 +27,11 @@ export class HomeComponent implements OnInit {
   currentUser: IUser;
   userRole = UserRole;
 
-  constructor(private formBuilder: FormBuilder
-    , private router: Router
-    , private userSettingSvc: UserSettingService
-    , private helperSvc: HelperService
-    , private authSvc: AuthService
-    , private elementRef: ElementRef
+  constructor(
+    private userSettingSvc: UserSettingService
     , private renderer: Renderer2
      ) {
+      super();
   }
 
   async ngOnInit() {
@@ -45,7 +42,6 @@ export class HomeComponent implements OnInit {
     // Slide In animation
     // gsap.from(".card", { x: -100, duration: 1 });
     gsap.from(".card", { opacity: 0, stagger: 0.2, duration: 1 });
-
     // Scroll-based Animation
     // gsap.from(".card", { opacity: 0, y: 100, scrollTrigger: ".card", duration: 1 });
 
@@ -65,8 +61,9 @@ export class HomeComponent implements OnInit {
 
 
   onCardClicked(path: string) {
-    this.router.navigate([path] )
+    this.router.navigate([path]);
   }
+
 
   private async _getCurrentUser() {
     const currentUser: any = await this.userSettingSvc.getCurrentUser();
@@ -78,82 +75,9 @@ export class HomeComponent implements OnInit {
     }
   }
   
-  // startTour() {
-  //   const intro = introJs();
-  //   intro.setOptions({
-  //     // showProgress: true,
-  //     steps: [
-  //       {
-  //         element: '#question',
-  //         intro: 'Add mcq question',
-  //       },
-  //       {
-  //         element: '#options',
-  //         intro: 'Add options for mcq',
-  //       },
-  //       {
-  //         element: '#addBtn',
-  //         intro: 'Click on Add button',
-  //       },
-  //       {
-  //         element: document.querySelector('.card') as HTMLElement,
-  //         intro: 'MCQ Added',
-  //       },
-  //       {
-  //         element: '#versions',
-  //         intro: 'Enter number of versions you want to generate',
-  //       },
-  //       {
-  //         element: '#generate',
-  //         intro: 'Click on generate',
-  //       },
-  //       {
-  //         element: '#courseName',
-  //         intro: 'Enter course name',
-  //       },
-  //       {
-  //         element: '#export',
-  //         intro: 'Click to export pdf of shuffled mcqs',
-  //       },
-  //       {
-  //         intro: 'Great! Your are done.',
-  //       },
-  //       // Add more steps as needed
-  //     ],
-  //     exitOnOverlayClick: false,
-  //     // Add event listener for when the tour is completed
-      
-  //   });
-  //   // intro.onafterchange(() => {
-  //   //   // Check if the dynamically created element exists
-  //   //   const dynamicElement = document.querySelector('.card') as HTMLElement;
-  //   //   if (dynamicElement) {
-  //   //     const dynamicStep = {
-  //   //       element: document.querySelector('.card') as HTMLElement,
-  //   //       intro: 'This is the dynamically created element',
-  //   //     };
-  //   //     intro.addStep(dynamicStep); // Add the dynamic step to the steps array
-  //   //     // intro.setOptions({ steps: steps }); // Update the steps in the intro tour
-  //   //     intro.refresh(); // Refresh the intro tour with the updated steps
-  //   //     intro.goToStep(intro.currentStep.length - 1); // Go to the newly added dynamic step
-  //   //   }
-  //   // });
 
 
-  //   intro.oncomplete(() =>  {
-  //     this.currentUser.tourVisited = true;
-  //      this.authSvc.updateTourStatus(this.currentUser )
-  //   });
-    
-  //   intro.onexit( () => {
-  //     this.currentUser.tourVisited = true;
-  //     this.authSvc.updateTourStatus(this.currentUser ) 
-  //   });
-
-  //   intro.start();
-
-  // }
-
+  
   // for images
   
   // private async _exportPdf() {

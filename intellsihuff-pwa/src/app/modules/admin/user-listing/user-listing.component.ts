@@ -21,18 +21,15 @@ export class UserListingComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this._getAllUsers();
+    await this._getAllUsers('Fetching all users');
   }
 
   async onRoleChanged(user:IUser, ev: any) {
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
-
     const role = ev.target.value;
     try {
       await this.authSvc.changeRole(user, role);
       this.helperSvc.presentAlert(`Role successfully changed for ${user.email}`, 'success')
-      await this._getAllUsers();
+      await this._getAllUsers('Refetching...');
 
     } catch (error) {
 
@@ -51,7 +48,7 @@ export class UserListingComponent implements OnInit {
       await this.authSvc.changeStatus(user, status);
       this.helperSvc.presentAlert(`Status successfully changed to ${status} for ${user.email}`, 'success')
 
-      await this._getAllUsers();
+      // await this._getAllUsers('Refetching...');
 
     } catch (error) {
       
@@ -60,8 +57,17 @@ export class UserListingComponent implements OnInit {
     }
   }
 
-  private async _getAllUsers() {
-    this.users = await this.authSvc.getAllUsers();
+  private async _getAllUsers(loaderText) {
+    this.helperSvc.presentLoader(loaderText);
+
+    try {
+      this.users = await this.authSvc.getAllUsers();
+
+    } catch (error) {
+      
+    } finally {
+      this.helperSvc.dismissLoader();
+    }
   }
 
 }

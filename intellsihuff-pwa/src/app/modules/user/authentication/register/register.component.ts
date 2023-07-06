@@ -49,6 +49,8 @@ export class RegisterComponent implements OnInit {
         this._populateFormGroup();
       }
     }    
+
+    this._preFill();
   }
 
   togglePasswordVisibility() {
@@ -76,7 +78,14 @@ export class RegisterComponent implements OnInit {
       status: data.status,
       institution: institution
     }
-    
+
+    if(params?.id) {
+      this.helperSvc.presentLoader('Updating User');
+
+    } else {
+      this.helperSvc.presentLoader('Registring User');
+    }
+
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if(resp.status) {
@@ -88,7 +97,7 @@ export class RegisterComponent implements OnInit {
     } catch (error) {
       
     } finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();
     }
     
   }
@@ -97,7 +106,15 @@ export class RegisterComponent implements OnInit {
    this.fg['name'].setValue(this.user.name);
    this.fg['email'].setValue(this.user.email);
    this.fg['password'].setValue(this.user.password);
-   this.fg['institutionName'].setValue(this.user.institution.name);
-   this.fg['institutionType'].setValue(this.user.institution.type);
+   this.fg['institutionName'].setValue(this.user.institution?.name);
+   this.fg['institutionType'].setValue(this.user.institution?.type);
+  }
+
+  private _preFill() {
+    this.fg['name'].setValue('hello');
+    this.fg['email'].setValue('hello@hello');
+    this.fg['password'].setValue('hello');
+    this.fg['institutionName'].setValue('hello');
+    this.fg['institutionType'].setValue(InstitutionType.COLLEGE);
   }
 }

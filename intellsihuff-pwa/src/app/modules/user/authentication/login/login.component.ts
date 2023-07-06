@@ -25,7 +25,7 @@ export class LoginComponent extends BasePage implements OnInit, AfterViewInit {
     super();
     this.formGroup = formBuilder.group({
       email: ['dev.faisalK@gmail.com', [ Validators.required, Validators.email]],
-      password: ['faisal256', Validators.required],
+      password: ['</>Intellishuff256', Validators.required],
     });
 
   }
@@ -53,5 +53,6 @@ export class LoginComponent extends BasePage implements OnInit, AfterViewInit {
     this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDIN_CLICKED, { ...data });
   }
 
+  
 
 }

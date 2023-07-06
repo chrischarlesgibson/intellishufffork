@@ -11,6 +11,8 @@ import { AppConstant } from './universal/app.constant';
 import { InstitutionModule } from './institution/institution.module';
 import { QuestionModule } from './question/question.module';
 import { SubjectModule } from './subject/subject.module';
+import { UserRole, UserStatus } from './user/user.model';
+import { InstitutionType } from './institution/institution.model';
 
 const CONNECTION_NAME = "default";
 
@@ -59,12 +61,37 @@ const CONNECTION_NAME = "default";
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer ) {
+  /**
+   *
+   */
+  constructor(
+    private userSvc: UserService
+  ) {
+    
+    
+  }
+
+  async configure(consumer: MiddlewareConsumer ) {
     if(!process.env.SEED_DATA) {
-      console.log('not set')
+      let SuperAdmin = await this.userSvc.getUserByEmail('dev.faisalK@gmail.com');
+     
+      if (!SuperAdmin) {
+        await this.userSvc.register({
+          email: 'dev.faisalK@gmail.com',
+          name: 'faisal khan',
+          password: '</>Intellishuff256',
+          role: UserRole.ADMIN,
+          status: UserStatus.APPROVED,
+          tourVisited: true,
+          institution: {
+            type: InstitutionType.COLLEGE,
+            name: 'Peshwar Model College',
+          },
+        });
       return;
     }
     consumer.apply(SeedDataMiddleware).forRoutes('/');
   }
 
+  }
 }

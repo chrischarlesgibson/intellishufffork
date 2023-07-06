@@ -7,12 +7,12 @@ import { CollegeYear, InstitutionType, SchoolCLass } from "src/institution/insti
 
 @Entity()
 export class Question extends BaseEntity {
-
+    
     @Column()
     text: string;
 
-    @Column('json')
-    options: string[];
+    @Column("text")
+    options: string;
 
     @Column({nullable: true})
     collegeYear: CollegeYear;

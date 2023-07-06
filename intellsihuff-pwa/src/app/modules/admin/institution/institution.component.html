@@ -1,0 +1,31 @@
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>type</th>
+            <th>Logo</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td>{{ currentUser.institution.name }}</td>
+            <td>
+                <select [(ngModel)]="currentUser.institution.type">
+                  <option  [value]="InstitutionType.COLLEGE">{{ InstitutionType.COLLEGE }}</option>
+                  <option  [value]="InstitutionType.SCHOOL">{{ InstitutionType.SCHOOL }}</option>
+                  <option  [value]="InstitutionType.UNIVERSITY">{{ InstitutionType.UNIVERSITY }}</option>
+                </select>
+            </td>
+            <td>
+                <form (submit)="uploadImage($event)">
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+                    <button type="submit">Upload</button>
+                  </form>
+            </td>
+            
+          </tr>
+        </tbody>
+    </table>
+</div>

@@ -7,7 +7,7 @@ export interface IRegistrationParams {
     password: string
     role: UserRole
     status: UserStatus
-    institution: IInstitution
+    institution?: IInstitution
     tourVisited?: boolean;
 }
 

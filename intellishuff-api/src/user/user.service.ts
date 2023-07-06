@@ -79,7 +79,6 @@ export class UserService {
                 message: 'User updated successfully',
             };
         }
-
         const isAnyParamEmpty: boolean = this.helperSvc.checkEmptyParams(data);
         if(isAnyParamEmpty) {
             return {
@@ -168,8 +167,6 @@ export class UserService {
         if(!user) {
             return null;
         }
-        console.log(user);
-        
         return user;
     }
 

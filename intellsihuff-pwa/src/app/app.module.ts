@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NgxPubSubService } from './universal/pub-sub';
 import { BaseService } from './universal/base.service';
 import { AdminModule } from './modules/admin/admin-module.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AdminModule } from './modules/admin/admin-module.module';
     HttpClientModule,
     UserModule,
     AdminModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
     // RouterModule,
   ],
   providers: [

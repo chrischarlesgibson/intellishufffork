@@ -125,19 +125,15 @@ export class AppComponent {
         password: params.password
       }
       
-      // const loader = await this.helperSvc.loader;
-      // await loader.present();
-
+      this.helperSvc.presentLoader('Signing In');
       try {
-
         response = await this.userSvc.login(user);
-        debugger
         currentUser = response.data as IUser;   
      
       } catch (error) {
         
       } finally {
-      //  await load/er.dismiss();
+        this.helperSvc.dismissLoader();
       }
         
       if(!response) {
@@ -242,12 +238,12 @@ export class AppComponent {
   }
 
   private async _setDefaults() {
-    // if(this.existingRouteUrl) {
-    //   await this._navigateTo(this.existingRouteUrl);
-    //   return;
-    // }
+    if(this.existingRouteUrl) {
+      await this._navigateTo(this.existingRouteUrl);
+      return;
+    }
     
-    await this._navigateTo('/home');
+    await this._navigateTo('/login');
   }
 
   private async _navigateTo(path, args?, replaceUrl = false) {

@@ -26,10 +26,10 @@ export class User extends BaseEntity {
     role: UserRole;
 
     @Column({ enum: UserStatus, default: UserStatus.PENDING })
-    status: UserStatus
+    status: UserStatus;
   
     @OneToOne(() => Institution, institution => institution.user, { cascade: true })
     @JoinColumn()
-    institution: IInstitution;
+    institution: Institution;
 
 }

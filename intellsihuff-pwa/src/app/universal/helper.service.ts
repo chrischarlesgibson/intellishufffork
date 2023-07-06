@@ -11,6 +11,8 @@ import { NgxPubSubService } from "./pub-sub";
   })
 export class HelperService {
   protected pubSub: NgxPubSubService;
+  private loaderInstance: any;
+
    constructor(
     private datePipe: DatePipe
    ) { 
@@ -18,13 +20,22 @@ export class HelperService {
     this.pubSub = injector.get(NgxPubSubService);
    }
    
-  //  get loader() {
-  //   // let _loader = this.loadingCtrl.create({
-  //   //     cssClass: 'custom-loader',
-  //   //     showBackdrop: true
-  //   // });
-  //   // return _loader;
-  //   }
+   presentLoader(text) {
+    this.loaderInstance = Swal.fire({
+      title: text,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  }
+
+  dismissLoader() {
+    if (this.loaderInstance) {
+      this.loaderInstance.close();
+      this.loaderInstance = null;
+    }
+  }
 
   formatDate(date: Date): any {
     return this.datePipe.transform(date, 'dd MMMM, yyyy');

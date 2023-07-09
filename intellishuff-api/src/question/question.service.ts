@@ -1,10 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Between, FindOptionsWhere, Repository, getRepository } from "typeorm";
+import { Between, FindConditions, Repository } from "typeorm";
 import { Question } from "./question.entity";
 import { IQuestion, IQuestionFilter } from "./question.model";
-import { Institution } from "src/institution/institution.entity";
-import { InstitutionType } from "src/institution/institution.model";
 import { IResponse } from "src/user/user.model";
 import { HelperService } from "src/universal/helper.service";
 
@@ -19,8 +17,14 @@ export class QuestionService {
           , private helperSvc: HelperService
   ) { }    
 
+
+
+  async generateQuizResult(questions) {
+
+  }
+
   async filterQuestions(args: IQuestionFilter):Promise<IResponse> {
-    let whereCondition: FindOptionsWhere<Question> = {};
+    let whereCondition: FindConditions<Question> = {};
     if (args.createdOn) {
       const startOfDay = new Date(args.createdOn);
       startOfDay.setHours(0, 0, 0, 0);

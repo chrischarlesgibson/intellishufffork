@@ -28,7 +28,7 @@ export class User extends BaseEntity {
     @Column({ enum: UserStatus, default: UserStatus.PENDING })
     status: UserStatus;
   
-    @OneToOne(() => Institution, institution => institution.user, { cascade: true })
+    @OneToOne(() => Institution, institution => institution.id, {nullable: true, cascade: true })
     @JoinColumn()
     institution: Institution;
 

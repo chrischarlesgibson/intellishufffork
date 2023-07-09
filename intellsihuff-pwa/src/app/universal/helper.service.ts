@@ -1,17 +1,17 @@
 import { DatePipe } from "@angular/common";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import Swal from 'sweetalert2';
 import { UserConstant } from "../modules/user/user-constant";
 import { AppInjector } from "./app-injector";
 import { NgxPubSubService } from "./pub-sub";
+
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn: 'root'
   })
 export class HelperService {
   protected pubSub: NgxPubSubService;
-  private loaderInstance: any;
+  private _loaderInstance: any;
 
    constructor(
     private datePipe: DatePipe
@@ -21,7 +21,7 @@ export class HelperService {
    }
    
    presentLoader(text) {
-    this.loaderInstance = Swal.fire({
+    this._loaderInstance = <any>Swal.fire({
       title: text,
       allowOutsideClick: false,
       didOpen: () => {
@@ -31,9 +31,9 @@ export class HelperService {
   }
 
   dismissLoader() {
-    if (this.loaderInstance) {
-      this.loaderInstance.close();
-      this.loaderInstance = null;
+    if (this._loaderInstance) {
+      this._loaderInstance.close();
+      this._loaderInstance = null;
     }
   }
 

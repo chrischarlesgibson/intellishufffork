@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 
 import { SchemaService } from './schema.service';
@@ -27,42 +26,38 @@ export class DbWebService extends Dexie implements DbService {
             }
             schema[s.name] = cols;
         });
+        this.version(1).stores(schema);
+        this.open()
+        .then((d) => {
+            this.db = d;
 
-        setTimeout( () => {
-            this.version(1).stores(schema); 
-            this.open()
-            .then((d) => {
-                this.db = d;
-                 this.pubsubSvc.publishEvent(AppConstant.EVENT_DB_INITIALIZED);
-            })
-            .catch((e) => alert(e));
-        }, 0)
+            this.pubsubSvc.publishEvent(AppConstant.EVENT_DB_INITIALIZED);
+        })
+        .catch((e) => alert(e));
     }
 
     get Db() {
         return this.db;
     } 
 
-    putLocal(store, data): Promise<{ rowsAffected: any; insertId: any }> {
+    putLocal(store, data): Promise<{ rowsAffected, insertId }> {
         return new Promise(async (resolve, reject) => {
-          const schema = this.schemaService.schema.stores.filter(s => s.name == store)[0];
-          const key = schema.columns.filter(s => s.isPrimaryKey)[0];
-      
-          const exist = await this.get(store, data[key.name]);
-          if (exist) {
-            // Update existing data
-            this.db.table(store).update(data[key.name], data)
-              .then(() => resolve({ rowsAffected: null, insertId: null }))
-              .catch(error => reject(error));
-          } else {
-            // Add new data
-            this.db.table(store).add(data)
-              .then(() => resolve({ rowsAffected: null, insertId: null }))
-              .catch(error => reject(error));
-          }
+            const schema = this.schemaService.schema.stores.filter(s => s.name == store)[0];
+            const key = schema.columns.filter(s => s.isPrimaryKey)[0];
+    
+            const exist = await this.get(store, data[key.name]);
+            if(exist) {
+                //update
+                
+                this.db.table(store).update(data[key.name], data)
+      // @ts-ignore
+                .then((r) => resolve(null), (e) => reject(e));
+            } else {
+                this.db.table(store).add(data) // @ts-ignore
+                .then((r) => resolve(null), (e) => reject(e));
+            }
         });
     }
-      
 
     putAll(store: string, opts: any): Promise<any> {
         return this.db.table(store).bulkAdd(opts);
@@ -115,8 +110,8 @@ export class DbWebService extends Dexie implements DbService {
         const schema = this.schemaService.schema.stores.filter(s => s.name == store)[0];
         const key = schema.columns.filter(s => s.isPrimaryKey)[0];
         
-        const promises:any = [];
-        for(let r of all) {
+        const promises = [];
+        for(let r of all) { // @ts-ignore
             promises.push(this.db.table(store).delete(key.name));
         }
 

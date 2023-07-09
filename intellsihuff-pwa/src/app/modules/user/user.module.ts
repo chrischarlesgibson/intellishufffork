@@ -10,7 +10,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { QuestionModule } from './question/question.module';
 import { AuthModule } from '../authentication/auth.module';
 import { AuthGuard } from '../authentication/auth.guard';
-import { RegistrationGuard } from '../authentication/registration.guard';
+import { EditProfileGuard } from '../authentication/edit-profile.guard';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { RegistrationGuard } from '../authentication/registration.guard';
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     AuthGuard,
-    RegistrationGuard,
+    EditProfileGuard,
     QuestionService,
     SubjectService,
   ],

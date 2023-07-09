@@ -6,7 +6,7 @@ export interface IInstitution {
 
 export enum InstitutionType {
     UNIVERSITY = 'university',
-    SCHOOL = 'shcool',
+    SCHOOL = 'school',
     COLLEGE = 'college',
 }
 

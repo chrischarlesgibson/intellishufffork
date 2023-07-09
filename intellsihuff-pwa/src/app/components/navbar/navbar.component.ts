@@ -8,17 +8,14 @@ import { HelperService } from 'src/app/universal/helper.service';
 @Component({
   selector: 'app-navbar',
   template: `
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light ">
       <div class="container">
         <button class="navbar-toggler" type="button" (click)="toggleMenu()">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
         <a class="navbar-brand" routerLink="/home">
           {{currentUser?.institution?.name}}
         </a>
-      
         <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item"  routerLink="/admin">
@@ -36,10 +33,11 @@ import { HelperService } from 'src/app/universal/helper.service';
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li class="nav-item">
-                  <a class="nav-link text-danger"  (click)="onLogOutClicked()">log out</a>
+                  <a class="nav-link"  [routerLink]="['/edit-profile']" [queryParams]="{ id: currentUser?.id }" style="color: var(--color-primary);">Profile</a>
                 </li>
+
                 <li class="nav-item">
-                  <a class="nav-link"  [routerLink]="['/register']" [queryParams]="{ id: currentUser?.id }" style="color: var(--color-primary);">Profile</a>
+                  <a class="nav-link text-danger"  (click)="onLogOutClicked()">log out</a>
                 </li>
               </div>
             </li>

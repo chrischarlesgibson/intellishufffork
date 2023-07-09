@@ -8,7 +8,7 @@ export interface IRegistrationParams {
     role: UserRole
     status: UserStatus
     institution?: IInstitution
-    tourVisited?: boolean;
+    tourVisited: boolean;
 }
 
 export interface IUser {

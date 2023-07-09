@@ -1,9 +1,8 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { AppConstant } from "src/universal/app.constant";
 import { IQuestion, IQuestionFilter } from "./question.model";
 import { QuestionService } from "./question.service";
-import { SubjectService } from "src/subject/subject.service";
-import { ISubject } from "src/subject/subject.model";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller(`${AppConstant.ROUTE_PREFIX}/question`)
 export class QuestionController {
@@ -14,6 +13,11 @@ export class QuestionController {
     constructor(
         private questionSvc: QuestionService
     ) {
+    }
+
+    @Post('generateQuizResult')
+    async generateQuizResult(@Body() args: IQuestion) {
+        await this.questionSvc.generateQuizResult(args); 
     }
 
     @Post('filterQuestions')

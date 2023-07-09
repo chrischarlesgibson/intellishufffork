@@ -34,7 +34,6 @@ export class AddQuestionsComponent implements OnInit {
   }
 
   constructor(
-    private elementRef: ElementRef,
     private formBuilder: FormBuilder
     , private questionSvc: QuestionService
     , private userSettingSvc: UserSettingService
@@ -50,8 +49,8 @@ export class AddQuestionsComponent implements OnInit {
     this.aboutQuestionFg = this.formBuilder.group({
       subject:  [null, Validators.required],
       // institutionType:  [null, Validators.required],
-      collegeYear: [null, ],
-      scchoolClass: [null, ]
+      collegeYear: [null, Validators.required],
+      scchoolClass: [null, Validators.required]
     });
 
     this.addSubjectFg = this.formBuilder.group({
@@ -61,8 +60,8 @@ export class AddQuestionsComponent implements OnInit {
 
   async ngOnInit() {
     this.addOption();
-    await this._getAllSubjects();
     await this._getCurrentUser();
+    await this._getAllSubjects();
 
     if(!this.currentUser.tourVisited) {
       this.startTour();
@@ -215,7 +214,8 @@ export class AddQuestionsComponent implements OnInit {
  
 
   private async _getCurrentUser() {
-    const user: any = await this.userSettingSvc.getCurrentUser();
+    let user: any = await this.userSettingSvc.getCurrentUser();
+    user = await this.authSvc.getCurrentUser(user.id);
     this.currentUser = user;
     console.log(this.currentUser);
     

@@ -12,6 +12,15 @@ export class QuestionService extends BaseService {
         
     }
 
+
+    generateQuizResult(args) {
+        return this.postData<IResponse<any>>({
+            url: `question/generateQuizResult`,
+            body: {
+                ...args
+            }
+        })
+    }
     
     addSubject(args: ISubject) {
         return this.postData<IResponse<any>>({

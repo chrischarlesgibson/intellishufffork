@@ -1,5 +1,5 @@
-<div *ngIf="!routerOutlet.isActivated">
-  <div class="container">
+<div *ngIf="!showContent">
+  <div class="container home">
     <div class="row">
       <div class="col-md-4">
         <div class="card mb-4 larger-card shadow add-question" #card1 (click)="onCardClicked('/home/add-questions')"
@@ -15,23 +15,11 @@
           (mouseenter)="animateOnHover(card2)" (mouseleave)="resetAnimation(card2)">
           <div class="card-body questions-bank">
             <h5 class="card-title">Questions bank</h5>
-            <!-- <p class="card-text">Filter MCQs with class and subject</p> -->
           </div>
         </div>
       </div>
-      
-     <!-- <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow quiz" (click)="onCardClicked('/home/quiz')"
-          #card3 (mouseleave)="resetAnimation(card3)" (mouseenter)="animateOnHover(card3)">
-          <div class="card-body quiz">
-            <h5 class="card-title">Quiz</h5>
-          </div>
-        </div>
-      </div> -->
-
     </div>
-    
   </div>
 </div>
 
-<router-outlet #routerOutlet="outlet"></router-outlet>
+<router-outlet ></router-outlet>

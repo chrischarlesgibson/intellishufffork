@@ -5,7 +5,7 @@ export class AppConstant {
     public static readonly DEBUG = !environment.production;
 
     public static readonly BASE_URL = !environment.production 
-        ? "http://localhost:3000/api/v1/" : "https://intellishuf.dotnetdreamer2.net/api/v1/";
+        ? "https://intellishuf.dotnetdreamer2.net/api/v1/" : "http://localhost:3000/api/v1/";
     public static readonly BASE_API_URL = `${AppConstant.BASE_URL}`;
     public static readonly DB_NAME = "intellishuff";
     public static readonly GOOGLE_MAP_API_KEY = 'AIzaSyD0y6Q6UmumKiMplydd-jynVkXkeOFH7WY'; 

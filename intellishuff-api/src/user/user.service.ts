@@ -52,7 +52,7 @@ export class UserService {
     }
 
     async register(data: IRegistrationParams): Promise<IResponse> {
-        let newOrUpdated: any = Object.assign({}, data);
+        let newOrUpdated: any = {...data} ;
 
         if(newOrUpdated.id) {
             const user = await this.getUserByEmail(data.email);
@@ -70,8 +70,9 @@ export class UserService {
             }
             newOrUpdated.name = data.name;
             newOrUpdated.password = data.password;
-            newOrUpdated.institution = institution;
+            newOrUpdated.institution = {...institution};
 
+            console.log('newOrUpdated',newOrUpdated)
             await this.userRepo.save<User>(newOrUpdated, {reload: true});
 
             return {
@@ -94,8 +95,16 @@ export class UserService {
                 message: 'user already exist'
             };
         }
-        
+        const institution = {
+            type: data.institution.type,
+            name: data.institution.name
+        }
+        newOrUpdated.institution = institution;
+        console.log('newOrUpdated', newOrUpdated);
+
         await this.userRepo.save<User>(newOrUpdated);
+        console.log('hello');
+
         return {
             status: true,
             message: 'User registered successfully',

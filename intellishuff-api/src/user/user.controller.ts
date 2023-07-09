@@ -66,10 +66,12 @@ export class UserController {
 
     @Post('register')
     async register(@Body() args: IRegistrationParams) {
-       const resp = await this.userSvc.register(args)
-       if(resp.status) {
-        await  this.institutionSvc.addInstitution(args.institution);
-       }
+       const resp = await this.userSvc.register(args);
+
+    //    if(resp.status) {
+    //     await  this.institutionSvc.addInstitution(args.institution);
+    //    }
+       
        return resp;
     }
 

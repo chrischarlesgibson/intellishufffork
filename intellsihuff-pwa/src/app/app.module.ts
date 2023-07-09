@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { BaseService } from './universal/base.service';
 import { AdminModule } from './modules/admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthModule } from './modules/authentication/auth.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,13 @@ import { AuthModule } from './modules/authentication/auth.module';
     AuthModule,
     AdminModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     BaseService,

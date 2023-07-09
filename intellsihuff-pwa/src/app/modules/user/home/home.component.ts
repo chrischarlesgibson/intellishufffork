@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { gsap } from 'gsap';
   
       // in tsconfig set "allowSyntheticDefaultImports": true,
@@ -19,18 +19,26 @@ import { IUser, UserRole } from '../../authentication/auth.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BasePage implements OnInit {
-  @ViewChild('modal') modal: ElementRef;
-  @ViewChild('routerOutlet', { static: true }) routerOutlet: RouterOutlet;
-
   formGroup: FormGroup;
   currentUser: IUser;
   userRole = UserRole;
+  showContent: boolean;
 
   constructor(
     private userSettingSvc: UserSettingService
     , private renderer: Renderer2
      ) {
       super();
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          // Check if the current route is a child route
+          if (this.router.url.includes('/home/')) {
+            this.showContent = true; // Hide the content
+          } else {
+            this.showContent = false; // Show the content
+          }
+        }
+      });
   }
 
   async ngOnInit() {
@@ -43,10 +51,7 @@ export class HomeComponent extends BasePage implements OnInit {
     gsap.from(".card", { opacity: 0, stagger: 0.2, duration: 1 });
     // Scroll-based Animation
     // gsap.from(".card", { opacity: 0, y: 100, scrollTrigger: ".card", duration: 1 });
-
   }
-
-
 
   animateOnHover(card: HTMLElement) {
     this.renderer.setStyle(card, 'cursor', 'pointer');
@@ -58,11 +63,9 @@ export class HomeComponent extends BasePage implements OnInit {
     gsap.to(card, { scale: 1, duration: 0.3 });
   }
 
-
   onCardClicked(path: string) {
     this.router.navigate([path]);
   }
-
 
   private async _getCurrentUser() {
     const currentUser: any = await this.userSettingSvc.getCurrentUser();

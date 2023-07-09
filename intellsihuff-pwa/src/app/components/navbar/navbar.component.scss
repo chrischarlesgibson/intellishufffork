@@ -12,9 +12,7 @@ a{
   top: 0;
   z-index: 999;
 
-  background-image: url(/assets/images/bg.png);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: var(--color-primary) !important;
   box-shadow: 0px 0px 20px 0px #666;
   border-radius: 0 0 1  0px 10px;
   height: 100px;

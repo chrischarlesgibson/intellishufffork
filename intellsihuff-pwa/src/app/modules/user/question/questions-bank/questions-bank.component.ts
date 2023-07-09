@@ -97,7 +97,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       return;
     }
     
-    const date = this.helperSvc.formatDate(this.formGroup.controls['createdOn'].value);
+    const date = new Date(data.createdOn);
     data.createdOn = date;
 
     this.helperSvc.presentLoader('Filtering Questions');

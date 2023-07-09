@@ -43,12 +43,22 @@ export class RegisterComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
+    
     if(this.id) {
-      this.user = await this.authSvc.getCurrentUser(this.id);
+      this.helperSvc.presentLoader('Fetching User');
+      try {
+        this.user = await this.authSvc.getCurrentUser(this.id);
       
-      if(this.user) {
-        this._populateFormGroup();
+        if(this.user) {
+          this._populateFormGroup();
+        }
+      } catch (error) {
+        
+      } finally {
+        this.helperSvc.dismissLoader();
+
       }
+   
     }    
 
     if(AppConstant.DEBUG) {

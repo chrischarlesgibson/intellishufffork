@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -72,8 +72,9 @@ export class AppModule implements NestModule {
   }
 
   async configure(consumer: MiddlewareConsumer ) {
-    if(!process.env.SEED_DATA) {
+    if(process.env.NODE_ENV == 'production') {
       let SuperAdmin = await this.userSvc.getUserByEmail('dev.faisalK@gmail.com');
+      console.log('prod');
      
       if (!SuperAdmin) {
         await this.userSvc.register({
@@ -88,10 +89,13 @@ export class AppModule implements NestModule {
             name: 'Peshwar Model College',
           },
         });
-      return;
+
+        return;
+      }
     }
+
+    console.log('development');
     consumer.apply(SeedDataMiddleware).forRoutes('/');
-  }
 
   }
 }

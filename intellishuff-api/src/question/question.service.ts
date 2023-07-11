@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Between, FindConditions, Repository } from "typeorm";
+import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual, Repository } from "typeorm";
 import { Question } from "./question.entity";
 import { IQuestion, IQuestionFilter } from "./question.model";
 import { IResponse } from "src/user/user.model";
@@ -25,6 +25,7 @@ export class QuestionService {
 
   async filterQuestions(args: IQuestionFilter):Promise<IResponse<any>> {
     let whereCondition: FindConditions<Question> = {};
+    const query = this.questionRepo.createQueryBuilder("question");
 
     if (args.createdOn) {
       const startOfDay = new Date(args.createdOn);
@@ -33,7 +34,10 @@ export class QuestionService {
       const endOfDay = new Date(args.createdOn);
       endOfDay.setHours(23, 59, 59, 999); 
     
-      whereCondition.createdOn = Between(startOfDay, endOfDay);
+      query.andWhere("question.createdOn BETWEEN :startOfDay AND :endOfDay", {
+        startOfDay,
+        endOfDay,
+      });
     }
     
     if (args.subject) {

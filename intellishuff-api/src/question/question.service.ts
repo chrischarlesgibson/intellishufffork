@@ -23,8 +23,9 @@ export class QuestionService {
 
   }
 
-  async filterQuestions(args: IQuestionFilter):Promise<IResponse> {
+  async filterQuestions(args: IQuestionFilter):Promise<IResponse<any>> {
     let whereCondition: FindConditions<Question> = {};
+
     if (args.createdOn) {
       const startOfDay = new Date(args.createdOn);
       startOfDay.setHours(0, 0, 0, 0);
@@ -69,12 +70,13 @@ export class QuestionService {
       return questions;
   }
 
-  async addQuesition(question): Promise<IResponse> {
-    console.log(question);
+  async addQuesition(question): Promise<IResponse<any>> {
     if(!question.text) {
 
     }
-    await this.questionRepo.save(question);
+    
+    await this.questionRepo.save<Question>(question);
+
     return {
       status: true,
       message: 'Successfully added'

@@ -23,7 +23,7 @@ export class Question extends BaseEntity {
     @Column()
     institutionType: InstitutionType;
 
-    @ManyToOne(() => Institution, {eager: true})
+    @ManyToOne(() => Institution, { cascade: true })
     @JoinColumn()
     institution: Institution;
 

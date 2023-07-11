@@ -24,7 +24,7 @@ export class SubjectService {
         return await this.subjectRepo.findOne(args.id);
     }
 
-    async addSubject(args ): Promise<IResponse> {
+    async addSubject(args ): Promise<IResponse<any>> {
         if(!args) {
             return;
         }

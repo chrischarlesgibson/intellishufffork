@@ -17,18 +17,18 @@ export class InstitutionService {
     ) {   
     }
 
-    async uploadLogo(inst, image) {
-        const institution = await this.getInstById(inst.id) // Assuming you have a method to find the institution
+    // async uploadLogo(inst, image) {
+    //     const institution = await this.getInstById(inst.id) // Assuming you have a method to find the institution
     
-        // Update the institution with the uploaded image buffer
-        institution.image = image.buffer;
+    //     // Update the institution with the uploaded image buffer
+    //     institution.image = image.buffer;
     
-        await this.institutionRepo.save(institution);
+    //     await this.institutionRepo.save(institution);
     
-        return { message: 'Image uploaded successfully' };
-      }
+    //     return { message: 'Image uploaded successfully' };
+    //   }
 
-    async addInstitution(args: IInstitution): Promise<IResponse> {
+    async addInstitution(args: IInstitution): Promise<IResponse<any>> {
         if(!args) {
             return null;
         }

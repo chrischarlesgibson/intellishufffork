@@ -19,10 +19,10 @@ import { HelperService } from 'src/app/universal/helper.service';
         <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item"  routerLink="/admin">
-              <a class="nav-link" [class.active]="activePage == 'admin-home'">Admin</a>
+              <a class="nav-link" [class.active]="activePage == 'admin-home'">ADMIN</a>
             </li>
             <li class="nav-item" (click)="onHomeClicked()">
-              <a class="nav-link" [class.active]="activePage == 'home'">Home</a>
+              <a class="nav-link" [class.active]="activePage == 'home'">HOME</a>
             </li>
  
             <li class="nav-item dropdown"  role="menu">
@@ -33,7 +33,10 @@ import { HelperService } from 'src/app/universal/helper.service';
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li class="nav-item">
-                  <a class="nav-link"  [routerLink]="['/edit-profile']" [queryParams]="{ id: currentUser?.id }" style="color: var(--color-primary);">Profile</a>
+                  <a class="nav-link" 
+                    [routerLink]="['/edit-profile']" 
+                      [queryParams]="{ id: currentUser?.id }"
+                        queryParamsHandling="merge" style="color: var(--color-primary);">PROFILE</a>
                 </li>
 
                 <li class="nav-item">
@@ -105,8 +108,6 @@ export class NavbarComponent  implements OnInit {
       const user: any = await this.userSettingSvc.getCurrentUser();
       this.currentUser = user;
     } catch (error) {
-      console.error('Error retrieving current user:', error);
-      // Additional error handling if needed, such as displaying an error message.
     }
   }
 

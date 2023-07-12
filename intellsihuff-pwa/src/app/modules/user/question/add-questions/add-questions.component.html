@@ -52,19 +52,6 @@
                     <option [value]="Year.SECONDYEAR">{{Year.SECONDYEAR}}</option>
                   </select>
               </div>
-              <!-- <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.UNIVERSITY">
-                <label for="password">Semister</label>
-                <select class="form-select mb-3" formControlName="institutionType">
-                  <option [value]="Semisters.FIRST">{{Semisters.FIRST}}</option>
-                  <option [value]="Semisters.SECOND">{{Semisters.SECOND}}</option>
-                  <option [value]="Semisters.THIRD">{{Semisters.THIRD}}</option>
-                  <option [value]="Semisters.FOURTH">{{Semisters.FOURTH}}</option>
-                  <option [value]="Semisters.FIFTH">{{Semisters.FIFTH}}</option>
-                  <option [value]="Semisters.SIXTH">{{Semisters.SIXTH}}</option>
-                  <option [value]="Semisters.SEVENTH">{{Semisters.SEVENTH}}</option>
-                  <option [value]="Semisters.EIGHTH">{{Semisters.EIGHTH}}</option>
-                </select>
-              </div> -->
               </div>
             </div>
           </form>
@@ -101,7 +88,7 @@
           <div class="row">
             <div class="col button justify-content-start">
               <button type="submit"  class="btn btn-primary" (click)="onSubmitClicked(mcqFormGroup.value)"
-                 [disabled]="!mcqFormGroup.valid && !aboutQuestionFg.valid">Submit Question</button>
+                 [disabled]="!mcqFormGroup.valid " [disabled]="!aboutQuestionFg.valid">Submit Question</button>
             </div>
             <div class="col-auto button justify-content-end">
               <button class="btn btn-primary" (click)="addOption()">Add option</button>

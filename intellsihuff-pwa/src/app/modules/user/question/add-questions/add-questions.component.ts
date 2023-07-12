@@ -8,6 +8,8 @@ import { UserSettingService } from '../../user-setting.service';
 import introJs from 'intro.js';
 import { IUser, InstitutionType } from 'src/app/modules/authentication/auth.model';
 import { AuthService } from 'src/app/modules/authentication/auth.service';
+import * as moment from 'moment';
+import { AppConstant } from 'src/app/universal/app-constant';
 
 
 @Component({
@@ -101,8 +103,8 @@ export class AddQuestionsComponent implements OnInit {
   
 
   async onAddSubjectClicked(data: any) {
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
+    this.helperSvc.presentLoader('Adding subject')
+
     
     //TODO: subject name should be saved in lowercase
     try {
@@ -117,25 +119,34 @@ export class AddQuestionsComponent implements OnInit {
     } catch (error) {
       
     }  finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();    
     }
   }
 
   async onSubmitClicked(mcq: any) {
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
-   const  options:any = JSON.stringify(this.mcqFormGroup.value.options); 
+    if(this.aboutQuestionFg.controls['subject'].invalid && 
+        ( this.aboutQuestionFg.controls['collegeYear'].invalid ||
+        this.aboutQuestionFg.controls['scchoolClass'].invalid ) ) {
+
+      return;   
+    }
+
+    const date = moment().format(AppConstant.DATETIME_FORMAT);
+
+    const  options:any = JSON.stringify(this.mcqFormGroup.value.options); 
     const question: IQuestion = {
       text: mcq.questionText,
       createdBy: this.currentUser,
       updatedBy: null,
-      createdOn: new Date(),
+      createdOn: date,
       subject: this.aboutQuestionFg.controls['subject'].value,
       options: options,
       institutionType: this.currentUser?.institution.type,
       collegeYear: this.aboutQuestionFg.controls['collegeYear'].value ,
       scchoolClass: this.aboutQuestionFg.controls['scchoolClass'].value ,
     }
+    console.log(question);
+    
     this.helperSvc.presentLoader('Adding Question');    
     try {
       const resp = await this.questionSvc.addQuestion(question);

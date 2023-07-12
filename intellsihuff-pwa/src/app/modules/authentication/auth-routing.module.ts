@@ -13,7 +13,7 @@ const routes: Routes = [
         path: 'register', component: RegisterComponent,
     },
     {
-        path: 'edit-profile', canActivate: [AuthGuard], component: RegisterComponent,
+        path: 'user-profile', canActivate: [AuthGuard], component: RegisterComponent,
     }
 ];
 

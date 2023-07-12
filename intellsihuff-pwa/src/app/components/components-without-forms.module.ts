@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   exports: [
     // NoDataModule,
     CommonModule
-    
   ]
 })
 export class ComponentsWithOutFormsModule {}

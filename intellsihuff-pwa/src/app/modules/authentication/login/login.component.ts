@@ -18,7 +18,7 @@ export class LoginComponent extends BasePage implements OnInit, AfterViewInit {
     super();
     this.formGroup = formBuilder.group({
       email: ['dev.faisalK@gmail.com', [ Validators.required, Validators.email]],
-      password: ['faisal256', Validators.required],
+      password: ['</>Intellishuff256', Validators.required],
     });
 
   }

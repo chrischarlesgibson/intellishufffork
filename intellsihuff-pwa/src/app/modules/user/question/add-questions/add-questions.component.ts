@@ -62,7 +62,18 @@ export class AddQuestionsComponent implements OnInit {
 
   async ngOnInit() {
     this.addOption();
-    await this._getCurrentUser();
+
+    this.helperSvc.presentLoader('Fteching institution type')
+
+    try {
+      await this._getCurrentUser();
+      
+    } catch (error) {
+      
+    } finally {
+      this.helperSvc.dismissLoader();
+    }
+
     await this._getAllSubjects();
 
     if(!this.currentUser.tourVisited) {
@@ -124,12 +135,24 @@ export class AddQuestionsComponent implements OnInit {
   }
 
   async onSubmitClicked(mcq: any) {
-    if(this.aboutQuestionFg.controls['subject'].invalid && 
-        ( this.aboutQuestionFg.controls['collegeYear'].invalid ||
-        this.aboutQuestionFg.controls['scchoolClass'].invalid ) ) {
-
+    if(!this.aboutQuestionFg.controls['subject'].value) {
       return;   
     }
+
+    if(this.aboutQuestionFg.controls['scchoolClass'].value == null ||
+        this.aboutQuestionFg.controls['collegeYear'].value == null ) {
+
+      if(this.currentUser?.institution.type == InstitutionType.COLLEGE) {
+        this.helperSvc.presentAlert('Please select Year', 'warning');
+        return;   
+      } 
+
+      if(this.currentUser?.institution.type == InstitutionType.SCHOOL) {
+        this.helperSvc.presentAlert('Please select Class', 'warning');
+        return;   
+      }            
+    }
+    
 
     const date = moment().format(AppConstant.DATETIME_FORMAT);
 
@@ -142,8 +165,8 @@ export class AddQuestionsComponent implements OnInit {
       subject: this.aboutQuestionFg.controls['subject'].value,
       options: options,
       institutionType: this.currentUser?.institution.type,
-      collegeYear: this.aboutQuestionFg.controls['collegeYear'].value ,
-      scchoolClass: this.aboutQuestionFg.controls['scchoolClass'].value ,
+      collegeYear: this.aboutQuestionFg.controls['collegeYear'].value,
+      scchoolClass: this.aboutQuestionFg.controls['scchoolClass'].value,
     }
     console.log(question);
     

@@ -1,7 +1,11 @@
 <div class="register-container">
     <div class="card">
-      <h2 class="card-title" *ngIf="!id">Create an Account</h2>
-      <h2 class="card-title" *ngIf="id">User Profile</h2>
+      <h2 class="card-title" *ngIf="!id">
+        <i class="fas fa-user-plus"></i>
+      </h2>
+      <h2 class="card-title" *ngIf="id">
+        <i class="fas fa-user"></i>
+      </h2>
 
       <div class="card-body">
         <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">

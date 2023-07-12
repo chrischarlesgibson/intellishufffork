@@ -7,17 +7,20 @@ import { DatePipe } from "@angular/common";
 import { MaxLengthDirective } from "src/app/directives/maxLength.directive";
 import { QuizComponent } from "./quiz/quiz.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NoDataComponent } from "src/app/components/no-data/no-data.component";
+import { NoDataModule } from "src/app/components/no-data/no-data.module";
 
 @NgModule({
     declarations: [
         AddQuestionsComponent,
         QuestionsBankComponent,
         QuizComponent,
-        MaxLengthDirective,
+        MaxLengthDirective
     ],
     imports: [
         ComponentsWithFormsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        NoDataModule
     ],
     providers: [QuestionService, DatePipe],
   })

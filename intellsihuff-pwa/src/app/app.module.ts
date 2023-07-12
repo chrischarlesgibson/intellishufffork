@@ -13,27 +13,30 @@ import { BaseService } from './universal/base.service';
 import { AdminModule } from './modules/admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthModule } from './modules/authentication/auth.module';
+import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import { NoDataModule } from './components/no-data/no-data.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     RouterModule.forRoot([]), // Make sure to include the `forRoot` method
     BrowserModule,
     HttpClientModule,
-    UserModule,
+    UserModule, 
     AuthModule,
     AdminModule,
-    AppRoutingModule,
+    AppRoutingModule,  
+    NoDataModule,
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      enabled: environment.production
+      // registrationStrategy: 'registerWhenStable:30000'
+
     })
   ],
   providers: [
@@ -49,5 +52,5 @@ export class AppModule {
   //https://stackoverflow.com/a/53185632
   constructor(injector: Injector) {
     AppInjector.setInjector(injector);
-  }
+  } 
 }

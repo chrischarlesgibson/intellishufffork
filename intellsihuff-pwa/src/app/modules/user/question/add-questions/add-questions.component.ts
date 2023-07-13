@@ -139,20 +139,17 @@ export class AddQuestionsComponent implements OnInit {
       return;   
     }
 
-    if(this.aboutQuestionFg.controls['scchoolClass'].value == null ||
-        this.aboutQuestionFg.controls['collegeYear'].value == null ) {
+    if(this.currentUser?.institution.type == InstitutionType.COLLEGE &&
+         this.aboutQuestionFg.controls['collegeYear'].value == null) {
+      this.helperSvc.presentAlert('Please select Year', 'warning');
+      return;   
+    } 
 
-      if(this.currentUser?.institution.type == InstitutionType.COLLEGE) {
-        this.helperSvc.presentAlert('Please select Year', 'warning');
-        return;   
-      } 
-
-      if(this.currentUser?.institution.type == InstitutionType.SCHOOL) {
-        this.helperSvc.presentAlert('Please select Class', 'warning');
-        return;   
-      }            
-    }
-    
+    if(this.currentUser?.institution.type == InstitutionType.SCHOOL && 
+      this.aboutQuestionFg.controls['scchoolClass'].value == null) {
+      this.helperSvc.presentAlert('Please select Class', 'warning');
+      return;   
+    }  
 
     const date = moment().format(AppConstant.DATETIME_FORMAT);
 

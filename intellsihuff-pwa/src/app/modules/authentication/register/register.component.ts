@@ -6,13 +6,15 @@ import { HelperService } from 'src/app/universal/helper.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { IResponse } from 'src/app/universal/shared.model';
 import { AppConstant } from 'src/app/universal/app-constant';
+import { UserConstant } from '../../user/user-constant';
+import { BasePage } from 'src/app/universal/base.page';
 
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends BasePage implements OnInit {
   id: number;
   formGroup: FormGroup;
   user: IUser;
@@ -25,10 +27,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder
     , private authSvc: AuthService
-    , private helperSvc: HelperService
     , private route: ActivatedRoute
-    , private router: Router
   ) {
+    super();
     this.formGroup = formBuilder.group({
       name: ['', Validators.required],
       email: ['', [ Validators.required, Validators.email]],
@@ -83,7 +84,6 @@ export class RegisterComponent implements OnInit {
     }
 
     const params =  {
-      id: this.user?.id || undefined,
       email: data.email,
       name: data.name,
       password: data.password,
@@ -92,19 +92,15 @@ export class RegisterComponent implements OnInit {
       institution: institution
     }
 
-    if(params?.id) {
-      this.helperSvc.presentLoader('Updating User');
-
-    } else {
-      this.helperSvc.presentLoader('Registring User');
-    }
+ 
+    
 
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if(resp.status) {
-        await this.helperSvc.presentAlert(resp.message, 'success') 
+        await this.helperSvc.presentAlert(resp.message, 'success'); 
       } else {
-        await this.helperSvc.presentAlert(resp.message, 'warning') 
+        await this.helperSvc.presentAlert(resp.message, 'warning'); 
       }
       
     } catch (error) {

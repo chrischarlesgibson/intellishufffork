@@ -1,10 +1,7 @@
 <div class="register-container">
     <div class="card">
-      <h2 class="card-title" *ngIf="!id">
+      <h2 class="card-title" >
         <i class="fas fa-user-plus"></i>
-      </h2>
-      <h2 class="card-title" *ngIf="id">
-        <i class="fas fa-user"></i>
       </h2>
 
       <div class="card-body">
@@ -14,7 +11,7 @@
             <input type="text" formControlName="name" class="form-control" placeholder="Enter your name">
           </div>
   
-          <div class="form-group" [class.drop-opacity]="id">
+          <div class="form-group">
             <label for="email">Email</label>
             <span class="text-danger" *ngIf="formGroup.get('email')?.errors  && formGroup.get('email')?.touched "> &#x002A;</span>
             <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" [readOnly]="id">
@@ -23,7 +20,7 @@
             </span>
           </div>
   
-          <div class="form-group" *ngIf="!id">
+          <div class="form-group" >
             <label for="password">Password</label>
             <span class="text-danger" *ngIf="formGroup.get('password')?.errors  && formGroup.get('password')?.touched "> &#x002A;</span>
             <div class="input-group" style="flex-wrap: nowrap !important;">
@@ -64,8 +61,7 @@
             </span>
           </div>
   
-          <button type="submit"  class="btn btn-primary" [disabled]="!formGroup.valid" *ngIf="!id">Register</button>
-          <button type="submit" id="r" class="btn btn-primary" [disabled]="!formGroup.valid" *ngIf="id">Update </button>
+          <button type="submit"  class="btn btn-primary" [disabled]="!formGroup.valid" >Register</button>
   
         </form>
       </div>

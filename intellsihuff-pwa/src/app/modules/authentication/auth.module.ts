@@ -5,11 +5,13 @@ import { ComponentsWithFormsModule } from "src/app/components/components-with-fo
 import { AuthService } from "./auth.service";
 import { RouterModule } from "@angular/router";
 import { AuthRoutingModule } from "./auth-routing.module";
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        EditProfileComponent
     ],
     providers: [
         AuthService

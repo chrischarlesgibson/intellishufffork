@@ -97,15 +97,16 @@ export class AppComponent {
     //   }
     // });
 
-    // this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED
-    //   , async (user: IUser) => {
-    //   if(AppConstant.DEBUG) {
-    //     console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
-    //   }
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED
+      , async (user: IUser) => {
+      if(AppConstant.DEBUG) {
+        console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
+      }
 
-    //   const profile = await this.userSettingSvc.getUserProfileLocal();
-    //   this.currentUser = profile;
-    // });
+      await this.userSettingSvc.removeCurrentUser();
+      await this.userSettingSvc.putCurrentUser(user);
+      // this.currentUser = profile;
+    });
 
     this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDIN_CLICKED
       , async (params: { email, password }) => {
@@ -157,7 +158,7 @@ export class AppComponent {
       }
 
       if(params.redirectToHome) {
-        this.router.navigate(['/home']);
+        this._navigateTo('/home');
       }
     });
 
@@ -238,8 +239,8 @@ export class AppComponent {
       await this._navigateTo(this.existingRouteUrl);
       return;
     }
-    this.router.navigate(['/home'])
-    // await this._navigateTo('/home');
+
+    await this._navigateTo('/home');
   }
 
   private async _navigateTo(path, args?, replaceUrl = false) {

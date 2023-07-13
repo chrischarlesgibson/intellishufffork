@@ -1,5 +1,5 @@
-
 export interface ISubject {
     id?: any;
-    name: string
+    name: string;
+    isEditing?: any
 }

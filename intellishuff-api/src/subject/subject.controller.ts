@@ -15,6 +15,11 @@ export class SubjectController {
         
     }
 
+    @Post('updateSubject')
+    async updateSubject(@Body() args: ISubject ) {
+        return await this.subjectSvc.updateSubject(args);
+    }
+
     @Get('getAllSubjects')
     async getAllSubjects( ) {
         return await this.subjectSvc.getAllSubjects();

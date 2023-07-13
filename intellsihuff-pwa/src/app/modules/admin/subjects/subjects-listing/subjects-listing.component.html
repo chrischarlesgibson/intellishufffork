@@ -9,16 +9,34 @@
         </thead>
         <tbody>
           <tr *ngFor="let subject of subjects">
-            <td>
-                <p>
-                    {{ subject.name }}
-                </p>
+            <td *ngIf="!subject.isEditing">
+              <p >{{ subject.name }}</p>
             </td>
-            <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
-                <i class="fas fa-trash-alt"></i>
-            </button> 
 
+            <td *ngIf="subject.isEditing">
+              <div>
+                <div class="input-group">
+                  <input [(ngModel)]="subject.name" type="text" class="form-control" />
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
+                    <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
+                  <i class="fas fa-trash-alt"></i>
+              </button> 
+
+              <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
     </table>
 </div>
+
+

@@ -73,4 +73,21 @@ export class SubjectService {
             status: true
         };
     }
+
+    async updateSubject(subject): Promise<IResponse<any>> {
+        if(!subject || !subject.name) {
+            return {
+                status: false,
+                message: 'Error'
+            }
+        }
+
+        await this.subjectRepo.save(subject, { reload: true });
+
+        return {
+            status: true,
+            message: 'Subject updated'
+        }
+
+    }
 }

@@ -37,4 +37,13 @@ export class SubjectService extends BaseService {
       }
     })
   }
+
+  updateSubject(args: ISubject) {
+    return this.postData({
+      url: `subject/updateSubject`,
+      body: {
+        ...args
+      }
+    })
+  }
 }

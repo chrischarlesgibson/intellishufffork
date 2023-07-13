@@ -24,17 +24,16 @@ export class ContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
 
+  }
 
   async onFormSubmitted(data: any) {
     const mail = {
       to: data.email,
       subject: data.message
     }
-// 
-    // const laoder = await this.helperSvc.loader;
-    // await laoder.present();
+
+    this.helperSvc.presentLoader('Sending mail');
     try {
     const resp: any = await this.authSvc.sendMail(mail);
       if(resp.message) {
@@ -42,7 +41,7 @@ export class ContactComponent implements OnInit {
       }
     } catch (error) {
     } finally {
-      // await laoder.dismiss();
+       this.helperSvc.dismissLoader;
 
     }
   }

@@ -6,6 +6,8 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ComponentsWithFormsModule } from 'src/app/components/components-with-forms.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { InstitutionComponent } from './institution/institution.component';
+import { SubjectsListingComponent } from './subjects/subjects-listing/subjects-listing.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -13,11 +15,13 @@ import { InstitutionComponent } from './institution/institution.component';
     AdminHomeComponent,
     UserListingComponent,
     AddUserComponent,
-    InstitutionComponent
+    InstitutionComponent,
+    SubjectsListingComponent
   ],
   imports: [
     AdminRoutingModule,
-    ComponentsWithFormsModule
+    ComponentsWithFormsModule,
+    FontAwesomeModule
   ],
   exports: [RouterModule]
 })

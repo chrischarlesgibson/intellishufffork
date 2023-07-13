@@ -6,6 +6,7 @@ import { AddUserComponent } from "./add-user/add-user.component";
 import { ContactComponent } from "./contact/contact.component";
 import { InstitutionComponent } from "./institution/institution.component";
 import { AuthGuard } from "../authentication/auth.guard";
+import { SubjectsListingComponent } from "./subjects/subjects-listing/subjects-listing.component";
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
             },
             {
                 path: 'institution', component: InstitutionComponent 
+            }
+            ,
+            {
+                path: 'subjects-listing', component: SubjectsListingComponent 
             }
         ]
     }

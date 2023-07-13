@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { AppConstant } from "src/universal/app.constant";
 import { ISubject } from "./subject.model";
 import { SubjectService } from "./subject.service";
@@ -25,5 +25,9 @@ export class SubjectController {
         return await this.subjectSvc.addSubject(args);
     }
 
+    @Post('deleteSubject')
+    async deleteSubject(@Body() args: ISubject ) {
+        return await this.subjectSvc.deleteSubject(args);
+    }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Subject } from "./subject.entity";
 import { Repository } from "typeorm";
@@ -51,5 +51,26 @@ export class SubjectService {
             return null
         }
         return subs;
+    }
+
+    async deleteSubject(subject): Promise<IResponse<any>> {
+
+        if(!subject) {
+            return {
+                status: false
+            }
+        }
+
+        const isSubjectAvailabel = await this.subjectRepo.findOne(subject)
+        if(!isSubjectAvailabel) {
+            throw new NotFoundException('Cat not found');
+
+        }
+        
+        await this.subjectRepo.delete(subject.id);
+
+        return {
+            status: true
+        };
     }
 }

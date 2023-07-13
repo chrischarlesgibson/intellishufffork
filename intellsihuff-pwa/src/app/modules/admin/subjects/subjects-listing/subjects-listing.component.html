@@ -1,0 +1,24 @@
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Subject Name</th>
+            <th>Action Buttons</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of subjects">
+            <td>
+                <p>
+                    {{ subject.name }}
+                </p>
+            </td>
+            <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
+                <i class="fas fa-trash-alt"></i>
+            </button> 
+
+          </tr>
+        </tbody>
+    </table>
+</div>

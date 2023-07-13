@@ -9,7 +9,4 @@ export class Subject extends BaseEntity {
     @Column()
     name: string;
 
-    // @ManyToOne(() => Institution)
-    // @JoinColumn()
-    // institution: Institution; 
 }

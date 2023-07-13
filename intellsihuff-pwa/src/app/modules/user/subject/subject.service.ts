@@ -28,4 +28,13 @@ export class SubjectService extends BaseService {
       });
     })  
   }
+
+  deleteSubject(arsgs) {
+    return this.postData({
+      url: `subject/deleteSubject`,
+      body: {
+        ...arsgs
+      }
+    })
+  }
 }

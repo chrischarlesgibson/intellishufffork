@@ -27,12 +27,6 @@ export class Question extends BaseEntity {
     @JoinColumn()
     institution: Institution;
 
-    // @Column()
-    // classId: string;
-    
-    // @Column()
-    // subjectId: string;
-
     @ManyToOne(() => User)
     @JoinColumn()
     createdBy: User;
@@ -42,7 +36,7 @@ export class Question extends BaseEntity {
     updatedBy: User;
     
 
-    @ManyToOne(() => Subject)
+    @ManyToOne(() => Subject, { onDelete: 'CASCADE' })
     @JoinColumn()
     subject: Subject;
 

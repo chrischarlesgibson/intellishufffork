@@ -41,28 +41,50 @@ export class HelperService {
     return this.datePipe.transform(date, 'dd MMMM, yyyy');
   }
 
-  presentConfirationmDialogue() {
-    Swal.fire({
-      title: 'Are you sure',
-      text: "You wan to logout?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'var(--color-primary)',
-      cancelButtonColor: '#d33 !important',
-      confirmButtonText: 'Yes'
+  
+
+  // presentConfirationDialogue() {
+  //   Swal.fire({
+  //     title: 'Are you sure',
+  //     text: "You wan to logout?",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: 'var(--color-primary)',
+  //     cancelButtonColor: '#d33 !important',
+  //     confirmButtonText: 'Yes'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         Swal.fire(
+  //           'Logged Out!',
+  //           'User successfully logged out.',
+  //           'success'
+  //         )
+
+  //         this.pubSub.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT, { 
+  //           clearCache: true
+  //         });
+  //       }
+  //   })
+  // }
+
+  presentConfirmDialogue(title, text, icon) {
+    return new Promise( (resolve ) => {
+      Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Logged Out!',
-            'User successfully logged out.',
-            'success'
-          )
-
-          this.pubSub.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT, { 
-            clearCache: true
-          });
+          resolve(result.isConfirmed)
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          resolve(result.isConfirmed)
         }
+      });
     })
+
   }
 
   presentAlert(text: string, icon?: any, timer = 1500) {

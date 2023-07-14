@@ -1,7 +1,12 @@
 
 <div class="login-container">
   <div class="card">
-    <h2 class="card-title">Sign in</h2>
+    <h2 class="card-title">
+      <i class="fas fa-stack">
+        <i class="fas fa-user"></i>
+        <i class="fas fa-arrow-right"></i>
+      </i>
+    </h2>
     <div class="card-body">
       <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
         <div class="form-group">

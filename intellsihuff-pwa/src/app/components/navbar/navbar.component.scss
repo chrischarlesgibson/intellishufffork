@@ -1,9 +1,4 @@
-a{
 
-    img{
-      width: 100px;
-    }
-  }
 
 .navbar {
   position: fixed;
@@ -13,104 +8,89 @@ a{
   z-index: 999;
   box-shadow: 1px 5px 7px rgba(214, 214, 214, 0.38);
   border-radius: 0 0 1  0px 10px;
-  height: 100px;
+  height: 140px;
 
-  .container{
-    margin: 0 0 0 0 !important;
+  a{
+    img{
+      width: 300px;
+
+    }
   }
-    .navbar-toggler-icon {
-      /* Set the menu icon */
+  
+  .collapse{
+    .nav-link{
+      i{
+        font-size: 25px;
+      }
+    }
+  }
+
+ .dropdown-menu{
+  .nav-link{
+    width: 200px;
+  }
+ }
+
+  li {
+    margin-left: 1rem;
+  
+    a {
+      font-size: 1.2rem;
+  
+      &.nav-link {
+        position: relative;
+  
+        &:before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: var(--color-primary);
+          transition: width 0.5s;
+        }
+  
+        &:hover:before {
+          width: 100%;
+        }
+  
+        &:hover {
+          color: var(--color-primary);
+          transition: all 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: 60px;
+
+    .collapse{
+      height: 150px;
+      background-color: #f8f9fa !important;
+      box-shadow: 1px 5px 7px rgba(214, 214, 214, 0.38);
+
+      ul {
+        li {
+          width: max-content;
+
+        }
+      }
     }
     .navbar-brand {
-      /* Set the brand logo styles */
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--color-primary);
-      font-style: oblique;
+      position: absolute;
+      left: 10px;
     }
-    .navbar-nav {
-      /* Set the menu items styles */
-      text-align: right;
-
-      
-      li {
-        margin-left: 1rem;
-      
-        a {
-          font-size: 1.2rem;
-      
-          &.nav-link {
-            position: relative;
-      
-            &:before {
-              content: "";
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 0;
-              height: 1px;
-              background-color: var(--color-primary);
-              transition: width 0.5s;
-            }
-      
-            &:hover:before {
-              width: 100%;
-            }
-      
-            &:hover {
-              color: var(--color-primary);
-              transition: all 0.3s;
-            }
-          }
-      
-          &.active {
-            font-weight: bold;
-          }
-        }
-      }
-      
-    }
-    /* Set the menu animation styles */
-    &.menu-open {
-      animation: menu-item-appear 1s ease-in-out;
-
-      .navbar-collapse {
-        background-color: rgba(0, 0, 0, 0.5);
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        ul {
-          flex-direction: column;
-          li {
-            margin: 1rem 0;
-            a {
-              font-size: 2rem;
-            }
-          }
-        }
-      }
+  
+    button{
+      position: absolute;
+      right: 10px;
     }
 
-
-  }
-  .accordion-item {
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
   }
   
-  .accordion-header {
-    background-color: #f1f1f1;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .accordion-content {
-    padding: 10px;
-  }
+  /* Additional mobile-specific styles */
+}

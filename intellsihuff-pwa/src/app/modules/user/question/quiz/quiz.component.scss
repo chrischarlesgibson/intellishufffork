@@ -46,6 +46,19 @@
     
 }
 
+@media (max-width: 767px) {
+  .container{
+    .card{
+      width: 100%;
+      .icon{
+        top: 0;
+      }
+    }
+  }
+  
+  /* Additional mobile-specific styles */
+}
+
 .else{
   .card-header {
     background-color: #f8f9fa;

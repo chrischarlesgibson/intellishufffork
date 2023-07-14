@@ -112,7 +112,7 @@
           <p>
             Total questions 
             <span class="badge">
-              {{totalQuestions}}
+              {{shuffledQuestionsCount}}
             </span>          
           </p>
         </div>
@@ -166,6 +166,6 @@
     </ng-container>
 </div>
 
-<ng-container *ngIf="!questionsCount">
+<ng-container *ngIf="!questionsCount && !questions.length ">
   <no-data> </no-data>
 </ng-container>

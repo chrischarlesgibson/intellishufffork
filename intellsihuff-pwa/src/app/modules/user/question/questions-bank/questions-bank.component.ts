@@ -24,7 +24,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
 
   questions: IQuestion[] = [];
   questionsCount: any;
-  totalQuestions: number = 0;
+  shuffledQuestionsCount: number = 0;
   subjects: ISubject[];
   InstitutionType = InstitutionType;
   shuffled: IQuestion[] = [];
@@ -129,7 +129,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
 
   getQuestionsCount() {
     this.questionsCount = this.questions.length;
-    this.totalQuestions = this.shuffled.length;
+    this.shuffledQuestionsCount = this.shuffled.length;
   }
 
   onDltMcqCicked( index: number) {

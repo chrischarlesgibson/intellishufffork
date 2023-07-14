@@ -8,10 +8,12 @@ import { jsPDF } from "jspdf";
 import { ISubject } from '../../subject/subject.model';
 import { UserSettingService } from '../../user-setting.service';
 import { BasePage } from 'src/app/universal/base.page';
-import { NavigationExtras } from '@angular/router';
 import { SharedService } from '../shared.service';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { IUser, InstitutionType } from 'src/app/modules/authentication/auth.model';
+import * as moment from 'moment';
+import { AppConstant } from 'src/app/universal/app-constant';
+
 @Component({
   selector: 'questions-bank',
   templateUrl: './questions-bank.component.html',
@@ -97,12 +99,14 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       return;
     }
     
-    const date = new Date(data.createdOn);
-    data.createdOn = date;
+    if(data.createdOn) {
+      data.createdOn = moment(data.createdOn).format('MM/DD/YY');
+    }
 
     this.helperSvc.presentLoader('Filtering Questions');
     try {
       const resp:any = await this.questionSvc.filterQuestions(data);
+      
       if(resp.message) {
         this.helperSvc.presentAlert(resp.message, 'warning');
         return;

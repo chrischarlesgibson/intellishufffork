@@ -151,7 +151,7 @@ export class AddQuestionsComponent implements OnInit {
       return;   
     }  
 
-    const date = moment().format(AppConstant.DATETIME_FORMAT);
+    const date = moment().format('MM/DD/YY');
 
     const  options:any = JSON.stringify(this.mcqFormGroup.value.options); 
     const question: IQuestion = {

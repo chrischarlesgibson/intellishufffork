@@ -25,19 +25,9 @@ export class QuestionService {
 
   async filterQuestions(args: IQuestionFilter):Promise<IResponse<any>> {
     let whereCondition: FindConditions<Question> = {};
-    const query = this.questionRepo.createQueryBuilder("question");
 
     if (args.createdOn) {
-      const startOfDay = new Date(args.createdOn);
-      startOfDay.setHours(0, 0, 0, 0);
-    
-      const endOfDay = new Date(args.createdOn);
-      endOfDay.setHours(23, 59, 59, 999); 
-    
-      query.andWhere("question.createdOn BETWEEN :startOfDay AND :endOfDay", {
-        startOfDay,
-        endOfDay,
-      });
+      whereCondition.createdOn = args.createdOn ;
     }
     
     if (args.subject) {
@@ -77,6 +67,10 @@ export class QuestionService {
   async addQuesition(question): Promise<IResponse<any>> {
     if(!question.text) {
 
+      return {
+        status: false,
+        message: 'Error occured'
+      };
     }
     
     await this.questionRepo.save<Question>(question);

@@ -58,13 +58,25 @@ export class SubjectsListingComponent extends BasePage implements OnInit {
   }
 
   async onDltSubjectClicked(subject) {
+
     const resp = await this.helperSvc.presentConfirmDialogue('Are you sure', 'You want to delete this subject?', 'warning');
     if(!resp) {
       return;
     }
 
-    await this.subjectSvc.deleteSubject(subject);
-    await this._getAllSubjects();
+    this.helperSvc.presentLoader('Deleting subject');
+    
+    try {
+      await this.subjectSvc.deleteSubject(subject);
+      await this._getAllSubjects();
+    } catch (error) {
+      
+    } finally {
+      this.helperSvc.dismissLoader();
+
+    }
+
+
   }
 
   private async _getAllSubjects() {

@@ -15,11 +15,15 @@
 
             <td *ngIf="subject.isEditing">
               <div>
-                <div class="input-group">
-                  <input [(ngModel)]="subject.name" type="text" class="form-control" />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
-                    <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
+                <div class="row"> 
+                  <div class="col12">
+                    <div class="input-group">
+                      <input [(ngModel)]="subject.name" type="text" class="form-control" />
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
+                      <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
+                    </div>
                   </div>
                 </div>
               </div>

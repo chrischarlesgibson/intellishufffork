@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home.component';
-import { ContactComponent } from '../admin/contact/contact.component';
+import { ContactComponent } from './contact/contact.component';
 import { ComponentsWithFormsModule } from 'src/app/components/components-with-forms.module';
 import { QuestionService } from './question/question.service';
 import { UserRoutingModule } from './user-routing.module';

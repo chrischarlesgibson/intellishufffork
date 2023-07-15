@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ContactComponent } from '../admin/contact/contact.component';
+import { ContactComponent } from './contact/contact.component';
 import { AddQuestionsComponent } from './question/add-questions/add-questions.component';
 import { QuestionsBankComponent } from './question/questions-bank/questions-bank.component';
 import { QuizComponent } from './question/quiz/quiz.component';
@@ -15,6 +15,10 @@ const routes: Routes = [
             { path: 'questions-bank', component: QuestionsBankComponent },
             { path: 'quiz', component: QuizComponent }
         ]
+        
+    },
+    {
+        path: 'contact', canActivate: [AuthGuard], component: ContactComponent
     }
 ];
 

@@ -15,13 +15,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthModule } from './modules/authentication/auth.module';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { NoDataComponent } from './components/no-data/no-data.component';
 import { NoDataModule } from './components/no-data/no-data.module';
+import { HoverDirective } from './directives/hover.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    HoverDirective,
   ],
   imports: [
     RouterModule.forRoot([]), // Make sure to include the `forRoot` method
@@ -35,8 +36,6 @@ import { NoDataModule } from './components/no-data/no-data.module';
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
-      // registrationStrategy: 'registerWhenStable:30000'
-
     })
   ],
   providers: [

@@ -31,8 +31,7 @@ export class AppComponent {
   shouldShowNavbar() {
     const currentUrl = this.router.url;
     return currentUrl.includes('/login') ||
-        currentUrl.includes('/register') ||
-          currentUrl.includes('/admin') ? false : true;
+        currentUrl.includes('/register') ? false : true;
   }
 
    initializeWeb() {
@@ -42,7 +41,6 @@ export class AppComponent {
         if(urls.length) {
           this.existingRouteUrl = val.url;
         }
-        
       }
     });
     

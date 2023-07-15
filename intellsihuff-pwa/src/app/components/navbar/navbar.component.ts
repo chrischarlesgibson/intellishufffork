@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IUser, UserRole } from 'src/app/modules/authentication/auth.model';
@@ -8,7 +8,7 @@ import { HelperService } from 'src/app/universal/helper.service';
 import { NgxPubSubService } from 'src/app/universal/pub-sub';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'navbar',
   template: `
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" routerLink="/home">
@@ -20,14 +20,22 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
       </button>
     <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"  routerLink="/admin" *ngIf="currentUser?.role == userRole.ADMIN">
-          <a class="nav-link" [class.active]="activePage == 'admin-home'">
+        <li class="nav-item"  (click)="onMenuNavigated('admin')" *ngIf="currentUser?.role == userRole.ADMIN"
+           HoverDirective [hoverText]="'admin'">
+          <a class="nav-link" [class.active]="activePage == 'admin'">
             <i class="fas fa-user-shield"></i>
           </a>
         </li>
-        <li class="nav-item" (click)="onHomeClicked()">
+
+        <li class="nav-item" (click)="onMenuNavigated('home')" HoverDirective [hoverText]="'home'">
           <a class="nav-link" [class.active]="activePage == 'home'">
             <i class="fas fa-home"></i>
+          </a>
+        </li>
+
+        <li class="nav-item" (click)="onMenuNavigated('contact')" HoverDirective [hoverText]="'contact'">
+          <a class="nav-link" [class.active]="activePage == 'contact'">
+            <i class="fas fa-envelope"></i>
           </a>
         </li>
 
@@ -63,7 +71,8 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
   </nav>
 
   `,
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent implements OnInit {
   isMenuOpen = false;
@@ -83,6 +92,14 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.router.events.subscribe(async (val) => {
+      if(val instanceof NavigationStart) {
+        const urls = val.url.split('/').filter(u => u.length); 
+        if(urls.length) {
+          this.activePage = val.url.split('/')[1] as any;
+        }
+      }
+    });
     await this._getCurrentUser();
   }
 
@@ -90,8 +107,9 @@ export class NavbarComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  onHomeClicked() {
-    this.router.navigate(['/home']);
+  onMenuNavigated(url) {
+    this.router.navigate([`/${url}`]);
+    this.activePage = url;
   }
 
   async onLogOutClicked() {

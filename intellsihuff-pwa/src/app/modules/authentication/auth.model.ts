@@ -6,6 +6,7 @@ export interface IRegister {
     role: UserRole
     status: UserStatus
     institution?: IInstitution
+    isUserApproved?: boolean
 }
 
 export interface IInstitution {

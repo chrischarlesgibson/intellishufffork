@@ -2,7 +2,6 @@
   <div class="content">
     <div class="add-user-form">
       <h2 class="form-title">Add User</h2>
-
       <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
         <div class="form-group">
           <label for="name">Name</label>
@@ -26,8 +25,14 @@
             <option value="user">User</option>
           </select>
         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="isUserApproved">
+          <label class="form-check-label" >
+            Approve this user
+          </label>
+        </div>
 
-        <button type="submit" class="btn btn-primary" >Add User</button>
+        <button type="submit" class="btn btn-primary" >Save</button>
       </form>
     </div>
   </div>

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IResponse } from 'src/app/universal/shared.model';
 import { BasePage } from 'src/app/universal/base.page';
 import { AuthService } from '../../authentication/auth.service';
-import { IRegister } from '../../authentication/auth.model';
+import { IRegister, UserStatus } from '../../authentication/auth.model';
 
 @Component({
   selector: 'app-add-user',
@@ -26,6 +26,7 @@ formGroup: FormGroup;
       email: ['', [ Validators.required, Validators.email]],
       password: ['', Validators.required],
       role: ['', Validators.required],
+      isUserApproved: [false],
     });
     
   }
@@ -43,12 +44,15 @@ formGroup: FormGroup;
       name: data.name,
       password: data.password,
       role: data.role,
-      status: data.status,
+      status: data.isUserApproved ? UserStatus.APPROVED : UserStatus.PENDING,
     }
     
+    this.helperSvc.presentLoader('Saving user');
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if(resp.status) {
+        this.router.navigate(['/admin/user-listing']);
+
         await this.helperSvc.presentAlert(resp.message, 'success') 
       } else {
         await this.helperSvc.presentAlert(resp.message, 'warning') 
@@ -57,7 +61,7 @@ formGroup: FormGroup;
     } catch (error) {
       
     } finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();
     }
     
   }

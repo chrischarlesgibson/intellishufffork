@@ -1,31 +1,60 @@
 <div class="container">
-    <table class="table">
+  <div class="col-auto button justify-content-end">
+    <button class="btn btn-primary" routerLink="/admin/add-user">Add User</button>
+  </div>
+    <table class="table table-loader">
         <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
             <th>User Role</th>
             <th>User Status</th>
+            <th>Action</th>
+
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="users">
           <tr *ngFor="let user of users">
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
-              <select [(ngModel)]="user.role" class="form-select" (change)="onRoleChanged(user, $event)">
+              {{user.role}}
+              <select *ngIf="user.isEditingEnabled" [(ngModel)]="user.role" class="form-select" (change)="onRoleChanged(user, $event)">
                   <option  [value]="userRole.USER">{{ userRole.USER }}</option>
                   <option  [value]="userRole.ADMIN">{{ userRole.ADMIN }}</option>
               </select>
             </td>
             <td>
-                <select [(ngModel)]="user.status" class="form-select" (change)="onStatusChanged(user, $event)">
+              {{user.status}}
+                <select *ngIf="user.isEditingEnabled" [(ngModel)]="user.status" class="form-select" (change)="onStatusChanged(user, $event)">
                     <option  [value]="userStatus.APPROVED">{{ userStatus.APPROVED }}</option>
                     <option  [value]="userStatus.PENDING">{{ userStatus.PENDING }}</option>
                 </select>
+   
             </td>
-            
+            <td>
+              <button class="btn btn-secondary" (click)="onEditSubjectClicked(user)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <div class="input-group-append" *ngIf="user.isEditingEnabled">
+                <button class="btn btn-danger" (click)="cancelEditing()">Cancel</button>
+              </div>
+            </td>
           </tr>
+        </tbody>
+        <tbody *ngIf="!users">
+          <!-- Three rows to represent loader skeleton -->
+          <tr>
+            <td colspan="4" class="skeleton-cell"></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="skeleton-cell"></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="skeleton-cell"></td>
+          </tr>
+          
         </tbody>
     </table>
 </div>
+

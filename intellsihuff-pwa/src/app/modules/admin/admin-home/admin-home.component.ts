@@ -8,6 +8,9 @@ import { BasePage } from 'src/app/universal/base.page';
 })
 export class AdminHomeComponent extends BasePage implements OnInit {
   isChildComponentActivated: boolean = false;
+  isSidebarOpen = false;
+
+
   constructor(
   ) { 
     super();
@@ -16,7 +19,9 @@ export class AdminHomeComponent extends BasePage implements OnInit {
   ngOnInit(): void {
 
   }
-
+  openSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
   onLogoClicked() {
     this.router.navigate(['/admin']);
     this.isChildComponentActivated = true;

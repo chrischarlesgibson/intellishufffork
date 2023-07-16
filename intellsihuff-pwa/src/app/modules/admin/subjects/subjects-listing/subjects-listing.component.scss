@@ -11,6 +11,29 @@
     }
 }
 
+.table-loader {
+    .skeleton-cell {
+      height: 62px; /* Customize the height of the loader cells */
+      background-color: rgba(0,0,0, .1);
+      animation: loaderAnimation 1s ease-in infinite ; /* Add animation to the loader */
+      
+    }
+  }
+  
+  // Define loader animation
+  @keyframes loaderAnimation {
+    0% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.1;
+    }
+  }
+  
+
 @media (max-width: 767px) {
     .container{
         margin: 63px 0;

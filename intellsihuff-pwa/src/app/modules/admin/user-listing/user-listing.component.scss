@@ -3,6 +3,32 @@
    
 }
 
+
+// Loader skeleton styles
+.table-loader {
+  .skeleton-cell {
+    height: 62px; /* Customize the height of the loader cells */
+    background-color: #f0f0f0;
+    animation: loaderAnimation .5s ease-in infinite ; /* Add animation to the loader */
+  }
+}
+
+// Define loader animation
+@keyframes loaderAnimation {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+
+
+
 @media (max-width: 767px) {
     .container{
         margin: 63px 0;

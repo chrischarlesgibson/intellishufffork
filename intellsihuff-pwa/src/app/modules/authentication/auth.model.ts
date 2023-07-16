@@ -24,6 +24,7 @@ export interface IUser {
     status: UserStatus  
     institution: IInstitution;
     tourVisited: boolean;
+    isEditingEnabled?: boolean 
 }
 
 export interface Ilogin {

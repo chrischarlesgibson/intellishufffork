@@ -25,7 +25,7 @@ export class AuthService extends BaseService {
     }
 
     getAllUsers() {
-        return this.getData({
+        return this.getData<IUser[]>({
             url: `user/getAllUsers`
         })
     }

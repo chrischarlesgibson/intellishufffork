@@ -21,6 +21,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
   showPassword = false;
 
   InstitutionType = InstitutionType;
+
   get fg() {
     return this.formGroup.controls;
   }
@@ -75,7 +76,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
       name: this.fg['institutionName'].value,
       type: this.user.institution.type,
     }
-    
+
     const params =  {
       id: this.user.id,
       email: this.user.email,
@@ -93,6 +94,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
       if(resp.status) {
         await this.helperSvc.presentAlert(resp.message, 'success'); 
         this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_PROFILE_UPDATED , { ...resp.data } );
+        
       } else {
         await this.helperSvc.presentAlert(resp.message, 'warning'); 
       }

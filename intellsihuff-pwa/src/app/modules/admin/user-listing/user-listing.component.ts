@@ -9,7 +9,7 @@ import { IUser, UserRole, UserStatus } from '../../authentication/auth.model';
   styleUrls: ['./user-listing.component.scss']
 })
 export class UserListingComponent implements OnInit {
-  users: any;
+  users: IUser[];
   userStatus = UserStatus;
   userRole = UserRole;
   isCollapsed = false;
@@ -24,13 +24,22 @@ export class UserListingComponent implements OnInit {
     await this._getAllUsers('Fetching all users');
   }
 
+  onEditSubjectClicked(user) {
+    this.users.map( u => u.id == user.id ? user.isEditingEnabled = true : false )
+  }
+
+  cancelEditing() {
+    this.users.map(s =>  {
+      s.isEditingEnabled = false
+    });
+  }
+
   async onRoleChanged(user:IUser, ev: any) {
     const role = ev.target.value;
     try {
       await this.authSvc.changeRole(user, role);
       this.helperSvc.presentAlert(`Role successfully changed for ${user.email}`, 'success')
-      await this._getAllUsers('Refetching...');
-
+      this.cancelEditing();
     } catch (error) {
 
     } finally {
@@ -47,8 +56,7 @@ export class UserListingComponent implements OnInit {
     try {
       await this.authSvc.changeStatus(user, status);
       this.helperSvc.presentAlert(`Status successfully changed to ${status} for ${user.email}`, 'success')
-
-      // await this._getAllUsers('Refetching...');
+      this.cancelEditing();
 
     } catch (error) {
       
@@ -58,7 +66,6 @@ export class UserListingComponent implements OnInit {
   }
 
   private async _getAllUsers(loaderText) {
-    this.helperSvc.presentLoader(loaderText);
 
     try {
       this.users = await this.authSvc.getAllUsers();
@@ -66,7 +73,6 @@ export class UserListingComponent implements OnInit {
     } catch (error) {
       
     } finally {
-      this.helperSvc.dismissLoader();
     }
   }
 

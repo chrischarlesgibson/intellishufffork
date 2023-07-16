@@ -1,9 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 import { IUser, UserRole } from 'src/app/modules/authentication/auth.model';
 import { UserConstant } from 'src/app/modules/user/user-constant';
 import { UserSettingService } from 'src/app/modules/user/user-setting.service';
+import { AppConstant } from 'src/app/universal/app-constant';
 import { HelperService } from 'src/app/universal/helper.service';
 import { NgxPubSubService } from 'src/app/universal/pub-sub';
 
@@ -74,21 +76,19 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit  {
   isMenuOpen = false;
   currentUser: IUser;
   userRole = UserRole;
   activePage: string = 'home';
-  subscription: Subscription;
 
-  @Input() 
-    showNav: boolean = false;
   constructor(
     private userSettingSvc: UserSettingService,
     private helperSvc: HelperService,
     private router: Router,
-    private pubSub: NgxPubSubService
-
+    private pubSub: NgxPubSubService,
+    private cdRef: ChangeDetectorRef,
+    private pubsubSvc: NgxPubSubService
   ) { }
 
   async ngOnInit() {
@@ -102,6 +102,7 @@ export class NavbarComponent implements OnInit {
     });
     await this._getCurrentUser();
   }
+
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -125,9 +126,12 @@ export class NavbarComponent implements OnInit {
 
   private async _getCurrentUser() {
     try {
+
       const user: any = await this.userSettingSvc.getCurrentUser();
       this.currentUser = user;
       this.currentUser.name = this.currentUser.name.toUpperCase();
+      this.cdRef.detectChanges();
+
     } catch (error) {
     }
   }

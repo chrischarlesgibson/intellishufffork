@@ -14,6 +14,8 @@ export class HoverDirective implements OnInit {
 
   ngOnInit(): void {
     this.createDivElement();
+    this.checkScreenSize();
+
   }
   
   private createDivElement(): void {
@@ -23,6 +25,7 @@ export class HoverDirective implements OnInit {
     this.renderer.appendChild(this.divElement, this.renderer.createText(this.hoverText));
     this.renderer.appendChild(this.elementRef.nativeElement, this.divElement);
   }
+  
   private checkScreenSize(): void {
     const screenWidth = window.innerWidth;
     const isMobileScreen = screenWidth <= 999; // Adjust the screen size threshold as needed

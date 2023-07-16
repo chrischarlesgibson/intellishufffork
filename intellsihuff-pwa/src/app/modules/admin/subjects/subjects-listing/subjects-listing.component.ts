@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { QuestionService } from 'src/app/modules/user/question/question.service';
 import { ISubject } from 'src/app/modules/user/subject/subject.model';
 import { SubjectService } from 'src/app/modules/user/subject/subject.service';
 import { BasePage } from 'src/app/universal/base.page';
@@ -11,21 +13,22 @@ import { BasePage } from 'src/app/universal/base.page';
 export class SubjectsListingComponent extends BasePage implements OnInit {
   subjects: ISubject[];
   editingMode = false;
+  addSubjectFg: FormGroup;
 
-  constructor(private subjectSvc: SubjectService) {
+  constructor(private subjectSvc: SubjectService,
+    private questionSvc: QuestionService,
+    private formBuilder: FormBuilder) {
     super();
+
+    this.addSubjectFg = this.formBuilder.group({
+      name: [null, Validators.required],
+    });
   }
 
   async ngOnInit() {
-    this.helperSvc.presentLoader('Fetching all subjects');
     try {
       await this._getAllSubjects();
-      
-    } catch (error) {
-      
-    } finally {
-      this.helperSvc.dismissLoader();
-    }
+    } catch (error) {} 
   }
 
   onEditSubjectClicked(subject) {
@@ -40,6 +43,25 @@ export class SubjectsListingComponent extends BasePage implements OnInit {
     });
   }
 
+  async onAddSubjectClicked(data: any) {
+    this.helperSvc.presentLoader('Adding subject')
+
+    try {
+      const resp = await this.questionSvc.addSubject(data);   
+      await this._getAllSubjects();
+      if(resp.status) {
+        this.helperSvc.presentAlert(resp.message, 'success');
+      } else {
+        this.helperSvc.presentAlert(resp.message, 'warning');
+      }
+
+    } catch (error) {
+      
+    }  finally {
+      this.helperSvc.dismissLoader();    
+    }
+  }
+  
   async saveChanges(subject) {
     this.helperSvc.presentLoader('Changing subject');
     try {

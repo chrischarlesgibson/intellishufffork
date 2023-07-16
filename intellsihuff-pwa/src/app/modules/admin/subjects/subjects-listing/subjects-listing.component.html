@@ -1,46 +1,97 @@
+
+
 <div class="container">
-    <table class="table">
-        <thead>
-          <tr>
-            <th>Subject Name</th>
-            <th>Action Buttons</th>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Subject</button>
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let subject of subjects">
-            <td *ngIf="!subject.isEditing">
-              <p >{{ subject.name }}</p>
-            </td>
+  <table class="table table-loader">
+    <thead>
+      <tr>  
+        <th>Subject Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="subjects">
+      <tr *ngFor="let subject of subjects">
+        <td *ngIf="!subject.isEditing">
+          <p >{{ subject.name }}</p>
+        </td>
 
-            <td *ngIf="subject.isEditing">
-              <div>
-                <div class="row"> 
-                  <div class="col12">
-                    <div class="input-group">
-                      <input [(ngModel)]="subject.name" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
-                      <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
-                    </div>
-                  </div>
+        <td *ngIf="subject.isEditing">
+          <div>
+            <div class="row"> 
+              <div class="col12">
+                <div class="input-group">
+                  <input [(ngModel)]="subject.name" type="text" class="form-control" />
+                </div>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
+                  <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
                 </div>
               </div>
-            </td>
+            </div>
+          </div>
+        </td>
 
-            <td>
-              <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
-                  <i class="fas fa-trash-alt"></i>
-              </button> 
+        <td>
+          <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
+              <i class="fas fa-trash-alt"></i>
+          </button> 
 
-              <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-    </table>
+          <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)">
+            <i class="fas fa-edit"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+
+    <tbody *ngIf="!subjects">
+
+      <tr>
+        <td colspan="4" class="skeleton-cell"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="skeleton-cell"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="skeleton-cell"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="skeleton-cell"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="skeleton-cell"></td>
+      </tr>
+
+    </tbody>
+</table>
 </div>
 
 
+
+
+<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addSubjectFg">
+          <div class="col-md-12">
+            <div class="form-group m-2">
+              <label for="recipient-name" class="col-form-label">Subject name</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

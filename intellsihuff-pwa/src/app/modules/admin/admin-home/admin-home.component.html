@@ -137,14 +137,14 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
       <!-- Brand Logo -->
       <a   class="brand-link" (click)="onLogoClicked()">
         <span class="brand-text font-weight-light">Intellishuff Admin Pannel</span>
       </a>
 
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div class="sidebar" >
    
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -172,21 +172,23 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
 
-          <ul class="accordion-menu dark-mode">
+          <ul class="accordion-menu ">
             <li>
               <div class="nav-header">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button (click)="openSidebar()" routerLink="/admin/user-listing"
+                   class="btn btn-link" data-toggle="collapse" 
+                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                   User
                 </button>
               </div>
-              <ul id="collapseOne" class="collapse">
+              <!-- <ul id="collapseOne" class="collapse">
                 <a routerLink="/admin/user-listing">
                   <li >User Listing</li>
                 </a>
                 <a routerLink="/admin/add-user">
                   <li>Add User</li>
                 </a>
-              </ul>
+              </ul> -->
             </li>
             
             <li>
@@ -195,43 +197,42 @@
                   Role
                 </button>
               </div>
-              <ul id="collapseTwo" class="collapse">
+              <!-- <ul id="collapseTwo" class="collapse">
                 <a routerLink="/">
                   <li >Add ROle</li>
                 </a>
                 <a routerLink="/">
                   <li >Roles Listing</li>
                 </a>
-          
-              </ul>
+              </ul> -->
             </li>
             
             <li>
               <div class="nav-header">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <button class="btn btn-link collapsed"  routerLink="/admin/institution"
+                  data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                   Institution
                 </button>
               </div>
-              <ul id="collapseThree" class="collapse">
+              <!-- <ul id="collapseThree" class="collapse">
                 <a routerLink="/admin/institution">
                   <li >Institutions Listing</li>
                 </a>
-                <li>Item 2</li>
-                <li>Item 3</li>
-              </ul>
+              </ul> -->
             </li>
 
             <li>
               <div class="nav-header">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSubjects" aria-expanded="false" aria-controls="collapseThree">
-                  Subjects
+                <button class="btn btn-link collapsed" routerLink="/admin/subjects-listing"
+                  data-toggle="collapse" data-target="#collapseSubjects" aria-expanded="false" aria-controls="collapseThree">
+                  Subject
                 </button>
               </div>
-              <ul id="collapseSubjects" class="collapse">
+              <!-- <ul id="collapseSubjects" class="collapse">
                 <a routerLink="/admin/subjects-listing">
                   <li >Subjects Listing</li>
                 </a>
-              </ul>
+              </ul> -->
             </li>
           </ul>
           

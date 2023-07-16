@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { HelperService } from './universal/helper.service';
 import { UserSettingService } from './modules/user/user-setting.service';
@@ -17,6 +17,7 @@ import { IUser } from './modules/authentication/auth.model';
 })
 export class AppComponent {    
   existingRouteUrl:any = null;
+  @Output() updateUserEvent = new EventEmitter<IUser>();
 
   constructor(
     private userSettingSvc: UserSettingService,
@@ -24,6 +25,7 @@ export class AppComponent {
     private pubsubSvc: NgxPubSubService,
     private userSvc: AuthService,
     private helperSvc: HelperService
+
   ) { 
     this.initializeWeb();
   }
@@ -103,7 +105,9 @@ export class AppComponent {
 
       await this.userSettingSvc.removeCurrentUser();
       await this.userSettingSvc.putCurrentUser(user);
-      // this.currentUser = profile;
+      this.updateUserEvent.emit(user);
+      console.log('emitted');
+      
     });
 
     this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDIN_CLICKED

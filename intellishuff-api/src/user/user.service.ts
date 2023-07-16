@@ -14,8 +14,9 @@ export class UserService {
      */
     userStatus = UserStatus;
     constructor(
-        @InjectRepository(User) private userRepo: Repository<User>,
-        private mailerService: MailerService
+        @InjectRepository(User)
+          private userRepo: Repository<User>
+        , private mailerService: MailerService
         , private helperSvc: HelperService
     ) {
         
@@ -23,7 +24,7 @@ export class UserService {
     }
 
     async getUserByEmail(email):Promise<IUser> {
-        const user = this.userRepo.findOne( { 
+        const user = await this.userRepo.findOne( { 
             where: { email: email },
             relations: ['institution']
         });
@@ -39,7 +40,7 @@ export class UserService {
             return;
         }
 
-        await this.userRepo.update(user.id, user);
+        await this.userRepo.update(user.id, user as any);
         return user;
     }
 
@@ -51,8 +52,10 @@ export class UserService {
         return users;
     }
 
-    async register(data: IRegistrationParams): Promise<IResponse> {
-        let newOrUpdated: any = {...data} ;
+
+    async register(data: IRegistrationParams): Promise<IResponse<any>> {
+
+        let newOrUpdated: any = Object.assign({}, data);
 
         if(newOrUpdated.id) {
             const user = await this.getUserByEmail(data.email);
@@ -63,55 +66,52 @@ export class UserService {
                 };
             }
 
-            // Update the user properties
             const institution = {
-                type: data.institution.type,
+                type: user.institution.type,
                 name: data.institution.name
             }
+
             newOrUpdated.name = data.name;
-            newOrUpdated.password = data.password;
             newOrUpdated.institution = {...institution};
 
-            console.log('newOrUpdated',newOrUpdated)
-            await this.userRepo.save<User>(newOrUpdated, {reload: true});
+            await this.userRepo.save(newOrUpdated, {reload: true });
 
             return {
                 status: true,
                 message: 'User updated successfully',
+                data: newOrUpdated
             };
         }
-        const isAnyParamEmpty: boolean = this.helperSvc.checkEmptyParams(data);
+
+        const isAnyParamEmpty: boolean = this.helperSvc.checkEmptyParams(newOrUpdated);
         if(isAnyParamEmpty) {
-            return {
+            return { 
                 status: false,
                 message: 'Please fill form',
             };
         }
-        
+
+
         const user = await this.getUserByEmail(newOrUpdated.email);
+
         if(user) {
             return {
                 status: false,
                 message: 'user already exist'
             };
         }
-        const institution = {
-            type: data.institution.type,
-            name: data.institution.name
-        }
-        newOrUpdated.institution = institution;
-        console.log('newOrUpdated', newOrUpdated);
+
 
         await this.userRepo.save<User>(newOrUpdated);
-        console.log('hello');
-
+      
+        
         return {
             status: true,
             message: 'User registered successfully',
         };
     }
     
-    async login(data: ILoginParams):Promise<IResponse> {
+    async login(data: ILoginParams):Promise<IResponse<any>> {
         const user = await this.getUserByEmail(data.email);
         
         if(!user) {
@@ -152,7 +152,7 @@ export class UserService {
             user.role = role;
         }
 
-        await this.userRepo.update(user.id, user);
+        await this.userRepo.update(user.id, user as any);
         return user;
     }
 
@@ -163,7 +163,7 @@ export class UserService {
             user.status = status;
         }
 
-        await this.userRepo.update(user.id, user);
+        await this.userRepo.update(user.id, user as any);
         return user;
     }
 
@@ -176,6 +176,7 @@ export class UserService {
         if(!user) {
             return null;
         }
+        
         return user;
     }
 

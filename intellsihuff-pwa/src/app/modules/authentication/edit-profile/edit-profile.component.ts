@@ -32,10 +32,10 @@ export class EditProfileComponent extends BasePage implements OnInit {
     super();
     this.formGroup = formBuilder.group({
       name: ['', Validators.required],
-      email: ['', [ Validators.required, Validators.email]],
+      email: [{value:'', disabled: true}],
       password: ['', Validators.required],
       institutionName: ['', Validators.required],
-      institutionType: ['', Validators.required]
+      institutionType: [{value:'', disabled: true}]
     });
     
   }
@@ -73,12 +73,12 @@ export class EditProfileComponent extends BasePage implements OnInit {
     // await loader.present();
     const institution = {
       name: this.fg['institutionName'].value,
-      type: this.fg['institutionType'].value,
+      type: this.user.institution.type,
     }
-
+    
     const params =  {
       id: this.user.id,
-      email: data.email,
+      email: this.user.email,
       name: data.name,
       password: data.password,
       role: data.role,

@@ -5,10 +5,10 @@ export interface IRegistrationParams {
     email: string
     name: string
     password: string
-    role: UserRole
-    status: UserStatus
-    institution?: IInstitution
-    tourVisited: boolean;
+    role?: UserRole
+    status?: UserStatus
+    institution: IInstitution
+    tourVisited?: boolean;
 }
 
 export interface IUser {
@@ -27,8 +27,8 @@ export interface IUser {
 //     type: UserRole
 // }
 
-export interface IResponse {
-    data?,
+export interface IResponse<T> {
+    data?: T,
     status?,
     message?
 }

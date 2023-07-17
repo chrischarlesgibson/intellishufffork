@@ -2,7 +2,7 @@
   <div class="card card-default">
     <div class="card-header">
       <h3 class="card-title">
-        MCQs List    
+        MCQs Filter    
         <fa-icon [icon]="faFilter"></fa-icon>
       </h3>
 
@@ -103,7 +103,6 @@
     </div>
   </div>
 
-
   <div class="row m-3" *ngIf="questionsCount">
     <div class="col d-flex">
       <div class="no-of-questions">
@@ -132,14 +131,19 @@
 
   <ng-container>
       <div class="card" *ngFor="let m of shuffled; let idx = index;" >
+        <div class="card-header">
+          <div class="quest" id="q">
+              <b *ngIf="(idx+1) % questionsCount > 0"> {{(idx+1) > questionsCount ? (idx+1) % questionsCount : (idx+1)}} </b>
+              <b *ngIf="(idx+1) % questionsCount == 0"> {{questionsCount}} </b>: {{m.text}} 
+          </div>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
         <div class="card-body"  id="mcq">
             <div class="mcq">
-              <div class="row">
-                  <div class="quest" id="q">
-                      <b *ngIf="(idx+1) % questionsCount > 0"> {{(idx+1) > questionsCount ? (idx+1) % questionsCount : (idx+1)}} </b>
-                      <b *ngIf="(idx+1) % questionsCount == 0"> {{questionsCount}} </b>: {{m.text}} 
-                  </div>
-              </div>
               <div class="row">
                   <div class="option" *ngFor="let op of m?.options; let i = index">
                     <div class="text" id="a">
@@ -149,10 +153,6 @@
               </div>
             
               <div class="row dlt-btn">
-                <div class="col-6 button">
-                  <button type="button" (click)="onDltMcqCicked(idx)" 
-                    class="btn btn-danger" ><i class="bi bi-trash"></i></button>
-                </div>
                 <div class="col-6 button" *ngIf="m.versionNo">
                   <button type="button" class="btn btn-primary" style="color: #ffff;">
                     {{m.versionNo}}

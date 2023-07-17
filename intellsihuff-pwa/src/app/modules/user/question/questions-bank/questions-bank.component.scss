@@ -37,6 +37,16 @@
       
       .card{
         margin: 16px ;
+        .card-header{
+          background: var(--color-primary) !important;
+          color: #fff;
+        }
+        .card-tools{
+          button{
+            background: none !important;
+            color: #fff;
+          }
+        }
         .mcq{
             position: relative;
             .dlt-btn{

@@ -35,7 +35,6 @@ export class Question extends BaseEntity {
     @JoinColumn()
     updatedBy: User;
     
-
     @ManyToOne(() => Subject, { onDelete: 'CASCADE' })
     @JoinColumn()
     subject: Subject;

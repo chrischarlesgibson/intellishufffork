@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { AppConstant } from "src/universal/app.constant";
 import { IInstitution } from "./institution.model";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -16,6 +16,7 @@ export class InstitutionController {
     ) {
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('addInstitution')
     async addInstitution(@Body()  args: IInstitution) {
         await this.institutionSvc.addInstitution(args);
@@ -24,7 +25,7 @@ export class InstitutionController {
     @Post('uploadLogo')
     @UseInterceptors(FileInterceptor('image'))
     async uploadLogo(@Body() args: IInstitution, @UploadedFile() image) {
-        await this.institutionSvc.uploadLogo(args, image);
+        // await this.institutionSvc.uploadLogo(args, image);
     }
 
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UseInterceptors } from "@nestjs/common";
 import { AppConstant } from "src/universal/app.constant";
 import { ISubject } from "./subject.model";
 import { SubjectService } from "./subject.service";
@@ -15,24 +15,28 @@ export class SubjectController {
         
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('updateSubject')
     async updateSubject(@Body() args: ISubject ) {
-        return await this.subjectSvc.updateSubject(args);
+        return this.subjectSvc.updateSubject(args);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('getAllSubjects')
     async getAllSubjects( ) {
-        return await this.subjectSvc.getAllSubjects();
+        return this.subjectSvc.getAllSubjects();
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('addSubject')
     async addSubject(@Body() args: ISubject ) {
-        return await this.subjectSvc.addSubject(args);
+        return this.subjectSvc.addSubject(args);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('deleteSubject')
     async deleteSubject(@Body() args: ISubject ) {
-        return await this.subjectSvc.deleteSubject(args);
+        return this.subjectSvc.deleteSubject(args);
     }
 
 }

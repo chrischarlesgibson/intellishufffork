@@ -50,8 +50,12 @@
   .container{
     .card{
       width: 100%;
+      .quest{
+        margin: 45px 0 16px 0;
+
+      }
       .icon{
-        top: 0;
+        top: 6px;
       }
     }
   }

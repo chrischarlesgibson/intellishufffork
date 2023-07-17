@@ -8,6 +8,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { InstitutionComponent } from './institution/institution.component';
 import { SubjectsListingComponent } from './subjects/subjects-listing/subjects-listing.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RolesListingComponent } from './role/roles-listing/roles-listing.component';
+import { RoleService } from './role/role.service';
 
 
 @NgModule({
@@ -16,8 +18,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UserListingComponent,
     AddUserComponent,
     InstitutionComponent,
-    SubjectsListingComponent
+    SubjectsListingComponent,
+    RolesListingComponent
   ],
+  providers: [RoleService],
   imports: [
     AdminRoutingModule,
     ComponentsWithFormsModule,

@@ -2,19 +2,21 @@
   <div class="col-auto button justify-content-end">
     <button class="btn btn-primary" routerLink="/admin/add-user">Add User</button>
   </div>
-    <table class="table table-loader">
-        <thead>
+  <table class="table table-hover table-bordered table-loader table-sm">
+    <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>User Role</th>
-            <th>User Status</th>
-            <th>Action</th>
-
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th> 
+            <th scope="col">User Role</th>
+            <th scope="col">User Status</th>
+            <th scope="col">Action</th>
           </tr>
+  
         </thead>
         <tbody *ngIf="users">
-          <tr *ngFor="let user of users">
+          <tr *ngFor="let user of users; let index = index">
+            <th scope="row"> {{ index+1 }} </th>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
@@ -30,7 +32,6 @@
                     <option  [value]="userStatus.APPROVED">{{ userStatus.APPROVED }}</option>
                     <option  [value]="userStatus.PENDING">{{ userStatus.PENDING }}</option>
                 </select>
-   
             </td>
             <td>
               <button class="btn btn-secondary" (click)="onEditSubjectClicked(user)">
@@ -43,17 +44,30 @@
           </tr>
         </tbody>
         <tbody *ngIf="!users">
-          <!-- Three rows to represent loader skeleton -->
-          <tr>
-            <td colspan="4" class="skeleton-cell"></td>
+          <tr scope="row">
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
           </tr>
-          <tr>
-            <td colspan="4" class="skeleton-cell"></td>
+          <tr scope="row">
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
           </tr>
-          <tr>
-            <td colspan="4" class="skeleton-cell"></td>
+          <tr scope="row">
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
+            <td colspan="1" class="skeleton-cell"></td>
           </tr>
-          
         </tbody>
     </table>
 </div>

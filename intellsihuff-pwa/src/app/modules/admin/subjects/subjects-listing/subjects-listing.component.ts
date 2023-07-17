@@ -32,16 +32,10 @@ export class SubjectsListingComponent extends BasePage implements OnInit {
   }
 
   onEditSubjectClicked(subject) {
-    this.subjects.map(s => subject.id == s.id ? s.isEditing = true : s.isEditing = false );
+    this.subjects.map(s => subject.id == s.id ? s.isEditingMode = true : s.isEditingMode = false );
   }
 
-  cancelEditing(subject) {
-    this.subjects.map(s =>  {
-      if(s.id == subject.id) {
-        s.isEditing = false
-      }
-    });
-  }
+
 
   async onAddSubjectClicked(data: any) {
     this.helperSvc.presentLoader('Adding subject')
@@ -62,13 +56,21 @@ export class SubjectsListingComponent extends BasePage implements OnInit {
     }
   }
   
+  cancelEditing(subject) {
+    this.subjects.map(s =>  {
+      if(s.id == subject.id) {
+        s.isEditingMode = false
+      }
+    });
+  }
+
   async saveChanges(subject) {
     this.helperSvc.presentLoader('Changing subject');
     try {
       const resp = await this.subjectSvc.updateSubject(subject);
       this.subjects.map(s =>  {
         if(s.id == subject.id) {
-          s.isEditing = false
+          s.isEditingMode = false
         }
       });
     } catch (error) {
@@ -76,7 +78,6 @@ export class SubjectsListingComponent extends BasePage implements OnInit {
     } finally {
       this.helperSvc.dismissLoader();
     }
-
   }
 
   async onDltSubjectClicked(subject) {

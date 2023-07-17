@@ -3,20 +3,22 @@
 <div class="container">
   <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Subject</button>
 
-  <table class="table table-loader">
+  <table class="table table-hover table-bordered table-loader table-sm">
     <thead>
       <tr>  
-        <th>Subject Name</th>
-        <th>Action</th>
-      </tr>
+        <th scope="col">#</th>
+        <th scope="col">Subject Name</th>
+        <th scope="col">Action</th> 
+      </tr> 
     </thead>
     <tbody *ngIf="subjects">
-      <tr *ngFor="let subject of subjects">
-        <td *ngIf="!subject.isEditing">
+      <tr *ngFor="let subject of subjects; let index = index">
+        <th scope="row"> {{ index+1 }} </th>
+        <td *ngIf="!subject.isEditingMode">
           <p >{{ subject.name }}</p>
         </td>
 
-        <td *ngIf="subject.isEditing">
+        <td *ngIf="subject.isEditingMode">
           <div>
             <div class="row"> 
               <div class="col12">
@@ -45,25 +47,23 @@
     </tbody>
 
     <tbody *ngIf="!subjects">
-
-      <tr>
-        <td colspan="4" class="skeleton-cell"></td>
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr>
-        <td colspan="4" class="skeleton-cell"></td>
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr>
-        <td colspan="4" class="skeleton-cell"></td>
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr>
-        <td colspan="4" class="skeleton-cell"></td>
-      </tr>
-      <tr>
-        <td colspan="4" class="skeleton-cell"></td>
-      </tr>
-
     </tbody>
-</table>
+  </table>
 </div>
 
 
@@ -90,7 +90,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
+        <button type="submit" class="btn btn-primary" 
+          [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
       </div>
     </div>
   </div>

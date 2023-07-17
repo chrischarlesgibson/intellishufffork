@@ -33,7 +33,7 @@
 
             <div class="col-md-3">
               <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL">
-                  <label for="password">Classes</label>
+                  <label for="password">Class</label>
                   <select class="form-select mb-3" formControlName="SchoolCLass">
                     <option [value]="SchoolCLass.FIRST">{{SchoolCLass.FIRST}}</option>
                     <option [value]="SchoolCLass.SECOND">{{SchoolCLass.SECOND}}</option>

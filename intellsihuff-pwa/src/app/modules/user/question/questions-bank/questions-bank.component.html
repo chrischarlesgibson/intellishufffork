@@ -133,8 +133,8 @@
       <div class="card" *ngFor="let m of shuffled; let idx = index;" >
         <div class="card-header">
           <div class="quest" id="q">
-              <b *ngIf="(idx+1) % questionsCount > 0"> {{(idx+1) > questionsCount ? (idx+1) % questionsCount : (idx+1)}} </b>
-              <b *ngIf="(idx+1) % questionsCount == 0"> {{questionsCount}} </b>: {{m.text}} 
+              <b *ngIf="(idx+1) % questionsCount > 0"> {{(idx+1) > questionsCount ? (idx+1) % questionsCount : (idx+1)}}) </b>
+              <b *ngIf="(idx+1) % questionsCount == 0"> {{questionsCount}})</b> {{m.text}} 
           </div>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -147,7 +147,7 @@
               <div class="row">
                   <div class="option" *ngFor="let op of m?.options; let i = index">
                     <div class="text" id="a">
-                      <b>{{ getLetter(i) }}</b>: {{ op.text }}   
+                      <b>{{ getLetter(i) }}</b>) {{ op.text }}   
                   </div>
                   </div>
               </div>

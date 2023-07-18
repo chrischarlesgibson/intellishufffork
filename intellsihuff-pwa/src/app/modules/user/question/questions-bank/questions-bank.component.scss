@@ -40,11 +40,16 @@
         .card-header{
           background: var(--color-primary) !important;
           color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
         .card-tools{
           button{
             background: none !important;
             color: #fff;
+            position: absolute;
+          right: 12px;
           }
         }
         .mcq{

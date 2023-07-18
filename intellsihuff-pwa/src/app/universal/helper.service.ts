@@ -87,7 +87,7 @@ export class HelperService {
 
   }
 
-  presentAlert(text: string, icon?: any, timer = 1500) {
+  presentAlert(text: string, icon: any, timer = 1500) {
     Swal.fire({
       position: 'center',
       icon: icon ,

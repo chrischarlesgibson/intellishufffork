@@ -1,4 +1,4 @@
-$transition-duration: 0.5s;
+$transition-duration: 0.4s;
 
 .main-header{
     background: transparent;
@@ -17,4 +17,8 @@ $transition-duration: 0.5s;
     transition: all $transition-duration ease-in-out !important;
     background: #fff;
 
+}
+
+footer{
+    transition: all $transition-duration ease-in-out !important;
 }

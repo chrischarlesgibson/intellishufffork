@@ -18,7 +18,7 @@ export class RolesListingComponent extends BasePage implements OnInit {
     private roleSvc: RoleService
   ) {
     super();
-    this.roleFormGroup = this.formBuilder.group({
+    this.roleFormGroup = this.formBuilder.group({ 
       role: [null, Validators.required],
     });    
   }
@@ -35,17 +35,18 @@ export class RolesListingComponent extends BasePage implements OnInit {
     });
   }
 
-  onEditSubjectClicked(role) {
+  onEditRoleClicked(role) {
     this.roles.map(s => role.id == s.id ? s.isEditingMode = true : s.isEditingMode = false );
   }
 
-  async onAddSubjectClicked(data) {
+  async onAddRoleClicked(data) {
     this.helperSvc.presentLoader('Adding role');
     try {
       const resp = await this.roleSvc.addRole(data);
       
       if(resp.status) {
         this.helperSvc.presentAlert(resp.message, 'success');
+        await this._getAllRoles();
       } else {
         this.helperSvc.presentAlert(resp.message, 'warning');
       }

@@ -2,7 +2,7 @@
 
 <div class="container">
     <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Role</button>
-  
+
     <table class="table table-hover table-bordered table-loader table-sm">
       <thead>
         <tr>  
@@ -39,7 +39,7 @@
                 <i class="fas fa-trash-alt"></i>
             </button> 
   
-            <button class="btn btn-secondary" (click)="onEditSubjectClicked(role)">
+            <button class="btn btn-secondary" (click)="onEditRoleClicked(role)">
               <i class="fas fa-edit"></i>
             </button>
           </td>
@@ -89,7 +89,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary"  
-            [disabled]="!roleFormGroup.valid" (click)="onAddSubjectClicked(roleFormGroup.value)">Add</button>
+            [disabled]="!roleFormGroup.valid" (click)="onAddRoleClicked(roleFormGroup.value)">Add</button>
         </div>
       </div>
     </div>

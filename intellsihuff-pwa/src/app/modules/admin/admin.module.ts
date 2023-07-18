@@ -11,7 +11,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RolesListingComponent } from './role/roles-listing/roles-listing.component';
 import { RoleService } from './role/role.service';
 
-
 @NgModule({
   declarations: [
     AdminHomeComponent,
@@ -19,7 +18,7 @@ import { RoleService } from './role/role.service';
     AddUserComponent,
     InstitutionComponent,
     SubjectsListingComponent,
-    RolesListingComponent
+    RolesListingComponent,
   ],
   providers: [RoleService],
   imports: [

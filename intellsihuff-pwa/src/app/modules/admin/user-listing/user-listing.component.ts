@@ -9,11 +9,11 @@ import { IUser, UserRole, UserStatus } from '../../authentication/auth.model';
   styleUrls: ['./user-listing.component.scss']
 })
 export class UserListingComponent implements OnInit {
-  users: IUser[];
+  users: IUser[] = [];
   userStatus = UserStatus;
   userRole = UserRole;
   isCollapsed = false;
-
+  roles: any;
   constructor(
     private authSvc: AuthService,
    private helperSvc: HelperService
@@ -69,7 +69,8 @@ export class UserListingComponent implements OnInit {
 
     try {
       this.users = await this.authSvc.getAllUsers();
-
+      this.roles = this.users.flatMap(user => user.roles);
+      
     } catch (error) {
       
     } finally {

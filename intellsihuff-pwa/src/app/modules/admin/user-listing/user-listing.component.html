@@ -8,7 +8,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th> 
-            <th scope="col">User Role</th>
+            <th scope="col">Roles</th>
             <th scope="col">User Status</th>
             <th scope="col">Action</th>
           </tr>
@@ -20,10 +20,11 @@
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
-              {{user.role}}
-              <select *ngIf="user.isEditingEnabled" [(ngModel)]="user.role" class="form-select" (change)="onRoleChanged(user, $event)">
-                  <option  [value]="userRole.USER">{{ userRole.USER }}</option>
-                  <option  [value]="userRole.ADMIN">{{ userRole.ADMIN }}</option>
+              <span *ngFor="let role of roles" class="badge badge-light" style="margin: 0 4px;">
+                {{role.role }}
+              </span>
+              <select *ngIf="user.isEditingEnabled"  class="form-select" (change)="onRoleChanged(user, $event)">
+                  <option  [value]="role.role" *ngFor="let role of user.roles" >{{ role.role }}</option>
               </select>
             </td>
             <td>

@@ -1,17 +1,9 @@
-
-
-.container{
-  background-color: #f1f1f1;
-
-}
-.register-container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 50px auto;
-
-  }
+  height: 100%;
+ }
   
   .card {
     width: 350px;
@@ -26,11 +18,7 @@
       }
     }
   }
-  .drop-opacity{
-    input{
-      opacity: .6;
-    }
-  }
+
   .card-title {
     text-align: center;
     font-size: 24px;
@@ -88,5 +76,11 @@
       z-index: 999;
 
     }
+}
+
+
+@media (max-width: 576px) {
+  .container{
+    margin: 50px auto !important;
   }
-  
+}

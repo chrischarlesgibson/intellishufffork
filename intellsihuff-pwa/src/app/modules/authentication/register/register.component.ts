@@ -86,14 +86,11 @@ export class RegisterComponent extends BasePage implements OnInit {
     const params =  {
       email: data.email,
       name: data.name,
+      roles: 'user',
       password: data.password,
-      role: data.role,
       status: data.status,
       institution: institution
     }
-
- 
-    
 
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);

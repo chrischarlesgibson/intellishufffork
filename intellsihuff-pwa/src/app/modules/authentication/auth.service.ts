@@ -61,7 +61,7 @@ export class AuthService extends BaseService {
                 user: args,
                 role: role
             },
-        })
+        });
     }
 
     changeStatus(args: IUser, status: UserStatus) {

@@ -3,7 +3,7 @@ export interface IRegister {
     email: string
     name: string
     password: string
-    role: UserRole
+    roles?: string[] | string
     status: UserStatus
     institution?: IInstitution
     isUserApproved?: boolean
@@ -20,11 +20,16 @@ export interface IUser {
     email: string
     name: string
     password: string
-    role: UserRole
+    roles: IRole[] 
     status: UserStatus  
     institution: IInstitution;
     tourVisited: boolean;
     isEditingEnabled?: boolean 
+}
+
+export interface IRole {
+    id?: number
+    role: string
 }
 
 export interface Ilogin {

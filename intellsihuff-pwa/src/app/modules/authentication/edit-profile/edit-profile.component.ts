@@ -82,7 +82,6 @@ export class EditProfileComponent extends BasePage implements OnInit {
       email: this.user.email,
       name: data.name,
       password: data.password,
-      role: data.role,
       status: data.status,
       institution: institution
     }

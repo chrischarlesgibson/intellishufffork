@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ILoginParams, IRegistrationParams, IResponse, IUser, UserRole, UserStatus } from './user.model';
+import { ILoginParams, IRegistrationParams, IResponse, IRole, IUser, UserStatus } from './user.model';
 import { MailerService } from '@nestjs-modules/mailer';
 import { AppConstant } from 'src/universal/app.constant';
 import { User } from './user.entity';
@@ -25,14 +25,17 @@ export class UserService {
 
     async getUserByEmail(email):Promise<IUser> {
         const user = await this.userRepo.findOne( { 
+            relations: ['institution', 'roles'],
             where: { email: email },
-            relations: ['institution']
         });
 
         if(!user) {
             return null;
         }
-        return user;
+        
+        return {
+            ...user,
+        };
     }
 
     async updateTourStatus(user: IUser) {
@@ -40,12 +43,12 @@ export class UserService {
             return;
         }
 
-        await this.userRepo.update(user.id, user as any);
+        await this.userRepo.update(user.id, user);
         return user;
     }
 
     async getAllUsers() {
-        const users = await this.userRepo.find();
+        const users = await this.userRepo.find( { relations: ['institution', 'roles'] } );
         if(!users) {
             return;
         }
@@ -53,8 +56,7 @@ export class UserService {
     }
 
 
-    async register(data: IRegistrationParams): Promise<IResponse<any>> {
-
+    async register(data: IRegistrationParams): Promise<IResponse<IUser>> {
         let newOrUpdated: any = Object.assign({}, data);
 
         if(newOrUpdated.id) {
@@ -101,9 +103,7 @@ export class UserService {
             };
         }
 
-
         await this.userRepo.save<User>(newOrUpdated);
-      
         
         return {
             status: true,
@@ -111,7 +111,7 @@ export class UserService {
         };
     }
     
-    async login(data: ILoginParams):Promise<IResponse<any>> {
+    async login(data: ILoginParams):Promise<IResponse<IUser>> {
         const user = await this.getUserByEmail(data.email);
         
         if(!user) {
@@ -128,8 +128,7 @@ export class UserService {
             };   
         }
 
-        if(data.email == user.email && data.password == user.password) {
-            
+        if(data.email === user.email && data.password === user.password) {
             return {
                 data: user,
                 status: true,
@@ -145,14 +144,14 @@ export class UserService {
        
     }
 
-    async changeRole(data: IUser, role: UserRole) {
+    async changeRole(data: IUser, role: IRole) {
         let user =  await this.getUserByEmail(data.email);
 
-        if(role) {
-            user.role = role;
-        }
+        // if(role) {
+        //     user.role = role;
+        // }
 
-        await this.userRepo.update(user.id, user as any);
+        await this.userRepo.update(user.id, user);
         return user;
     }
 
@@ -163,14 +162,14 @@ export class UserService {
             user.status = status;
         }
 
-        await this.userRepo.update(user.id, user as any);
+        await this.userRepo.update(user.id, user);
         return user;
     }
 
     async getCurrentUser(id): Promise<IUser> {
         const user = await this.userRepo.findOne( { 
             where: { id: id  },
-            relations: ['institution']
+            relations: ['institution', 'roles']
          });
         
         if(!user) {

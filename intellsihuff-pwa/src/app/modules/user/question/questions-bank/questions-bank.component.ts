@@ -77,16 +77,15 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   }
 
   async onEexportPdfClicked() {
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
+    this.helperSvc.presentLoader('Exporting PDF')
 
     try {
 
-      await this._exportPdf();
+      await this._exportPdf('assets/images/download.png', '#000', '#000');
       
     } catch (error) {
     } finally {
-      // await loader.dismiss();
+      this.helperSvc.dismissLoader();
     }
   }
 
@@ -189,7 +188,11 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   }
 
 
-  private async _exportPdf() {
+  private async _exportPdf(
+    schoolLogo?: any, // URL or file path to the school's logo
+    headerColor?: string, // Hex code or RGB value for header color
+    bodyColor?: string //
+  ) {
     return new Promise<void>((resolve ) =>{
       const doc = new jsPDF({
         orientation: "portrait",
@@ -215,39 +218,46 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
           doc.addPage();
           currentPage++;
           yPos = margin;
-          // const underlineY = margin + 2; // Adjust the value to position the underline appropriately
-
-          // Print institution name
-          const institutionNameWidth = doc.getTextWidth(institutionName) ;
+  
+          // Add the school's logo to the PDF
+          const logoWidth = 120; // Adjust the width of the logo as needed
+          const logoHeight = 100; // Adjust the height of the logo as needed
+          const logoX = pageWidth  - logoWidth;
+          const logoY = 0;
+          doc.addImage(schoolLogo , "PNG", logoX, logoY, logoWidth, logoHeight);
+  
+          // Print institution name with custom header color
+          const institutionNameWidth = doc.getTextWidth(institutionName);
           const institutionNameX = (pageWidth - institutionNameWidth) / 2;
           const institutionNameY = margin;
+          doc.setTextColor(headerColor as any);
           doc.setFontSize(15);
           doc.setFont("bold");
-          const institutionNameDimensions = doc.getTextDimensions(institutionName);
           doc.text(institutionName, institutionNameX, institutionNameY);
-
+  
           // Calculate underline position and width based on the dimensions of the institution name
           const underlineY = institutionNameY + 2; // Adjust the value to position the underline appropriately
-          const underlineWidth = institutionNameDimensions.w;
+          const underlineWidth = institutionNameWidth;
           doc.setDrawColor(0, 0, 0); // Set the color of the underline (black in this case)
           doc.setLineWidth(1); // Set the width of the underline
           doc.line(institutionNameX, underlineY, institutionNameX + underlineWidth, underlineY);
           yPos += 30;
-
-
+  
           // Print student ID
+          doc.setTextColor(bodyColor as any);
           doc.setFontSize(10);
           doc.setFont("normal");
-          doc.text(`Student ID: ${studentId}`,  margin, yPos, {
+          doc.text(`Student ID: ${studentId}`, margin, yPos, {
             align: "left",
           });
           // yPos += 30;
+  
+          // Print course name
           const courseNameWidth = doc.getTextWidth(courseName);
           const courseNameX = (pageWidth - courseNameWidth) / 2;
           doc.setFontSize(15);
           doc.setFont("bold");
-          // Print course name
-          doc.text(`${courseName}`,  courseNameX, yPos, {
+          doc.text(`${courseName}`, courseNameX, yPos, {
             align: "left",
           });
           yPos += 30;
@@ -315,6 +325,93 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       resolve();
     });
   } 
+
+  // private async _exportPdf(
+  //   schoolLogo?: string, // URL or file path to the school's logo
+  //   headerColor?: string, // Hex code or RGB value for header color
+  //   bodyColor?: string // Hex code or RGB value for body text color
+  // ) {
+  //   return new Promise<void>((resolve) => {
+  //     const doc = new jsPDF({
+  //       orientation: "portrait",
+  //       unit: "pt",
+  //       format: "letter",
+  //     });
+  //     const margin = 30;
+  //     const pageWidth = doc.internal.pageSize.width - 2 * margin;
+  //     const pageHeight = doc.internal.pageSize.height - 2 * margin;
+  //     let currentPage = 1;
+  //     let yPos = margin;
+  //     const studentId = "__________"; // Static student ID
+  //     const subject = this.subjects.find(s => {
+  //       return s.id == this.formGroup.controls['subject'].value;
+  //     });
+  //     const courseName: any = subject?.name; // Static course name
+  //     let institutionName: any = this.currentUser?.institution.name;
+     
+  //     this.shuffled.forEach((m, index) => {
+  //       // Check if it is the beginning of a new set
+  //       const isBeginningOfSet = index % this.questionsCount === 0 ? true : false;
+  //       if (isBeginningOfSet) {
+  //         doc.addPage();
+  //         currentPage++;
+  //         yPos = margin;
+  
+  //         // Add the school's logo to the PDF
+  //         const logoWidth = 100; // Adjust the width of the logo as needed
+  //         const logoHeight = 50; // Adjust the height of the logo as needed
+  //         const logoX = pageWidth - margin - logoWidth;
+  //         const logoY = margin;
+  //         doc.addImage(schoolLogo as any, "PNG", logoX, logoY, logoWidth, logoHeight);
+  
+  //         // Print institution name with custom header color
+  //         const institutionNameWidth = doc.getTextWidth(institutionName);
+  //         const institutionNameX = (pageWidth - institutionNameWidth) / 2;
+  //         const institutionNameY = margin;
+  //         doc.setTextColor(headerColor as any);
+  //         doc.setFontSize(15);
+  //         doc.setFont("bold");
+  //         doc.text(institutionName, institutionNameX, institutionNameY);
+  
+  //         // Calculate underline position and width based on the dimensions of the institution name
+  //         const underlineY = institutionNameY + 2; // Adjust the value to position the underline appropriately
+  //         const underlineWidth = institutionNameWidth;
+  //         doc.setDrawColor(0, 0, 0); // Set the color of the underline (black in this case)
+  //         doc.setLineWidth(1); // Set the width of the underline
+  //         doc.line(institutionNameX, underlineY, institutionNameX + underlineWidth, underlineY);
+  //         yPos += 30;
+  
+  //         // Print student ID
+  //         doc.setTextColor(bodyColor as any);
+  //         doc.setFontSize(10);
+  //         doc.setFont("normal");
+  //         doc.text(`Student ID: ${studentId}`, margin, yPos, {
+  //           align: "left",
+  //         });
+  //         yPos += 30;
+  
+  //         // Print course name
+  //         const courseNameWidth = doc.getTextWidth(courseName);
+  //         const courseNameX = (pageWidth - courseNameWidth) / 2;
+  //         doc.setFontSize(15);
+  //         doc.setFont("bold");
+  //         doc.text(`${courseName}`, courseNameX, yPos, {
+  //           align: "left",
+  //         });
+  //         yPos += 30;
+  //       }
+  
+  //       // Existing code...
+        
+  
+  //       doc.save("mcqs.pdf");
+  //       resolve();
+  //     });
+  //   });
+  // }
+  
+  
+
   
   private _generateRandomNumber(usedNumbers: any, max: any, currentNum: number) {
     const maxAttempts = 100; // Maximum number of attempts to find a unique random number

@@ -1,7 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { AppComponent } from 'src/app/app.component';
 import { IUser, UserRole } from 'src/app/modules/authentication/auth.model';
 import { UserConstant } from 'src/app/modules/user/user-constant';
 import { UserSettingService } from 'src/app/modules/user/user-setting.service';
@@ -21,8 +19,8 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
         <span class="navbar-toggler-icon"></span>
       </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"  (click)="onMenuNavigated('admin')" *ngIf="currentUser?.role == userRole.ADMIN"
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"  (click)="onMenuNavigated('admin')" *ngIf="isAdmin"
            HoverDirective [hoverText]="'admin'">
           <a class="nav-link" [class.active]="activePage == 'admin'">
             <i class="fas fa-user-shield"></i>
@@ -81,6 +79,7 @@ export class NavbarComponent implements OnInit  {
   currentUser: IUser;
   userRole = UserRole;
   activePage: string = 'home';
+  isAdmin: boolean = false;
 
   constructor(
     private userSettingSvc: UserSettingService,
@@ -125,15 +124,22 @@ export class NavbarComponent implements OnInit  {
   }
 
   private async _getCurrentUser() {
-    try {
-
-      const user: any = await this.userSettingSvc.getCurrentUser();
-      this.currentUser = user;
-      this.currentUser.name = this.currentUser.name.toUpperCase();
-      this.cdRef.detectChanges();
-
-    } catch (error) {
+    this.currentUser = <any>await this.userSettingSvc.getCurrentUser();
+    console.log(this.currentUser);
+    const isAdmin = this.currentUser.roles.map( r  => {
+      // if(r.role.includes('admin')) {
+      //   return true;
+      // }
+      return false;
+    });
+    console.log(isAdmin);
+    
+    if(isAdmin) {
+      this.isAdmin = true;
     }
+    this.currentUser.name = this.currentUser.name.toUpperCase();
+    this.cdRef.detectChanges();
+
   }
 
 }

@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NoDataModule } from './components/no-data/no-data.module';
 import { HoverDirective } from './directives/hover.directive';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { HoverDirective } from './directives/hover.directive';
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
-    })
+    }),
+    NgbModule
   ],
   providers: [
     BaseService,

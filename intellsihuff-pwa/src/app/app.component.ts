@@ -17,7 +17,6 @@ import { IUser } from './modules/authentication/auth.model';
 })
 export class AppComponent {    
   existingRouteUrl:any = null;
-  @Output() updateUserEvent = new EventEmitter<IUser>();
 
   constructor(
     private userSettingSvc: UserSettingService,
@@ -97,18 +96,6 @@ export class AppComponent {
     //   }
     // });
 
-    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED
-      , async (user: IUser) => {
-      if(AppConstant.DEBUG) {
-        console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
-      }
-
-      await this.userSettingSvc.removeCurrentUser();
-      await this.userSettingSvc.putCurrentUser(user);
-      this.updateUserEvent.emit(user);
-      console.log('emitted');
-      
-    });
 
     this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDIN_CLICKED
       , async (params: { email, password }) => {

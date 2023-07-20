@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { IUser, UserRole } from 'src/app/modules/authentication/auth.model';
 import { UserConstant } from 'src/app/modules/user/user-constant';
@@ -53,14 +53,14 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
                 [routerLink]="['/edit-profile']" 
                   [queryParams]="{ id: currentUser?.id }"
                     queryParamsHandling="merge" style="color: var(--color-primary);">
-                    PROFILE
+                    Profile
                     <i class="fas fa-user"></i>
-                  </a>
+              </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link text-danger"  (click)="onLogOutClicked()">
-                LOG OUT
+                Logout
                 <i class="fas fa-sign-out-alt"></i>
               </a>
             </li>
@@ -88,7 +88,20 @@ export class NavbarComponent implements OnInit  {
     private pubSub: NgxPubSubService,
     private cdRef: ChangeDetectorRef,
     private pubsubSvc: NgxPubSubService
-  ) { }
+  ) { 
+
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED
+      , async (user: IUser) => {
+      if(AppConstant.DEBUG) {
+        console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
+      }     
+      
+      await this.userSettingSvc.removeCurrentUser();
+      await this.userSettingSvc.putCurrentUser(user);
+      await this._getCurrentUser();
+      
+    });
+  }
 
   async ngOnInit() {
     this.router.events.subscribe(async (val) => {
@@ -101,6 +114,7 @@ export class NavbarComponent implements OnInit  {
     });
     await this._getCurrentUser();
   }
+ 
 
 
   toggleMenu() {
@@ -125,20 +139,14 @@ export class NavbarComponent implements OnInit  {
 
   private async _getCurrentUser() {
     this.currentUser = <any>await this.userSettingSvc.getCurrentUser();
-    console.log(this.currentUser);
-    const isAdmin = this.currentUser.roles.map( r  => {
-      // if(r.role.includes('admin')) {
-      //   return true;
-      // }
-      return false;
+    this.currentUser.roles.filter( r  => {
+      if(r.role.includes('admin')) {
+        this.isAdmin = true;
+      }
     });
-    console.log(isAdmin);
-    
-    if(isAdmin) {
-      this.isAdmin = true;
-    }
+    console.log(this.isAdmin);
+
     this.currentUser.name = this.currentUser.name.toUpperCase();
-    this.cdRef.detectChanges();
 
   }
 

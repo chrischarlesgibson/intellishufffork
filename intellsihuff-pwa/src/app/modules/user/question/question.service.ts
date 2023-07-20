@@ -22,14 +22,6 @@ export class QuestionService extends BaseService {
         })
     }
     
-    addSubject(args: ISubject) {
-        return this.postData<IResponse<any>>({
-            url: `subject/addSubject`,
-            body: {
-                ...args
-            }
-        })
-    }
 
     filterQuestions(args: IQuestionFilter) {
         return this.postData<IQuestion[]>({

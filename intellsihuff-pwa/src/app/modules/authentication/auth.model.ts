@@ -3,7 +3,7 @@ export interface IRegister {
     email: string
     name: string
     password: string
-    roles?: string[] | string
+    roles?: IRole[]
     status: UserStatus
     institution?: IInstitution
     isUserApproved?: boolean

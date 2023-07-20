@@ -119,7 +119,7 @@ export class AddQuestionsComponent implements OnInit {
     
     //TODO: subject name should be saved in lowercase
     try {
-      const resp = await this.questionSvc.addSubject(data);   
+      const resp = await this.subjectSvc.addSubject(data);   
       await this._getAllSubjects();
       if(resp.status) {
         this.helperSvc.presentAlert(resp.message, 'success');

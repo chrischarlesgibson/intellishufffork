@@ -20,7 +20,7 @@
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
-              <span *ngFor="let role of roles" class="badge badge-light" style="margin: 0 4px;">
+              <span *ngFor="let role of user.roles" class="badge badge-light" style="margin: 0 4px;">
                 {{role.role }}
               </span>
               <select *ngIf="user.isEditingEnabled"  class="form-select" (change)="onRoleChanged(user, $event)">
@@ -35,12 +35,9 @@
                 </select>
             </td>
             <td>
-              <button class="btn btn-secondary" (click)="onEditSubjectClicked(user)">
+              <button class="btn btn-secondary btn-transparent" (click)="onEditSubjectClicked(user)">
                 <i class="fas fa-edit"></i>
               </button>
-              <div class="input-group-append" *ngIf="user.isEditingEnabled">
-                <button class="btn btn-danger" (click)="cancelEditing()">Cancel</button>
-              </div>
             </td>
           </tr>
         </tbody>

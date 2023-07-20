@@ -1,6 +1,6 @@
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRegister, IUser, InstitutionType } from '../auth.model';
+import { IRegister, IRole, IUser, InstitutionType } from '../auth.model';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { IResponse } from 'src/app/universal/shared.model';
@@ -81,6 +81,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
       id: this.user.id,
       email: this.user.email,
       name: data.name,
+      roles: this.user.roles,
       password: data.password,
       status: data.status,
       institution: institution

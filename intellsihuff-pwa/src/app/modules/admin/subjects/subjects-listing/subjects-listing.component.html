@@ -25,10 +25,7 @@
                 <div class="input-group">
                   <input [(ngModel)]="subject.name" type="text" class="form-control" />
                 </div>
-                <div class="input-group-append">
-                  <button class="btn btn-primary" (click)="saveChanges(subject)">Save</button>
-                  <button class="btn btn-danger" (click)="cancelEditing(subject)">Cancel</button>
-                </div>
+           
               </div>
             </div>
           </div>
@@ -39,7 +36,7 @@
               <i class="fas fa-trash-alt"></i>
           </button> 
 
-          <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)">
+          <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)" data-toggle="modal" data-target="#MyModal">
             <i class="fas fa-edit"></i>
           </button>
         </td>
@@ -69,7 +66,7 @@
 
 
 
-<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" #myModalRef  id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -93,6 +90,43 @@
         <button type="submit" class="btn btn-primary" 
           [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
       </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="modal fade" #myModalRef id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document"> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="!editMode"  class="modal-title" id="exampleModalLabel">New Subject </h5>
+        <h5 *ngIf="editMode" class="modal-title" id="exampleModalLabel">Update Subject </h5>
+     
+        <button type="button" class="close" data-dismiss="modal"  aria-label="Close" id="dismissBtn" (click)="clodeModal($event)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addSubjectFg">
+          <div class="col-md-12">
+            <div class="form-group m-2">
+              <label for="recipient-name" class="col-form-label">Subject name</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+          </div>
+        </form>
+      </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" *ngIf="!editMode"
+        [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">
+        Add
+      </button>
+
+      <button type="submit" class="btn btn-primary" *ngIf="editMode"
+        [disabled]="!addSubjectFg.valid" (click)="onUpdateSubjectClicked(addSubjectFg.value)">
+        Update
+      </button>
     </div>
   </div>
 </div>

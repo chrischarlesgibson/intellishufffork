@@ -2,44 +2,40 @@ import { Component, OnInit } from '@angular/core';
 import { HelperService } from 'src/app/universal/helper.service';
 import { AuthService } from '../../authentication/auth.service';
 import { IUser, UserRole, UserStatus } from '../../authentication/auth.model';
+import { BasePage } from 'src/app/universal/base.page';
 
 @Component({
   selector: 'app-user-listing',
   templateUrl: './user-listing.component.html',
   styleUrls: ['./user-listing.component.scss']
 })
-export class UserListingComponent implements OnInit {
+export class UserListingComponent extends BasePage implements OnInit {
   users: IUser[] = [];
   userStatus = UserStatus;
   userRole = UserRole;
   isCollapsed = false;
-  roles: any;
   constructor(
-    private authSvc: AuthService,
-   private helperSvc: HelperService
+    private authSvc: AuthService
 
-  ) { }
+  ) { 
+    super();
+  }
 
   async ngOnInit() {
     await this._getAllUsers('Fetching all users');
   }
 
   onEditSubjectClicked(user) {
-    this.users.map( u => u.id == user.id ? user.isEditingEnabled = true : false )
+    const userId = user.id
+    this.router.navigate(['/admin/add-user'], { queryParams: { id: userId } });
   }
 
-  cancelEditing() {
-    this.users.map(s =>  {
-      s.isEditingEnabled = false
-    });
-  }
 
   async onRoleChanged(user:IUser, ev: any) {
     const role = ev.target.value;
     try {
       await this.authSvc.changeRole(user, role);
       this.helperSvc.presentAlert(`Role successfully changed for ${user.email}`, 'success')
-      this.cancelEditing();
     } catch (error) {
 
     } finally {
@@ -56,8 +52,6 @@ export class UserListingComponent implements OnInit {
     try {
       await this.authSvc.changeStatus(user, status);
       this.helperSvc.presentAlert(`Status successfully changed to ${status} for ${user.email}`, 'success')
-      this.cancelEditing();
-
     } catch (error) {
       
     } finally {
@@ -69,7 +63,6 @@ export class UserListingComponent implements OnInit {
 
     try {
       this.users = await this.authSvc.getAllUsers();
-      this.roles = this.users.flatMap(user => user.roles);
       
     } catch (error) {
       

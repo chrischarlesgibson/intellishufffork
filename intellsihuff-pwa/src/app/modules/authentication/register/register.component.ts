@@ -86,7 +86,7 @@ export class RegisterComponent extends BasePage implements OnInit {
     const params =  {
       email: data.email,
       name: data.name,
-      roles: 'user',
+      roles: [],
       password: data.password,
       status: data.status,
       institution: institution

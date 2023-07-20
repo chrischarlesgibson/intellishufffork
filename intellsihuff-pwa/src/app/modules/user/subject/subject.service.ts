@@ -1,5 +1,6 @@
 import { BaseService } from "src/app/universal/base.service";
 import { ISubject } from "./subject.model";
+import { IResponse } from "src/app/universal/shared.model";
 
 
 
@@ -39,11 +40,20 @@ export class SubjectService extends BaseService {
   }
 
   updateSubject(args: ISubject) {
-    return this.postData({
+    return this.postData<IResponse<any>>({
       url: `subject/updateSubject`,
       body: {
         ...args
       }
     })
   }
+
+  addSubject(args: ISubject) {
+    return this.postData<IResponse<any>>({
+        url: `subject/addSubject`,
+        body: {
+            ...args
+        }
+    })
+}
 }

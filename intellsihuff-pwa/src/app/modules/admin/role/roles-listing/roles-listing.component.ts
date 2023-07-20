@@ -12,6 +12,7 @@ import { IRole } from '../role.model';
 export class RolesListingComponent extends BasePage implements OnInit {
   roleFormGroup: FormGroup
   roles: IRole[];
+  editMode = false;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -27,16 +28,14 @@ export class RolesListingComponent extends BasePage implements OnInit {
     await this._getAllRoles();
   }
   
-  cancelEditing(role) {
-    this.roles.map(s =>  {
-      if(s.id == role.id) {
-        s.isEditingMode = false
-      }
-    });
+  clodeModal(){
+    this.editMode = false;
+    this.roleFormGroup.reset();
+
   }
 
   onEditRoleClicked(role) {
-    this.roles.map(s => role.id == s.id ? s.isEditingMode = true : s.isEditingMode = false );
+    this.editMode = true;
   }
 
   async onAddRoleClicked(data) {

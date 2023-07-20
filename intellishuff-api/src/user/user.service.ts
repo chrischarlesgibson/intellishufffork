@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ILoginParams, IRegistrationParams, IResponse, IRole, IUser, UserStatus } from './user.model';
@@ -6,6 +6,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { AppConstant } from 'src/universal/app.constant';
 import { User } from './user.entity';
 import { HelperService } from 'src/universal/helper.service';
+
+import * as argon from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -103,6 +105,12 @@ export class UserService {
             };
         }
 
+        let password = newOrUpdated.password;
+        password = password.toString();
+
+        const hashPassword = await argon.hash(password);
+        newOrUpdated.password = hashPassword;
+
         await this.userRepo.save<User>(newOrUpdated);
         
         return {
@@ -128,19 +136,19 @@ export class UserService {
             };   
         }
 
-        if(data.email === user.email && data.password === user.password) {
-            return {
-                data: user,
-                status: true,
-                message: 'successfully logged in'
-            };
-            
-        } else {
+        const validateUser = await this.vaildateUserByEmail({ email: data.email, password: data.password});
+        if (!validateUser) {
             return {
                 status: false,
                 message: 'wrong email or password'
-            };
-        }    
+            };        
+        }
+
+        return {
+            data: user,
+            status: true,
+            message: 'successfully logged in'
+        }
        
     }
 
@@ -176,6 +184,21 @@ export class UserService {
             return null;
         }
         
+        return user;
+    }
+
+    async vaildateUserByEmail(args: { email, password }) {
+        const user = await this.getUserByEmail(args.email);
+        if(!user) {
+            return null;
+        }
+
+        const match = await argon.verify(user.password, args.password);
+
+        if(!match) {
+            return null;
+        }
+
         return user;
     }
 

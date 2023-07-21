@@ -32,7 +32,7 @@ export class RoleService {
                 message: 'Role already exist'
             }
         }
-    
+        args.role.toLowerCase();
         await this.roleRep.save<Role>(args);
 
         return {
@@ -59,5 +59,14 @@ export class RoleService {
         }
 
         return false;
+    }
+
+    async findRoles(roles?) {
+        if(!roles) {
+    
+        }
+
+        const role = await this.roleRep.find();
+        return role;
     }
 }

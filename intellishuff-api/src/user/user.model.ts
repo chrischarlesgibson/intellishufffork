@@ -5,7 +5,7 @@ export interface IRegistrationParams {
     email: string
     name: string
     password: string
-    role?: UserRole
+    roles?: string[]
     status?: UserStatus
     institution: IInstitution
     tourVisited?: boolean;
@@ -16,7 +16,7 @@ export interface IUser {
     email: string
     name: string
     password: string
-    role: UserRole
+    roles: IRole[]
     status: UserStatus
     institution: IInstitution
     tourVisited: boolean;
@@ -38,9 +38,8 @@ export interface ILoginParams {
     password: string
 }
 
-export enum  UserRole {
-    ADMIN = 'admin',
-    USER = 'user'
+export interface IRole {
+    role: string
 } 
 
 export  enum  UserStatus {

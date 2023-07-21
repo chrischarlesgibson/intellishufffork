@@ -58,7 +58,7 @@
   .navbar {
     height: 60px;
 
-    .collapse{
+    .navbar-collapse{
       height: 100px;
       background-color: #f8f9fa !important;
       box-shadow: 1px 5px 7px rgba(214, 214, 214, 0.38);
@@ -70,10 +70,10 @@
         margin: 50px 0px 0 0;
         justify-content: center;
       }
+
       ul {
         li {
           width: max-content;
-
         }
       }
     }

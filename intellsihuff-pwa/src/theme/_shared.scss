@@ -2,6 +2,7 @@
 :root {
   --color-primary: #0DC9BB;
   --dark-bg: #0C2233;
+  --color-edit: #6c757d;
 }
 
 body {
@@ -74,4 +75,11 @@ a{
   border-radius: 5px;
   color: #fff;
   padding: 0 6px;
+}
+
+.btn-transparent{
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+
 }

@@ -8,6 +8,7 @@ import { IResponse } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
 import { AuthService } from './modules/authentication/auth.service';
 import { IUser } from './modules/authentication/auth.model';
+import { AppSettingService } from './universal/app-setting.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class AppComponent {
     private router: Router,
     private pubsubSvc: NgxPubSubService,
     private userSvc: AuthService,
-    private helperSvc: HelperService
+    private helperSvc: HelperService,
+    private appSettingSvc: AppSettingService
 
   ) { 
     this.initializeWeb();
@@ -224,6 +226,23 @@ export class AppComponent {
   }
 
   private async _setDefaults() {
+    const res = await Promise.all([
+      this.appSettingSvc.getWorkingLanguage(),
+      // this._configureWeb()
+    ]);
+
+    let wkl = res[0];
+    if(!wkl) {
+      wkl = 'en'
+      await this.appSettingSvc.putWorkingLanguage(wkl);
+    }
+
+    this.pubsubSvc.publishEvent(AppConstant.EVENT_LANGUAGE_CHANGED, { 
+      wkLangauge: wkl, 
+      reload: false,
+      isRtl: false
+    });
+
     if(this.existingRouteUrl) {
       await this._navigateTo(this.existingRouteUrl);
       return;
@@ -255,4 +274,13 @@ export class AppComponent {
       }
     // }
   }
+
+
+  // private async _configureWeb() {
+  //   if(this.platform.is('capacitor')) {
+  //     return;
+  //   }
+    
+  //   await this.userSvc.init();
+  // }
 }

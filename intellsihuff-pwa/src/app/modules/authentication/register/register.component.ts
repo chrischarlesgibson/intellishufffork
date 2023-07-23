@@ -12,7 +12,7 @@ import { BasePage } from 'src/app/universal/base.page';
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent extends BasePage implements OnInit {
   id: number;
@@ -25,44 +25,40 @@ export class RegisterComponent extends BasePage implements OnInit {
     return this.formGroup.controls;
   }
   constructor(
-    private formBuilder: FormBuilder
-    , private authSvc: AuthService
-    , private route: ActivatedRoute
+    private formBuilder: FormBuilder,
+    private authSvc: AuthService,
+    private route: ActivatedRoute
   ) {
     super();
     this.formGroup = formBuilder.group({
       name: ['', Validators.required],
-      email: ['', [ Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       institutionName: ['', Validators.required],
-      institutionType: ['', Validators.required]
+      institutionType: ['', Validators.required],
     });
-    
   }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.id = params['id'];
     });
-    
-    if(this.id) {
+
+    if (this.id) {
       this.helperSvc.presentLoader('Fetching User');
       try {
         this.user = await this.authSvc.getCurrentUser(this.id);
-      
-        if(this.user) {
+
+        if (this.user) {
           this._populateFormGroup();
         }
       } catch (error) {
-        
       } finally {
         this.helperSvc.dismissLoader();
-
       }
-   
-    }    
+    }
 
-    if(AppConstant.DEBUG) {
+    if (AppConstant.DEBUG) {
       // this._preFill();
     }
   }
@@ -70,9 +66,9 @@ export class RegisterComponent extends BasePage implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  
+
   onLoginClicked() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
 
   async onFormSubmitted(data: IRegister) {
@@ -81,39 +77,36 @@ export class RegisterComponent extends BasePage implements OnInit {
     const institution = {
       name: this.fg['institutionName'].value,
       type: this.fg['institutionType'].value,
-    }
+    };
 
-    const params =  {
+    const params = {
       email: data.email,
       name: data.name,
       roles: [],
       password: data.password,
       status: data.status,
-      institution: institution
-    }
+      institution: institution,
+    };
 
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
-      if(resp.status) {
-        await this.helperSvc.presentAlert(resp.message, 'success'); 
+      if (resp.status) {
+        await this.helperSvc.presentAlert(resp.message, 'success');
       } else {
-        await this.helperSvc.presentAlert(resp.message, 'warning'); 
+        await this.helperSvc.presentAlert(resp.message, 'warning');
       }
-      
     } catch (error) {
-      
     } finally {
       this.helperSvc.dismissLoader();
     }
-    
   }
 
-  private  _populateFormGroup() {
-   this.fg['name'].setValue(this.user.name);
-   this.fg['email'].setValue(this.user.email);
-   this.fg['password'].setValue(this.user.password);
-   this.fg['institutionName'].setValue(this.user.institution?.name);
-   this.fg['institutionType'].setValue(this.user.institution?.type);
+  private _populateFormGroup() {
+    this.fg['name'].setValue(this.user.name);
+    this.fg['email'].setValue(this.user.email);
+    this.fg['password'].setValue(this.user.password);
+    this.fg['institutionName'].setValue(this.user.institution?.name);
+    this.fg['institutionType'].setValue(this.user.institution?.type);
   }
 
   private _preFill() {

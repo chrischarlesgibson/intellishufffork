@@ -21,11 +21,7 @@ import { NgModule } from '@angular/core';
     RolesListingComponent,
   ],
   providers: [RoleService],
-  imports: [
-    AdminRoutingModule,
-    ComponentsWithFormsModule,
-    FontAwesomeModule
-  ],
-  exports: [RouterModule]
+  imports: [AdminRoutingModule, ComponentsWithFormsModule, FontAwesomeModule],
+  exports: [RouterModule],
 })
-export class AdminModule { }
+export class AdminModule {}

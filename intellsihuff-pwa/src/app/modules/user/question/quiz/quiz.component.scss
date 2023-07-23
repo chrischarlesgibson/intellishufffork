@@ -1,22 +1,21 @@
-.container{
-  .card{
+.container {
+  .card {
     width: 70%;
     /* display: flex; */
     margin: 0 auto;
     position: relative;
 
-    .quest{
+    .quest {
       margin: 16px 0;
-
     }
-    .icon{
+    .icon {
       position: absolute;
       right: 20px;
       top: 25%;
       bottom: 0;
-      button{
+      button {
         border: none;
-        i{
+        i {
           font-size: 100px;
           color: var(--color-primary) !important;
         }
@@ -28,7 +27,7 @@
     height: 200px;
     perspective: 1000px; /* Adjust the perspective as needed */
   }
-      
+
   .card-front,
   .card-back {
     width: 100%;
@@ -39,52 +38,49 @@
     backface-visibility: hidden;
     transition: transform 0.6s ease-in-out;
   }
-    
+
   .card-back {
     transform: rotateY(180deg);
   }
-    
 }
 
 @media (max-width: 767px) {
-  .container{
-    .card{
+  .container {
+    .card {
       width: 100%;
-      .quest{
+      .quest {
         margin: 45px 0 16px 0;
-
       }
-      .icon{
+      .icon {
         top: 6px;
       }
     }
   }
-  
+
   /* Additional mobile-specific styles */
 }
 
-.else{
+.else {
   .card-header {
     background-color: #f8f9fa;
     padding: 10px;
     text-align: center;
   }
-  
+
   .score-board {
     background-color: #007bff;
     color: #fff;
     padding: 20px;
     text-align: center;
   }
-  
+
   .score-board h1 {
     font-size: 48px;
     margin-bottom: 10px;
   }
-  
+
   .score-board p {
     font-size: 18px;
     margin-bottom: 0;
   }
-  
 }

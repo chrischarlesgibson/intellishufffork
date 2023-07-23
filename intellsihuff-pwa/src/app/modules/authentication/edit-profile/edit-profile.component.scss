@@ -69,15 +69,14 @@ $color-primary: var(--color-primary);
   }
 }
 
-
 @media (min-width: 1200px) {
-  .container{
+  .container {
     margin: 0 auto !important;
   }
 }
 
 @media (max-width: 767px) {
-  .container{
+  .container {
     margin: 50px auto !important;
   }
 }

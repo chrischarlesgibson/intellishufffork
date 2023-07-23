@@ -7,20 +7,18 @@ import { AuthService } from '../../authentication/auth.service';
 @Component({
   selector: 'app-institution',
   templateUrl: './institution.component.html',
-  styleUrls: ['./institution.component.scss']
+  styleUrls: ['./institution.component.scss'],
 })
 export class InstitutionComponent extends BasePage implements OnInit {
   currentUser: IUser;
-  InstitutionType = InstitutionType; 
+  InstitutionType = InstitutionType;
   selectedImage: File;
 
   constructor(
     private userSettingSvc: UserSettingService,
     private userSvc: AuthService
-
   ) {
     super();
-    
   }
 
   async ngOnInit() {
@@ -33,17 +31,18 @@ export class InstitutionComponent extends BasePage implements OnInit {
 
   async uploadImage(event: Event) {
     event.preventDefault();
-  
+
     const formData: FormData = new FormData();
     formData.append('image', this.selectedImage, this.selectedImage.name);
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });    
+    let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Content-Type', 'multipart/form-data');
-  
-    await this.userSvc.uploadLogo(this.currentUser.institution, this.selectedImage);
-  
+
+    await this.userSvc.uploadLogo(
+      this.currentUser.institution,
+      this.selectedImage
+    );
   }
-  
 
   private async _getCurrentUser() {
     const user: any = await this.userSettingSvc.getCurrentUser();

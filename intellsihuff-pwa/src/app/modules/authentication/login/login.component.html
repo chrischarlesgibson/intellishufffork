@@ -1,30 +1,48 @@
-
 <div class="login-container">
   <div class="card">
     <h2 class="card-title">
-      <img src="assets/images/user.png" alt="Image" >
+      <img src="assets/images/user.png" alt="Image" />
     </h2>
     <div class="card-body">
-      <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
         <div class="form-group">
-          <label >Email</label>
-          <input type="email" formControlName="email" class="form-control" placeholder="Enter your email">
+          <label>Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
         </div>
-  
+
         <div class="form-group">
           <label for="password">Password</label>
-          <div class="input-group" style="flex-wrap: nowrap !important;">
-            <input [type]="showPassword ? 'text' : 'password' "  formControlName="password" class="form-control" placeholder="Enter your password" >
-            <div class="input-group-append" >
+          <div class="input-group" style="flex-wrap: nowrap !important">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter your password"
+            />
+            <div class="input-group-append">
               <span class="icon-container" (click)="togglePasswordVisibility()">
-                <i  [ngClass]="{'fas fa-eye-slash' : !showPassword}" ></i>
-                <i [ngClass]="{'fas fa-eye' : showPassword}"> </i>
+                <i [ngClass]="{ 'fas fa-eye-slash': !showPassword }"></i>
+                <i [ngClass]="{ 'fas fa-eye': showPassword }"> </i>
               </span>
             </div>
           </div>
         </div>
-        
-        <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid">Sign in</button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!formGroup.valid"
+        >
+          Sign in
+        </button>
       </form>
     </div>
     <div class="card-header">
@@ -34,5 +52,3 @@
     </div>
   </div>
 </div>
-
-  

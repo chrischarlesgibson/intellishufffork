@@ -1,132 +1,127 @@
-import { BaseService } from "src/app/universal/base.service";
-import { IRegister, IUser, Ilogin, UserRole, UserStatus } from "./auth.model";
-import { IResponse } from "src/app/universal/shared.model";
-
+import { BaseService } from 'src/app/universal/base.service';
+import { IRegister, IUser, Ilogin, UserRole, UserStatus } from './auth.model';
+import { IResponse } from 'src/app/universal/shared.model';
 
 export class AuthService extends BaseService {
-    /**
-     *
-     */
-    constructor() {
-        super();
+  /**
+   *
+   */
+  constructor() {
+    super();
+  }
 
-    }
+  uploadLogo(args, image) {
+    console.log(args, image);
+    return this.postData<any>({
+      url: `institution/uploadLogo`,
+      body: {
+        args: args,
+        image: image,
+      },
+    });
+  }
 
+  getAllUsers() {
+    return this.getData<IUser[]>({
+      url: `user/getAllUsers`,
+    });
+  }
 
-    uploadLogo(args, image) {
-        console.log(args, image);
-        return this.postData<any>({
-            url: `institution/uploadLogo`,
-            body: {
-                args: args,
-                image: image
-            }
-        })
-    }
+  getCurrentUser(id: number) {
+    return this.getData<IUser>({
+      url: `user/getCurrentUser?id=${id}`,
+    });
+  }
 
-    getAllUsers() {
-        return this.getData<IUser[]>({
-            url: `user/getAllUsers`
-        })
-    }
+  regsiter(args: IRegister) {
+    return this.postData<IResponse<any>>({
+      url: `user/register`,
+      body: {
+        ...args,
+      },
+    });
+  }
 
-    getCurrentUser(id: number) {
-        return this.getData<IUser>({
-            url: `user/getCurrentUser?id=${id}`,
-        })
-    }
+  login(args: Ilogin) {
+    return this.postData<IUser>({
+      url: `user/login`,
+      body: {
+        ...args,
+      },
+    });
+  }
 
-    regsiter(args: IRegister) {
-        return this.postData<IResponse<any>>({
-            url: `user/register`,
-            body: {
-                ...args
-            }
-        })
-    }
+  changeRole(args: IUser, role: UserRole) {
+    return this.postData({
+      url: `user/changeRole`,
+      body: {
+        user: args,
+        role: role,
+      },
+    });
+  }
 
-    login(args: Ilogin) {
-        return this.postData<IUser>({
-            url: `user/login`,
-            body: {
-                ...args
-            }
-        })
-    }
+  changeStatus(args: IUser, status: UserStatus) {
+    return this.postData({
+      url: `user/changeStatus`,
+      body: {
+        user: args,
+        status: status,
+      },
+    });
+  }
 
-    changeRole(args: IUser, role: UserRole) {
-        return this.postData({
-            url: `user/changeRole`,
-            body: {
-                user: args,
-                role: role
-            },
-        });
-    }
+  sendMail(args: { to: string; subject: string }) {
+    return this.postData<IResponse<any>>({
+      url: `user/sendMail`,
+      body: {
+        ...args,
+      },
+    });
+  }
 
-    changeStatus(args: IUser, status: UserStatus) {
-        return this.postData({
-            url: `user/changeStatus`,
-            body: {
-                user: args,
-                status: status
-            },
-        })
-    }
+  updateTourStatus(args: IUser) {
+    return this.postData({
+      url: `user/updateTourStatus`,
+      body: {
+        ...args,
+      },
+    });
+  }
 
+  logoutEverywhere(username?) {
+    return new Promise(async (resolve, reject) => {
+      // const loginType = await this.userSettingSvc.getLoggedInMethod();
+      // switch(loginType) {
+      //     case LoginType.GOOGLE:
+      //       await this.googleAuthSvc.logout();
+      //     break;
+      //     case LoginType.FACEBOOK:
+      //       await this.facebookAuthSvc.logout();
+      //     break;
+      // }
 
-    sendMail(args: { to: string, subject: string } ) {
-        return this.postData<IResponse<any>>({
-            url: `user/sendMail`,
-            body: {
-              ...args
-            },
-        })
-    }
+      if (!username) {
+        username = await this.userSettingSvc.getCurrentUser();
+      }
 
-    updateTourStatus(args: IUser ) {
-        return this.postData({
-            url: `user/updateTourStatus`,
-            body: {
-              ...args,
-            },
-        })
-    }
+      if (!username) {
+        return;
+      }
 
-    logoutEverywhere(username?) {
-        return new Promise(async (resolve, reject) => {
-            // const loginType = await this.userSettingSvc.getLoggedInMethod();
-            // switch(loginType) {
-            //     case LoginType.GOOGLE:
-            //       await this.googleAuthSvc.logout();
-            //     break;
-            //     case LoginType.FACEBOOK:
-            //       await this.facebookAuthSvc.logout();
-            //     break;
-            // }
-            
-            if(!username) {
-              username = await this.userSettingSvc.getCurrentUser();
-            }
-        
-            if(!username) {
-              return;
-            }
-  
-            try {
+      try {
+      } catch (e) {} //ignore...
 
-            } catch(e) { }  //ignore...
-  
-            await Promise.all([
-                // this.userSettingSvc.removeUserProfileLocal(username), 
-                this.userSettingSvc.removeAccessToken(), 
-                this.userSettingSvc.removeCurrentUser(), 
-                this.userSettingSvc.removeLoggedInMethod(),
-                this.userSettingSvc.removeCurrentUserPassword()
-            ]);
-  
-            // this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT);
-            resolve(null);
-        });
-    }
+      await Promise.all([
+        // this.userSettingSvc.removeUserProfileLocal(username),
+        this.userSettingSvc.removeAccessToken(),
+        this.userSettingSvc.removeCurrentUser(),
+        this.userSettingSvc.removeLoggedInMethod(),
+        this.userSettingSvc.removeCurrentUserPassword(),
+      ]);
+
+      // this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT);
+      resolve(null);
+    });
+  }
 }

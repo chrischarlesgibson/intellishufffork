@@ -1,45 +1,38 @@
-.container{
-    td{
-      button{
-        &.btn{
-          margin: 0 6px;
-        }
-
-        &.btn-danger{
-          color: red;
-
-        }
-        &.btn-secondary{
-          color: var(--color-edit);
-
-        }
+.container {
+  td {
+    button {
+      &.btn {
+        margin: 0 6px;
       }
-      p {
-        margin-bottom: 0;
 
+      &.btn-danger {
+        color: red;
+      }
+      &.btn-secondary {
+        color: var(--color-edit);
       }
     }
+    p {
+      margin-bottom: 0;
+    }
+  }
 }
 
-  
-  // Define loader animation
-  @keyframes loaderAnimation {
-    0% {
-      opacity: 0.1;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.1;
-    }
-  } 
-  
-
+// Define loader animation
+@keyframes loaderAnimation {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
 
 @media (max-width: 767px) {
-    .container{
-      margin: 63px a;
-    }
-    
+  .container {
+    margin: 63px a;
+  }
 }

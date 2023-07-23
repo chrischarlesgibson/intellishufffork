@@ -8,22 +8,25 @@ import { QuizComponent } from './question/quiz/quiz.component';
 import { AuthGuard } from '../authentication/auth.guard';
 
 const routes: Routes = [
-    {
-        path: 'home', canActivate: [AuthGuard], component: HomeComponent,
-        children: [
-            { path: 'add-questions', component: AddQuestionsComponent },
-            { path: 'questions-bank', component: QuestionsBankComponent },
-            { path: 'quiz', component: QuizComponent }
-        ]
-        
-    },
-    {
-        path: 'contact', canActivate: [AuthGuard], component: ContactComponent
-    }
+  {
+    path: 'home',
+    canActivate: [AuthGuard],
+    component: HomeComponent,
+    children: [
+      { path: 'add-questions', component: AddQuestionsComponent },
+      { path: 'questions-bank', component: QuestionsBankComponent },
+      { path: 'quiz', component: QuizComponent },
+    ],
+  },
+  {
+    path: 'contact',
+    canActivate: [AuthGuard],
+    component: ContactComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserRoutingModule { }
+export class UserRoutingModule {}

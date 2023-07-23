@@ -1,72 +1,94 @@
 <div class="container">
   <div class="col-auto button justify-content-end">
-    <button class="btn btn-primary" routerLink="/admin/add-user">Add User</button>
+    <button class="btn btn-primary" routerLink="/admin/add-user">
+      Add User
+    </button>
   </div>
   <table class="table table-hover table-bordered table-loader table-sm">
     <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th> 
-            <th scope="col">Roles</th>
-            <th scope="col">User Status</th>
-            <th scope="col">Action</th>
-          </tr>
-  
-        </thead>
-        <tbody *ngIf="users">
-          <tr *ngFor="let user of users; let index = index">
-            <th scope="row"> {{ index+1 }} </th>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <span *ngFor="let role of user.roles" class="badge badge-light" style="margin: 0 4px;">
-                {{role.role }}
-              </span>
-              <select *ngIf="user.isEditingEnabled"  class="form-select" (change)="onRoleChanged(user, $event)">
-                  <option  [value]="role.role" *ngFor="let role of user.roles" >{{ role.role }}</option>
-              </select>
-            </td>
-            <td>
-              {{user.status}}
-                <select *ngIf="user.isEditingEnabled" [(ngModel)]="user.status" class="form-select" (change)="onStatusChanged(user, $event)">
-                    <option  [value]="userStatus.APPROVED">{{ userStatus.APPROVED }}</option>
-                    <option  [value]="userStatus.PENDING">{{ userStatus.PENDING }}</option>
-                </select>
-            </td>
-            <td>
-              <button class="btn btn-secondary btn-transparent" (click)="onEditSubjectClicked(user)">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tbody *ngIf="!users">
-          <tr scope="row">
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-          </tr>
-          <tr scope="row">
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-          </tr>
-          <tr scope="row">
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-            <td colspan="1" class="skeleton-cell"></td>
-          </tr>
-        </tbody>
-    </table>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Roles</th>
+        <th scope="col">User Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="users">
+      <tr *ngFor="let user of users; let index = index">
+        <th scope="row">{{ index + 1 }}</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span
+            *ngFor="let role of user.roles"
+            class="badge badge-light"
+            style="margin: 0 4px"
+          >
+            {{ role.role }}
+          </span>
+          <select
+            *ngIf="user.isEditingEnabled"
+            class="form-select"
+            (change)="onRoleChanged(user, $event)"
+          >
+            <option [value]="role.role" *ngFor="let role of user.roles">
+              {{ role.role }}
+            </option>
+          </select>
+        </td>
+        <td>
+          {{ user.status }}
+          <select
+            *ngIf="user.isEditingEnabled"
+            [(ngModel)]="user.status"
+            class="form-select"
+            (change)="onStatusChanged(user, $event)"
+          >
+            <option [value]="userStatus.APPROVED">
+              {{ userStatus.APPROVED }}
+            </option>
+            <option [value]="userStatus.PENDING">
+              {{ userStatus.PENDING }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <button
+            class="btn btn-secondary btn-transparent"
+            (click)="onEditSubjectClicked(user)"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!users">
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+      </tr>
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+      </tr>
+      <tr scope="row">
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+        <td colspan="1" class="skeleton-cell"></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-

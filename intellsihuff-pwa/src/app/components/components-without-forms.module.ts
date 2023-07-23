@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
 @NgModule({
   imports: [
     // NoDataModule,
     CommonModule,
   ],
-  declarations: [
-  ],
+  declarations: [],
   exports: [
     // NoDataModule,
-    CommonModule
-  ]
+    CommonModule,
+  ],
 })
 export class ComponentsWithOutFormsModule {}

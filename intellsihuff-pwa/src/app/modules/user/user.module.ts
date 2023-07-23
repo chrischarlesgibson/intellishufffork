@@ -13,16 +13,13 @@ import { AuthGuard } from '../authentication/auth.guard';
 import { EditProfileGuard } from '../authentication/edit-profile.guard';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    ContactComponent
-  ],
+  declarations: [HomeComponent, ContactComponent],
   imports: [
     QuestionModule,
     AuthModule,
     ComponentsWithFormsModule,
     UserRoutingModule,
-    RouterModule
+    RouterModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -31,8 +28,6 @@ import { EditProfileGuard } from '../authentication/edit-profile.guard';
     QuestionService,
     SubjectService,
   ],
-  exports: [
-    RouterModule
-  ]
+  exports: [RouterModule],
 })
-export class UserModule { }
+export class UserModule {}

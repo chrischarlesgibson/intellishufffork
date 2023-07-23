@@ -1,77 +1,75 @@
-.container{
+.container {
   background-color: #f1f1f1;
-
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 
-    .card {
-      width: 350px;
-      padding: 30px 0 0 0;
-      background-color: #ffffff; 
-      border-radius: 5px;
-      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-     
-      
-      .card-title{
-        margin: 0 auto;
-        img{
-          width: 120px;
-          filter: invert(70%) sepia(40%) saturate(4631%) hue-rotate(130deg) brightness(97%) contrast(90%) !important;
-        }
-      }
-      
-      .form-group {
-        margin-bottom: 20px;
-      }
-      
-      .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-      }
-      
-      .btn-primary {
-        width: 100%;
-        padding: 10px;
-        background-color: var(--color-primary);
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        font-size: 14px;
-      }
-      
-      .btn-primary:hover {
-        background-color: var(--color-primary);
-      }
-      
-      label {
-        font-size: 14px;
-        font-weight: bold;
-      }
-      .register-link{
-        text-align: center;
-        a{
-          color: var(--color-primary);
-        }
-      }
+  .card {
+    width: 350px;
+    padding: 30px 0 0 0;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 
-      form{
-        .icon-container {
-          position: absolute;
-          right: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          cursor: pointer;
-          z-index: 999;
-        }
+    .card-title {
+      margin: 0 auto;
+      img {
+        width: 120px;
+        filter: invert(70%) sepia(40%) saturate(4631%) hue-rotate(130deg)
+          brightness(97%) contrast(90%) !important;
       }
-    }  
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--color-primary);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary);
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .register-link {
+      text-align: center;
+      a {
+        color: var(--color-primary);
+      }
+    }
+
+    form {
+      .icon-container {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        z-index: 999;
+      }
+    }
+  }
 }
-  

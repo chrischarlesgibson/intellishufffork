@@ -1,29 +1,39 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h2>Contact Us</h2> 
-
+      <h2>Contact Us</h2>
     </div>
     <div class="card-body">
-      <form  [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
         <div class="form-group p-3">
-          <label >Name:</label>
-          <input type="text" class="form-control" formControlName="name">
+          <label>Name:</label>
+          <input type="text" class="form-control" formControlName="name" />
         </div>
         <div class="form-group p-3">
-          <label >Email:</label>
-          <input type="email" class="form-control" formControlName="email">
+          <label>Email:</label>
+          <input type="email" class="form-control" formControlName="email" />
         </div>
         <div class="form-group p-3">
-          <label >Message:</label>
-          <textarea  rows="5"  class="form-control" formControlName="message"></textarea>
+          <label>Message:</label>
+          <textarea
+            rows="5"
+            class="form-control"
+            formControlName="message"
+          ></textarea>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid">Send Message</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!formGroup.valid"
+          >
+            Send Message
+          </button>
         </div>
       </form>
     </div>
   </div>
-
 </div>
-  

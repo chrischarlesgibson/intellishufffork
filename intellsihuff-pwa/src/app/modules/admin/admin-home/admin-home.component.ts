@@ -4,21 +4,17 @@ import { BasePage } from 'src/app/universal/base.page';
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
-  styleUrls: ['./admin-home.component.scss']
+  styleUrls: ['./admin-home.component.scss'],
 })
 export class AdminHomeComponent extends BasePage implements OnInit {
   isChildComponentActivated: boolean = false;
   isSidebarOpen = false;
 
-
-  constructor(
-  ) { 
+  constructor() {
     super();
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   openSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -30,5 +26,4 @@ export class AdminHomeComponent extends BasePage implements OnInit {
   onChildComponentActivate(event: any): void {
     this.isChildComponentActivated = true;
   }
-
 }

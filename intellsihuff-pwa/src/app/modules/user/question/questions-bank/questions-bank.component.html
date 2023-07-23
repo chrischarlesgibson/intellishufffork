@@ -2,7 +2,7 @@
   <div class="card card-default">
     <div class="card-header">
       <h3 class="card-title">
-        MCQs Filter    
+        MCQs Filter
         <fa-icon [icon]="faFilter"></fa-icon>
       </h3>
 
@@ -14,91 +14,153 @@
     </div>
     <div class="card-body">
       <form [formGroup]="formGroup">
-          <div class="row">
-            <div class="col-md-3">
-                  <div class="form-group m-2">
-                      <label for="password">Subject</label>
-                      <select class="form-select mb-3" formControlName="subject" placeholder="select subject">
-                        <option *ngFor="let sub of subjects" [value]="sub.id">{{sub.name}}</option>
-                      </select>
-                  </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group m-2">
+              <label for="password">Subject</label>
+              <select
+                class="form-select mb-3"
+                formControlName="subject"
+                placeholder="select subject"
+              >
+                <option *ngFor="let sub of subjects" [value]="sub.id">
+                  {{ sub.name }}
+                </option>
+              </select>
             </div>
+          </div>
 
-            <div class="col-md-3">
-                <div class="form-group m-2 date">
-                  <label for="password">Date</label>
-                  <input class="date-input" type="date" formControlName="createdOn">
-                </div>
+          <div class="col-md-3">
+            <div class="form-group m-2 date">
+              <label for="password">Date</label>
+              <input
+                class="date-input"
+                type="date"
+                formControlName="createdOn"
+              />
             </div>
+          </div>
 
-            <div class="col-md-3">
-              <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL">
-                  <label for="password">Class</label>
-                  <select class="form-select mb-3" formControlName="SchoolCLass">
-                    <option [value]="SchoolCLass.FIRST">{{SchoolCLass.FIRST}}</option>
-                    <option [value]="SchoolCLass.SECOND">{{SchoolCLass.SECOND}}</option>
-                    <option [value]="SchoolCLass.THIRD">{{SchoolCLass.THIRD}}</option>
-                    <option [value]="SchoolCLass.FOURTH">{{SchoolCLass.FOURTH}}</option>
-                    <option [value]="SchoolCLass.FIFTH">{{SchoolCLass.FIFTH}}</option>
-                    <option [value]="SchoolCLass.SIXTH">{{SchoolCLass.SIXTH}}</option>
-                    <option [value]="SchoolCLass.SEVENTH">{{SchoolCLass.SEVENTH}}</option>
-                    <option [value]="SchoolCLass.EIGHTH">{{SchoolCLass.EIGHTH}}</option>
-                    <option [value]="SchoolCLass.NINTH">{{SchoolCLass.NINTH}}</option>
-                    <option [value]="SchoolCLass.TENTH">{{SchoolCLass.TENTH}}</option>
-                  </select>
-              </div>
-              <div class="form-group m-2" *ngIf="currentUser?.institution?.type === InstitutionType.COLLEGE">
-                <label for="password">Year</label>
-                <select class="form-select mb-3" formControlName="collegeYear">
-                  <option [value]="Year.FIRSTYEAR">{{Year.FIRSTYEAR}}</option>
-                  <option [value]="Year.SECONDYEAR">{{Year.SECONDYEAR}}</option>
-                </select>
-              </div>
+          <div class="col-md-3">
+            <div
+              class="form-group m-2"
+              *ngIf="currentUser?.institution?.type === InstitutionType.SCHOOL"
+            >
+              <label for="password">Class</label>
+              <select class="form-select mb-3" formControlName="SchoolCLass">
+                <option [value]="SchoolCLass.FIRST">
+                  {{ SchoolCLass.FIRST }}
+                </option>
+                <option [value]="SchoolCLass.SECOND">
+                  {{ SchoolCLass.SECOND }}
+                </option>
+                <option [value]="SchoolCLass.THIRD">
+                  {{ SchoolCLass.THIRD }}
+                </option>
+                <option [value]="SchoolCLass.FOURTH">
+                  {{ SchoolCLass.FOURTH }}
+                </option>
+                <option [value]="SchoolCLass.FIFTH">
+                  {{ SchoolCLass.FIFTH }}
+                </option>
+                <option [value]="SchoolCLass.SIXTH">
+                  {{ SchoolCLass.SIXTH }}
+                </option>
+                <option [value]="SchoolCLass.SEVENTH">
+                  {{ SchoolCLass.SEVENTH }}
+                </option>
+                <option [value]="SchoolCLass.EIGHTH">
+                  {{ SchoolCLass.EIGHTH }}
+                </option>
+                <option [value]="SchoolCLass.NINTH">
+                  {{ SchoolCLass.NINTH }}
+                </option>
+                <option [value]="SchoolCLass.TENTH">
+                  {{ SchoolCLass.TENTH }}
+                </option>
+              </select>
             </div>
-
-            <div class="col-md-3">
-              <div class="form-group m-2">
-                <label for="recipient-name">MCQs length</label>
-                <input type="number" class="form-control" formControlName="mcqsLength">
-              </div>
+            <div
+              class="form-group m-2"
+              *ngIf="currentUser?.institution?.type === InstitutionType.COLLEGE"
+            >
+              <label for="password">Year</label>
+              <select class="form-select mb-3" formControlName="collegeYear">
+                <option [value]="Year.FIRSTYEAR">{{ Year.FIRSTYEAR }}</option>
+                <option [value]="Year.SECONDYEAR">{{ Year.SECONDYEAR }}</option>
+              </select>
             </div>
-          </div>  
+          </div>
 
-            <div class="row mb-4">
-              <div class="col-auto">
-                  <button class="btn btn-primary" (click)="onFilterClicked(formGroup.value)"
-                    [disabled]="!formGroup.controls['createdOn'].valid || !formGroup.controls['subject'].valid">
-                    Search
-                  </button>
-              </div>
-              <div class="col-auto">
-                  <button class="btn btn-primary" (click)="onResteFilterClicked()">Reset filters</button>
-              </div>
-              <div class="col text-end" *ngIf="questions.length">
-                <button class="btn btn-primary" (click)="onEexportPdfClicked()">Export pdf</button>
-              </div>
+          <div class="col-md-3">
+            <div class="form-group m-2">
+              <label for="recipient-name">MCQs length</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="mcqsLength"
+              />
             </div>
-            <div class="row mb-4" *ngIf="questions.length">
-              <div class="col-4 button" >
-                <button id="generate" (click)="onGenerateVersionsCLicked()" class="btn btn-secondary"
-                    [disabled]="!formGroup.controls['versions'].value">
-                  Generate
-                </button>
-              </div>
-              <div class="col-8">
-                <div class="input-group mb-3" id="versions">
-                  <input  type="number" class="form-control" maxLength 
-                      placeholder="Number of versions to Generate" formControlName="versions">
-                </div>
-                <div *ngIf="formGroup.get('versions')?.hasError('inputRestricted')" class="text-danger">
-                  Versions should not exceed 100.
-                </div>
-              </div>
+          </div>
+        </div>
 
-              <!-- <div class="col-2">
+        <div class="row mb-4">
+          <div class="col-auto">
+            <button
+              class="btn btn-primary"
+              (click)="onFilterClicked(formGroup.value)"
+              [disabled]="
+                !formGroup.controls['createdOn'].valid ||
+                !formGroup.controls['subject'].valid
+              "
+            >
+              Search
+            </button>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary" (click)="onResteFilterClicked()">
+              Reset filters
+            </button>
+          </div>
+          <div class="col text-end" *ngIf="questions.length">
+            <button class="btn btn-primary" (click)="onEexportPdfClicked()">
+              Export pdf
+            </button>
+          </div>
+        </div>
+        <div class="row mb-4" *ngIf="questions.length">
+          <div class="col-4 button">
+            <button
+              id="generate"
+              (click)="onGenerateVersionsCLicked()"
+              class="btn btn-secondary"
+              [disabled]="!formGroup.controls['versions'].value"
+            >
+              Generate
+            </button>
+          </div>
+          <div class="col-8">
+            <div class="input-group mb-3" id="versions">
+              <input
+                type="number"
+                class="form-control"
+                maxLength
+                placeholder="Number of versions to Generate"
+                formControlName="versions"
+              />
+            </div>
+            <div
+              *ngIf="formGroup.get('versions')?.hasError('inputRestricted')"
+              class="text-danger"
+            >
+              Versions should not exceed 100.
+            </div>
+          </div>
+
+          <!-- <div class="col-2">
                 <help-icon [text]=" 'Generates multiple versions by shuffling questions and options. Limit should not exceed 100 ' "></help-icon>
               </div> -->
-            </div>
+        </div>
       </form>
     </div>
   </div>
@@ -108,63 +170,79 @@
       <div class="no-of-questions">
         <div class="row">
           <p>
-            Total questions 
+            Total questions
             <span class="badge">
-              {{shuffledQuestionsCount}}
-            </span>          
+              {{ shuffledQuestionsCount }}
+            </span>
           </p>
         </div>
         <div class="row">
           <p>
-            Number of questions per set 
+            Number of questions per set
             <span class="badge">
-              {{questionsCount}}
-            </span>          
+              {{ questionsCount }}
+            </span>
           </p>
         </div>
       </div>
     </div>
     <div class="col-auto button justify-content-end">
-      <button class="btn btn-primary" (click)="onPrepareLinkClicked()">Prepare quiz link</button>
+      <button class="btn btn-primary" (click)="onPrepareLinkClicked()">
+        Prepare quiz link
+      </button>
     </div>
   </div>
 
   <ng-container>
-      <div class="card" *ngFor="let m of shuffled; let idx = index;" >
-        <div class="card-header">
-          <div class="quest" id="q">
-              <b *ngIf="(idx+1) % questionsCount > 0"> {{(idx+1) > questionsCount ? (idx+1) % questionsCount : (idx+1)}}) </b>
-              <b *ngIf="(idx+1) % questionsCount == 0"> {{questionsCount}})</b> {{m.text}} 
-          </div>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-          </div>
+    <div class="card" *ngFor="let m of shuffled; let idx = index">
+      <div class="card-header">
+        <div class="quest" id="q">
+          <b *ngIf="(idx + 1) % questionsCount > 0">
+            {{
+              idx + 1 > questionsCount ? (idx + 1) % questionsCount : idx + 1
+            }})
+          </b>
+          <b *ngIf="(idx + 1) % questionsCount == 0"> {{ questionsCount }})</b>
+          {{ m.text }}
         </div>
-        <div class="card-body"  id="mcq">
-            <div class="mcq">
-              <div class="row">
-                  <div class="option" *ngFor="let op of m?.options; let i = index">
-                    <div class="text" id="a">
-                      <b>{{ getLetter(i) }}</b>) {{ op.text }}   
-                  </div>
-                  </div>
-              </div>
-            
-              <div class="row dlt-btn">
-                <div class="col-6 button" *ngIf="m.versionNo">
-                  <button type="button" class="btn btn-primary" style="color: #ffff;">
-                    {{m.versionNo}}
-                  </button> 
-                </div>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" id="mcq">
+        <div class="mcq">
+          <div class="row">
+            <div class="option" *ngFor="let op of m?.options; let i = index">
+              <div class="text" id="a">
+                <b>{{ getLetter(i) }}</b
+                >) {{ op.text }}
               </div>
             </div>
-        </div> 
+          </div>
+
+          <div class="row dlt-btn">
+            <div class="col-6 button" *ngIf="m.versionNo">
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="color: #ffff"
+              >
+                {{ m.versionNo }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
 </div>
 
-<ng-container *ngIf="!questionsCount && !questions.length ">
+<ng-container *ngIf="!questionsCount && !questions.length">
   <no-data> </no-data>
 </ng-container>

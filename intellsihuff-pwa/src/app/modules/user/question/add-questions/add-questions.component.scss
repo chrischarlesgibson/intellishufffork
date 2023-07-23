@@ -1,22 +1,22 @@
-.container{
-    button{
-        background: var(--color-primary) !important;
-        border-color: var(--color-primary) !important;
-    }
-    .card{
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add the desired shadow effect */
-        .card-header{
-            background: var(--color-primary) !important;
-            color: #fff;
-            font-weight: bold;
-            margin: 0;
+.container {
+  button {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+  }
+  .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add the desired shadow effect */
+    .card-header {
+      background: var(--color-primary) !important;
+      color: #fff;
+      font-weight: bold;
+      margin: 0;
 
-            button{
-                box-shadow: 1px 2px 5px 0px #666;
-                &:active{
-                    box-shadow: none !important;
-                }
-            }
+      button {
+        box-shadow: 1px 2px 5px 0px #666;
+        &:active {
+          box-shadow: none !important;
         }
+      }
     }
+  }
 }

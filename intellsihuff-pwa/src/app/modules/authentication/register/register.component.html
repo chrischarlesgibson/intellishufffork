@@ -1,75 +1,167 @@
 <div class="container">
-    <div class="card">
-      <h2 class="card-title" >
-        <i class="fas fa-user-plus"></i>
-      </h2>
+  <div class="card">
+    <h2 class="card-title">
+      <i class="fas fa-user-plus"></i>
+    </h2>
 
-      <div class="card-body">
-        <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" formControlName="name" class="form-control" placeholder="Enter your name">
-          </div>
-  
-          <div class="form-group">
-            <label for="email">Email</label>
-            <span class="text-danger" *ngIf="formGroup.get('email')?.errors  && formGroup.get('email')?.touched "> &#x002A;</span>
-            <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" [readOnly]="id">
-            <span class="text-danger" *ngIf="formGroup.get('email')?.errors  && formGroup.get('email')?.touched "> 
-              Email is required
-            </span>
-          </div>
-  
-          <div class="form-group" >
-            <label for="password">Password</label>
-            <span class="text-danger" *ngIf="formGroup.get('password')?.errors  && formGroup.get('password')?.touched "> &#x002A;</span>
-            <div class="input-group" style="flex-wrap: nowrap !important;">
-              <input [type]="showPassword ? 'text' : 'password' "  formControlName="password"
-                 class="form-control" placeholder="Enter your password" [readOnly]="id">
-         
-              <div class="input-group-append" >
-                <span class="icon-container" (click)="togglePasswordVisibility()">
-                  <i  [ngClass]="{'fas fa-eye-slash' : !showPassword}" ></i>
-                  <i [ngClass]="{'fas fa-eye' : showPassword}"> </i>
-                </span>
-              </div>
-            </div>
-            <span class="text-danger" *ngIf="formGroup.get('password')?.errors  && formGroup.get('password')?.touched "> 
-              Password is required
-            </span>
-          </div>
-  
-          <div class="form-group">
-            <label for="password">Institution Name</label>
-            <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> &#x002A;</span>
-            <input type="text" formControlName="institutionName" class="form-control" placeholder="Enter your institution Name">
-            <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> 
-              Institution name is required
-            </span>
-          </div>
-  
-          <div class="form-group">
-            <label for="password">Institution Type</label>
-            <span class="text-danger" *ngIf="formGroup.get('institutionType')?.errors  && formGroup.get('institutionType')?.touched "> &#x002A;</span>
-            <select class="form-select form-select-md mb-3" aria-label="" formControlName="institutionType">
-              <option [value]="InstitutionType.SCHOOL">{{InstitutionType.SCHOOL}}</option>
-              <option [value]="InstitutionType.COLLEGE">{{InstitutionType.COLLEGE}}</option>
-              <option [value]="InstitutionType.UNIVERSITY">{{InstitutionType.UNIVERSITY}}</option>
-            </select>
-            <span class="text-danger" *ngIf="formGroup.get('institutionType')?.errors  && formGroup.get('institutionType')?.touched "> 
-              Institution type is required
-            </span>
-          </div>
-  
-          <button type="submit"  class="btn btn-primary" [disabled]="!formGroup.valid" >Register</button>
-  
-        </form>
-      </div>
-      <div class="card-header">
-        <div class="login-link" *ngIf="!id">
-          Already have an account? <a (click)="onLoginClicked()">Sign in</a>
+    <div class="card-body">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter your name"
+          />
         </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('email')?.errors && formGroup.get('email')?.touched
+            "
+          >
+            &#x002A;</span
+          >
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter your email"
+            [readOnly]="id"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('email')?.errors && formGroup.get('email')?.touched
+            "
+          >
+            Email is required
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('password')?.errors &&
+              formGroup.get('password')?.touched
+            "
+          >
+            &#x002A;</span
+          >
+          <div class="input-group" style="flex-wrap: nowrap !important">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter your password"
+              [readOnly]="id"
+            />
+
+            <div class="input-group-append">
+              <span class="icon-container" (click)="togglePasswordVisibility()">
+                <i [ngClass]="{ 'fas fa-eye-slash': !showPassword }"></i>
+                <i [ngClass]="{ 'fas fa-eye': showPassword }"> </i>
+              </span>
+            </div>
+          </div>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('password')?.errors &&
+              formGroup.get('password')?.touched
+            "
+          >
+            Password is required
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Institution Name</label>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionName')?.errors &&
+              formGroup.get('institutionName')?.touched
+            "
+          >
+            &#x002A;</span
+          >
+          <input
+            type="text"
+            formControlName="institutionName"
+            class="form-control"
+            placeholder="Enter your institution Name"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionName')?.errors &&
+              formGroup.get('institutionName')?.touched
+            "
+          >
+            Institution name is required
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Institution Type</label>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionType')?.errors &&
+              formGroup.get('institutionType')?.touched
+            "
+          >
+            &#x002A;</span
+          >
+          <select
+            class="form-select form-select-md mb-3"
+            aria-label=""
+            formControlName="institutionType"
+          >
+            <option [value]="InstitutionType.SCHOOL">
+              {{ InstitutionType.SCHOOL }}
+            </option>
+            <option [value]="InstitutionType.COLLEGE">
+              {{ InstitutionType.COLLEGE }}
+            </option>
+            <option [value]="InstitutionType.UNIVERSITY">
+              {{ InstitutionType.UNIVERSITY }}
+            </option>
+          </select>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionType')?.errors &&
+              formGroup.get('institutionType')?.touched
+            "
+          >
+            Institution type is required
+          </span>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!formGroup.valid"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+    <div class="card-header">
+      <div class="login-link" *ngIf="!id">
+        Already have an account? <a (click)="onLoginClicked()">Sign in</a>
       </div>
     </div>
+  </div>
 </div>
-  

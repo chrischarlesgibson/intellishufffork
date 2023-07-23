@@ -7,19 +7,23 @@ import { EditProfileGuard } from './edit-profile.guard';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
-    {
-        path: 'login', component: LoginComponent,
-    },
-    {
-        path: 'register', component: RegisterComponent,
-    },
-    {
-        path: 'edit-profile', canActivate: [AuthGuard], component: EditProfileComponent,
-    }
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'edit-profile',
+    canActivate: [AuthGuard],
+    component: EditProfileComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

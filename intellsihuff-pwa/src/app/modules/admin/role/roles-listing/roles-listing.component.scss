@@ -1,19 +1,19 @@
-.container{
-    td{
-        button{
-            &.btn{
-                margin: 0 6px;
-            }
-            .fa-trash-alt{
-                color: red;
-            }
-            .fa-edit{
-                color: var(--color-edit); 
-            }
-        }
-      
-        &.actions{
-            text-align: end;
-        }
-    }       
+.container {
+  td {
+    button {
+      &.btn {
+        margin: 0 6px;
+      }
+      .fa-trash-alt {
+        color: red;
+      }
+      .fa-edit {
+        color: var(--color-edit);
+      }
+    }
+
+    &.actions {
+      text-align: end;
+    }
+  }
 }

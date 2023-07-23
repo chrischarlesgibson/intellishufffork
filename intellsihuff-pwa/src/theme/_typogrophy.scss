@@ -1,33 +1,49 @@
-  @font-face {
-    font-family: 'Quicksand';
-    src: url('..//assets/fonts/Quicksand/static/Quicksand-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Quicksand';
-    src: url('..//assets/fonts/Quicksand/static/Quicksand-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Quicksand';
-    src: url('..//assets/fonts/Quicksand/static/Quicksand-Light.ttf') format('truetype');
-    font-weight: lighter;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Quicksand";
+  src: url("..//assets/fonts/Quicksand/static/Quicksand-Regular.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("..//assets/fonts/Quicksand/static/Quicksand-Bold.ttf")
+    format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("..//assets/fonts/Quicksand/static/Quicksand-Light.ttf")
+    format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
 
-  .en{
-    font-family: 'Quicksand' !important;
-  
-    h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select, label {
-      font-family: 'Quicksand' !important;     
-    }
-  }
+.en {
+  font-family: "Quicksand" !important;
 
-  .ltr {
-    direction: ltr !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  div,
+  span,
+  button,
+  input,
+  textarea,
+  select,
+  label {
+    font-family: "Quicksand" !important;
   }
-  .rtl {
-    direction: rtl !important;
-  }
+}
+
+.ltr {
+  direction: ltr !important;
+}
+.rtl {
+  direction: rtl !important;
+}

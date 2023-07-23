@@ -2,8 +2,15 @@
   <div class="container home">
     <div class="row">
       <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow add-question" #card1 (click)="onCardClicked('/home/add-questions')"
-          (mouseenter)="animateOnHover(card1)" (mouseleave)="resetAnimation(card1)" data-toggle="modal" data-target="#modal">
+        <div
+          class="card mb-4 larger-card shadow add-question"
+          #card1
+          (click)="onCardClicked('/home/add-questions')"
+          (mouseenter)="animateOnHover(card1)"
+          (mouseleave)="resetAnimation(card1)"
+          data-toggle="modal"
+          data-target="#modal"
+        >
           <div class="card-body add-question">
             <h5 class="card-title">Add Questions</h5>
             <!-- <p class="card-text">Add questions related to specific class and subject</p> -->
@@ -11,8 +18,13 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card mb-4 larger-card shadow questions-bank" #card2 (click)="onCardClicked('/home/questions-bank')"
-          (mouseenter)="animateOnHover(card2)" (mouseleave)="resetAnimation(card2)">
+        <div
+          class="card mb-4 larger-card shadow questions-bank"
+          #card2
+          (click)="onCardClicked('/home/questions-bank')"
+          (mouseenter)="animateOnHover(card2)"
+          (mouseleave)="resetAnimation(card2)"
+        >
           <div class="card-body questions-bank">
             <h5 class="card-title">Questions bank</h5>
           </div>
@@ -22,4 +34,4 @@
   </div>
 </div>
 
-<router-outlet ></router-outlet>
+<router-outlet></router-outlet>

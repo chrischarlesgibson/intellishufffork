@@ -4,35 +4,50 @@
       <h2 *ngIf="!id" class="form-title">Add User</h2>
       <h2 *ngIf="id" class="form-title">Update user</h2>
 
-      <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="Enter user name">
+          <input
+            type="text"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter user name"
+          />
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" formControlName="email" class="form-control" placeholder="Enter user email">
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter user email"
+          />
         </div>
-
 
         <div class="form-group">
           <label for="role">Role</label>
           <select class="form-control" formControlName="roles">
-            <option [value]="role.role" *ngFor="let role of roles"> {{role.role}} </option>
+            <option [value]="role.role" *ngFor="let role of roles">
+              {{ role.role }}
+            </option>
           </select>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" formControlName="isUserApproved">
-          <label class="form-check-label" >
-            Approve this user
-          </label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="isUserApproved"
+          />
+          <label class="form-check-label"> Approve this user </label>
         </div>
 
-        <button *ngIf="!id" type="submit" class="btn btn-primary" >Save</button>
-        <button *ngIf="id" type="submit" class="btn btn-primary" >Update</button>
-
+        <button *ngIf="!id" type="submit" class="btn btn-primary">Save</button>
+        <button *ngIf="id" type="submit" class="btn btn-primary">Update</button>
       </form>
     </div>
   </div>

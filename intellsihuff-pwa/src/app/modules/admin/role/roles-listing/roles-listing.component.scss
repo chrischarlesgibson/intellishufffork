@@ -1,5 +1,4 @@
 .container{
-    margin: 70px 0;
     td{
         button{
             &.btn{
@@ -9,12 +8,12 @@
                 color: red;
             }
             .fa-edit{
-                color: var(--color-edit);
+                color: var(--color-edit); 
             }
         }
       
         &.actions{
             text-align: end;
         }
-    }
+    }       
 }

@@ -32,11 +32,11 @@
         </td>
 
         <td>
-          <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
+          <button class="btn btn-danger btn-transparent" (click)="onDltSubjectClicked(subject)">
               <i class="fas fa-trash-alt"></i>
           </button> 
 
-          <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)" data-toggle="modal" data-target="#MyModal">
+          <button class="btn btn-secondary btn-transparent" (click)="onEditSubjectClicked(subject)" data-toggle="modal" data-target="#MyModal">
             <i class="fas fa-edit"></i>
           </button>
         </td>
@@ -44,17 +44,17 @@
     </tbody>
 
     <tbody *ngIf="!subjects">
-      <tr scope="row">
+      <tr>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr scope="row">
+      <tr >
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr scope="row">
+      <tr >
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
@@ -62,37 +62,6 @@
     </tbody>
   </table>
 </div>
-
-
-
-
-<!-- <div class="modal fade" #myModalRef  id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="addSubjectFg">
-          <div class="col-md-12">
-            <div class="form-group m-2">
-              <label for="recipient-name" class="col-form-label">Subject name</label>
-              <input type="text" class="form-control" formControlName="name">
-            </div>
-          </div>
-
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" 
-          [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 
 <div class="modal fade" #myModalRef id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true" >

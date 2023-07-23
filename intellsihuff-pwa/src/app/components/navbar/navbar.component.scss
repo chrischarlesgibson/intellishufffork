@@ -8,56 +8,86 @@
   z-index: 999;
   box-shadow: 1px 5px 7px rgba(214, 214, 214, 0.38);
   border-radius: 0 0 1  0px 10px;
-  height: 70px;
+  height: 140px;
   align-items: center;
 
-  li {
-    margin-left: 1rem;
-  
-    a {
-      font-size: 1.2rem;
-  
-      &.nav-link {
-        position: relative !important;
-        width: fit-content;
-        i{
-          font-size: 20px;
-        }
-     
-        &.active{
-          color: var(--color-primary) !important;
-        }
+  .navbar-brand {
+    img{
+      width: 32vh;
 
-        &:before {
-          content: "";
+    }
+  }
+  ul{
+    margin: 0 auto !important;
+    li {
+      margin-left: 1rem;
+      &.nav-item {
+        position: relative;
+        .hover-div {
           position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0;
-          height: 1px;
+          top: 34px;
+          width: fit-content;
+          height: fit-content;
           background-color: var(--color-primary);
-          transition: width 0.5s;
+          border: 1px solid var(--color-primary);
+          border-radius: 5px;
+          color: #fff;
+          padding: 0 6px;
         }
+      }
+      
+      a {
+        font-size: 1.2rem;
+        font-weight: bold;
   
-        &:hover:before {
-          width: 100%;
-        }
+        &.nav-link {
+          position: relative !important;
+          width: fit-content;
+          i{
+            font-size: 20px;
+          }
+       
+          &.active{
+            color: var(--color-primary) !important;
+          }
   
-        &:hover {
-          color: var(--color-primary);
-          transition: all 0.3s;
+          &:before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-primary);
+            transition: width 0.5s;
+          }
+    
+          &:hover:before {
+            width: 100%;
+          }
+    
+          &:hover {
+            color: var(--color-primary);
+            transition: all 0.3s;
+          }
+  
+       
         }
-
-     
       }
     }
   }
+ 
 }
 
 @media (max-width: 990px) {
   .navbar {
     height: 60px;
 
+    .navbar-brand {
+      img{
+        display: none;  
+      }
+    }
     .navbar-collapse{
       height: 100px;
       background-color: #f8f9fa !important;

@@ -12,7 +12,7 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
   template: `
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" routerLink="/home">
-      <!-- <img src="assets/images/logo-bg.png" alt="">   -->
+      <img src="assets/images/logo-bg.png" alt="">  
     </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,9 +75,7 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
   encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent implements OnInit  {
-  isMenuOpen = false;
   currentUser: IUser;
-  userRole = UserRole;
   activePage: string = 'home';
   isAdmin: boolean = false;
 
@@ -90,8 +88,9 @@ export class NavbarComponent implements OnInit  {
     private pubsubSvc: NgxPubSubService
   ) { 
 
-    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_PROFILE_UPDATED 
       , async (user: IUser) => {
+        
       if(AppConstant.DEBUG) {
         console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
       }     
@@ -116,11 +115,6 @@ export class NavbarComponent implements OnInit  {
   }
  
 
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
   onMenuNavigated(url) {
     this.router.navigate([`/${url}`]);
     this.activePage = url;
@@ -144,10 +138,9 @@ export class NavbarComponent implements OnInit  {
         this.isAdmin = true;
       }
     });
-    console.log(this.isAdmin);
 
     this.currentUser.name = this.currentUser.name.toUpperCase();
-
+    
   }
 
 }

@@ -31,11 +31,12 @@ export class RolesListingComponent extends BasePage implements OnInit {
   clodeModal(){
     this.editMode = false;
     this.roleFormGroup.reset();
-
   }
 
   onEditRoleClicked(role) {
     this.editMode = true;
+    this.roleFormGroup.patchValue( { role: role.role } )
+
   }
 
   async onAddRoleClicked(data) {

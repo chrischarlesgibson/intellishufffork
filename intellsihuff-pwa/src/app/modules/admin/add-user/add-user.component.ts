@@ -1,4 +1,3 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IResponse } from 'src/app/universal/shared.model';
 import { BasePage } from 'src/app/universal/base.page';
@@ -7,6 +6,7 @@ import { IRegister, IRole, IUser, UserStatus } from '../../authentication/auth.m
 import { RoleService } from '../role/role.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -17,6 +17,7 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
   roles: any;
   private _subscription: Subscription;
   currentUser: IUser;
+  id: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,9 +39,9 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this._subscription = this.route.queryParams.subscribe( async (params) => {
-      const id = +params['id'];
-      if(id) {
-        await this._getCurrentUser(id);
+      this.id = +params['id'];
+      if(this.id) {
+        await this._getCurrentUser(this.id);
         this._populateFg();
       }
     });

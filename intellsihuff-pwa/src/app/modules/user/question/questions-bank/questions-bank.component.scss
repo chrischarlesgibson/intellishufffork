@@ -43,6 +43,9 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          .card-title{
+            font-weight: bold;
+          }
         }
         .card-tools{
           button{

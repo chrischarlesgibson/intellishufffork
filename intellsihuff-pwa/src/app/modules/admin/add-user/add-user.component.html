@@ -1,7 +1,9 @@
 <div class="container">
   <div class="content">
     <div class="add-user-form">
-      <h2 class="form-title">Add User</h2>
+      <h2 *ngIf="!id" class="form-title">Add User</h2>
+      <h2 *ngIf="id" class="form-title">Update user</h2>
+
       <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
         <div class="form-group">
           <label for="name">Name</label>
@@ -13,10 +15,7 @@
           <input type="email" formControlName="email" class="form-control" placeholder="Enter user email">
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" formControlName="password" class="form-control" placeholder="Enter user password">
-        </div>
+
         <div class="form-group">
           <label for="role">Role</label>
           <select class="form-control" formControlName="roles">
@@ -31,7 +30,9 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary" >Save</button>
+        <button *ngIf="!id" type="submit" class="btn btn-primary" >Save</button>
+        <button *ngIf="id" type="submit" class="btn btn-primary" >Update</button>
+
       </form>
     </div>
   </div>

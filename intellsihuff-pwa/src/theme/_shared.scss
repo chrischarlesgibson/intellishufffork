@@ -1,32 +1,25 @@
 
-:root {
-  --color-primary: #0DC9BB;
-  --dark-bg: #0C2233;
-  --color-edit: #6c757d;
-}
-
 body {
   &.dark-mode {
     background-color: var(--dark-bg);
     color: #fff;
-  
     .card {
       box-shadow: 0px 0px 20px 3px #fff !important  ;
     }
   }
   .container{
-    margin: 75px auto 0 auto;
+    margin: var(--under-nav-margin);
   }
 }
 
 
-
 label {
-    cursor: default !important;
-    user-select: none !important;
-    color: var(--color-primary);
+  cursor: default !important;
+  user-select: none !important;
+  color: var(--color-primary);
 
 }
+
 a{
   cursor: pointer;
 }
@@ -35,21 +28,21 @@ a{
       // border-color: var(--color-primary) !important;
   }
   
-  form {
-    input, select, textarea{
-      border: 1px solid var(--color-primary) !important;
-      &:focus {
-        box-shadow: 0 0 0 0.2rem var(--color-primary) !important;
-      }
-      
-      option{
-        &:hover {
-          background: var(--color-primary) !important;
-        }
-      }
+form {
+  input, select, textarea{
+    border: 1px solid var(--color-primary) !important;
+    &:focus {
+      box-shadow: 0 0 0 0.2rem var(--color-primary) !important;
     }
     
+    option{
+      &:hover {
+        background: var(--color-primary) !important;
+      }
+    }
   }
+  
+}
   .card{
     box-shadow: 0px 1px 20px 0px #999 !important;
     border-color: var(--color-primary) !important;
@@ -65,21 +58,17 @@ a{
   }
 
 
-.hover-div {
-  position: absolute;
-  top: 60px;
-  width: fit-content;
-  height: fit-content;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 5px;
-  color: #fff;
-  padding: 0 6px;
-}
-
 .btn-transparent{
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
 
+}
+
+.table-loader {
+  .skeleton-cell {
+    height: 37px; /* Customize the height of the loader cells */
+    background-color: rgba(0,0,0, .1);
+    animation: loaderAnimation 1s ease-in infinite ; /* Add animation to the loader */
+  }
 }

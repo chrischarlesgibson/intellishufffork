@@ -9,6 +9,7 @@
 }
   
 .container{ 
+  margin: var(--under-nav-margin);
   &.home 
   form{
       margin: 16px;
@@ -41,6 +42,10 @@
       &.quiz{
         background-image: url(/assets/images/quiz.png);
         background-position: bottom;
+      }
+
+      .card-title{
+        font-weight: bold;
       }
 
       .mcqs{
@@ -83,5 +88,49 @@
             }
           }
       }
+  }
+}
+$ripple-color: rgba(255, 255, 255, 0.3);
+$ripple-duration: 0.6s;
+
+.ripple-container {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff4081;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: $ripple-color;
+    transform: scale(0);
+    opacity: 0.8;
+    animation: rippleAnimation $ripple-duration;
+  }
+
+  @keyframes rippleAnimation {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  &:hover {
+    background-color: #ff80ab;
+  }
+
+  &:active {
+    .ripple {
+      animation: none;
+    }
   }
 }

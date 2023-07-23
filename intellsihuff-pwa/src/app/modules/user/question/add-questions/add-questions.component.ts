@@ -30,6 +30,7 @@ export class AddQuestionsComponent implements OnInit {
   optionsForm: FormGroup;
   addSubjectFg: FormGroup;
   docxText: string;
+  intro: introJs = introJs();
  
   get optionControls() {
     return (this.mcqFormGroup.get('options') as FormArray).controls;
@@ -62,20 +63,8 @@ export class AddQuestionsComponent implements OnInit {
 
   async ngOnInit() {
     this.addOption();
-
-    this.helperSvc.presentLoader('Fteching institution type')
-
-    try {
-      await this._getCurrentUser();
-      
-    } catch (error) {
-      
-    } finally {
-      this.helperSvc.dismissLoader();
-    }
-
+    await this._getCurrentUser();
     await this._getAllSubjects();
-
     if(!this.currentUser.tourVisited) {
       this.startTour();
     }
@@ -89,6 +78,13 @@ export class AddQuestionsComponent implements OnInit {
       isOptionCorrect: [null, Validators.required]
     }); 
     (this.mcqFormGroup.get('options') as FormArray).push(optionFormGroup);
+
+    const step = {
+      element: '#option-1',
+      intro: "Add next option for your question."
+    }
+
+    this.intro.addStep(step);
   }
 
   updateOptionSelection(selectedIndex: number) {
@@ -180,82 +176,89 @@ export class AddQuestionsComponent implements OnInit {
     }
     
     this.mcqFormGroup.reset();
-      
   }
-
     
-    startTour() {
-      const intro = introJs();
-      let steps = [
-        {
-          intro: " Welcome! Let's start tour"
-        },
-        {
-          element: '#select-subject',
-          intro: " Select subject "
-        }
-        
-      ];
-
-      if(this.currentUser?.institution.type == InstitutionType.SCHOOL) {
-        const school = {
-          element: '#select-class',
-          intro: " Select class "
-        }
-        steps.push(school);
+  startTour() {
+    this.intro = introJs();
+    let steps = [
+      {
+        intro: " Welcome! Let's start tour"
+      },
+      {
+        element: '#select-subject',
+        intro: "First let's begin by selecting a subject for your question"
       }
+    ];
 
-      if(this.currentUser?.institution.type == InstitutionType.COLLEGE) {
-        const college = {
-          element: '#select-year',
-          intro: " Select college year"
-        }
-        steps.push(college);
+    if(this.currentUser?.institution.type == InstitutionType.SCHOOL) {
+      const school = {
+        element: '#select-class',
+        intro: " Select class "
       }
-
-      steps.push(
-        {
-          element: '#add-question',
-          intro: " Add question "
-        }
-      );
-
-      intro.setOptions({
-        showProgress: true,
-        steps: steps,
-        exitOnOverlayClick: false,
-        // Add event listener for when the tour is completed
-        
-      });
-  
-      intro.oncomplete(() =>  {
-        this.currentUser.tourVisited = true;
-         this.authSvc.updateTourStatus(this.currentUser )
-      });
-      
-      intro.onexit( () => {
-        this.currentUser.tourVisited = true;
-        this.authSvc.updateTourStatus(this.currentUser ) 
-      });
-  
-      intro.start();
-    
+      steps.push(school);
     }
- 
+
+    if(this.currentUser?.institution.type == InstitutionType.COLLEGE) {
+      const college = {
+        element: '#select-year',
+        intro: "Now, let's proceed by choosing the college year"
+      }
+      steps.push(college);
+    }
+
+    steps.push(
+      {
+        element: '#add-question',
+        intro: "Great! Now, type in your question in the provided input field below"
+      }
+    );
+
+    steps.push(
+      {
+        element: '#option-0',
+        intro: "Excellent! Next, let's add option for your question."
+      }
+    );
+
+    steps.push(
+      {
+        element: '#add-option',
+        intro: "You can enter multiple options to choose from by clicking  'Add option'."
+      }
+    );
+
+
+    this.intro.setOptions({
+      showProgress: true,
+      steps: steps,
+      exitOnOverlayClick: false,
+      // Add event listener for when the tour is completed
+      
+    });
+
+    // intro.oncomplete(() =>  {
+    //   this.currentUser.tourVisited = true;
+    //     this.authSvc.updateTourStatus(this.currentUser )
+    // });
+    
+    // intro.onexit( () => {
+    //   this.currentUser.tourVisited = true;
+    //   this.authSvc.updateTourStatus(this.currentUser ) 
+    // });
+
+    this.intro.start();
+  
+  }
  
 
   private async _getCurrentUser() {
     let user: any = await this.userSettingSvc.getCurrentUser();
-    user = await this.authSvc.getCurrentUser(user.id);
     this.currentUser = user;
     console.log(this.currentUser);
-    
   }
 
   private async _getAllSubjects() {
     this.subjects = await this.subjectSvc.getAllSubjects();
   }  
-
-  isElementVisible = () => true; // Default visibility function, always returns true
 
 }

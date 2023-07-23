@@ -58,6 +58,7 @@ footer{
     transition: all $transition-duration ease-in-out !important;
     position: absolute;
     bottom: 0;
+    width: -webkit-fill-available;
 }
 
   

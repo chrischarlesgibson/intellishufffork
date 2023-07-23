@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserListingComponent } from './user-listing/user-listing.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
@@ -10,6 +9,7 @@ import { SubjectsListingComponent } from './subjects/subjects-listing/subjects-l
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RolesListingComponent } from './role/roles-listing/roles-listing.component';
 import { RoleService } from './role/role.service';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [

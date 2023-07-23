@@ -1,24 +1,26 @@
 .container{
-    // margin: 70px 0;
     td{
-        button{
-            &.btn{
-                margin: 0 6px;
-
-            }
+      button{
+        &.btn{
+          margin: 0 6px;
         }
-      
+
+        &.btn-danger{
+          color: red;
+
+        }
+        &.btn-secondary{
+          color: var(--color-edit);
+
+        }
+      }
+      p {
+        margin-bottom: 0;
+
+      }
     }
 }
 
-.table-loader {
-    .skeleton-cell {
-      height: 62px; /* Customize the height of the loader cells */
-      background-color: rgba(0,0,0, .1);
-      animation: loaderAnimation 1s ease-in infinite ; /* Add animation to the loader */
-      
-    }
-  }
   
   // Define loader animation
   @keyframes loaderAnimation {
@@ -31,13 +33,13 @@
     100% {
       opacity: 0.1;
     }
-  }
+  } 
   
+
 
 @media (max-width: 767px) {
     .container{
-        margin: 63px 0;
-
+      margin: 63px a;
     }
     
 }

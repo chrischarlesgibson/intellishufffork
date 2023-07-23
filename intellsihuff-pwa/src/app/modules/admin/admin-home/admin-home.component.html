@@ -1,6 +1,6 @@
 <div class="wrapper" >
     <!-- menu button -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header  navbar navbar-expand navbar-white navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu"   role="button"><i class="fas fa-bars"></i></a>
@@ -8,48 +8,36 @@
       </ul>
     </nav>
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
+    <aside class="main-sidebar sidebar-dark-primary  elevation-4" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
       <a class="brand-link" (click)="onLogoClicked()">
-        <span class="brand-text font-weight-light">Intellishuff Admin Pannel</span>
+        <span class="brand-text font-weight-light">Intellishuff Admin</span>
       </a>
 
       <div class="sidebar" >
         <nav class="mt-2">
           <ul class="accordion-menu ">
-            <li>
-              <div class="nav-header">
-                <button (click)="openSidebar()" routerLink="/admin/user-listing"
-                   class="btn btn-link" data-toggle="collapse" 
-                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  User
-                </button>
+            <li routerLink="/admin/user-listing">
+              <div class="nav-header" >
+                 User
               </div>
  
             </li>
             
-            <li>
-              <div class="nav-header">
-                <button routerLink="/admin/roles-listing" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Role
-                </button>
+            <li routerLink="/admin/roles-listing">
+              <div class="nav-header" >
+                Role
               </div>
             </li>
             
-            <li>
+            <li routerLink="/admin/institution">
               <div class="nav-header">
-                <button class="btn btn-link collapsed"  routerLink="/admin/institution"
-                  data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Institution
-                </button>
+                Institution
               </div>
             </li>
 
-            <li>
-              <div class="nav-header">
-                <button class="btn btn-link collapsed" routerLink="/admin/subjects-listing"
-                  data-toggle="collapse" data-target="#collapseSubjects" aria-expanded="false" aria-controls="collapseThree">
-                  Subject
-                </button>
+            <li routerLink="/admin/subjects-listing">
+              <div class="nav-header" >
+                Subject
               </div>
             </li>
           </ul>
@@ -59,20 +47,15 @@
     </aside>
 
     <div class="content-wrapper">
+      <router-outlet (activate)="onChildComponentActivate($event)"></router-outlet>
+
       <section class="content">
         <div class="container-fluid">
-          <!-- <div [hidden]="isChildComponentActivated">
-            Admin Home
-          </div> -->
-          <router-outlet (activate)="onChildComponentActivate($event)"></router-outlet>
         </div>
       </section>
     </div>
 
     <footer class="main-footer">
-      <div class="float-right d-none d-sm-inline">
-        Anything you want
-      </div>
       <strong>Copyright &copy; 2023 .</strong> All rights reserved.
     </footer>
 

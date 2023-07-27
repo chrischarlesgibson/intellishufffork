@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppInjector } from './universal/app-injector';
 import { UserModule } from './modules/user/user.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NgxPubSubService } from './universal/pub-sub';
 import { BaseService } from './universal/base.service';
 import { AdminModule } from './modules/admin/admin.module';
@@ -16,40 +16,55 @@ import { AuthModule } from './modules/authentication/auth.module';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NoDataModule } from './components/no-data/no-data.module';
-import { HoverDirective } from './directives/hover.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavbarModule } from './components/navbar/navbar.module';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
+
+const routes: Routes = [
+  {
+    path: '403',
+    component: AccessDeniedComponent
+  },
+  {
+    path: '404',
+    component: PageNotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
+  },
+  // Other routes...
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    HoverDirective,
-  ],
+  declarations: [AppComponent],
   imports: [
-    RouterModule.forRoot([]), // Make sure to include the `forRoot` method
+    RouterModule.forRoot(routes), // Make sure to include the `forRoot` method
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    UserModule, 
+    UserModule,
     AuthModule,
     AdminModule,
-    AppRoutingModule,  
+    AppRoutingModule,
     NoDataModule,
+    NavbarModule,
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.production,
     }),
   ],
-  providers: [
-    BaseService,
-    NgxPubSubService
-  ],
-  bootstrap: [AppComponent]
+  providers: [BaseService, NgxPubSubService],
+  bootstrap: [AppComponent],
+
 })
-export class AppModule { 
+export class AppModule {
   // null ijector issue
   //avoid multiple instance of injector in case of inheritance
   //https://blogs.msdn.microsoft.com/premier_developer/2018/06/17/angular-how-to-simplify-components-with-typescript-inheritance/
   //https://stackoverflow.com/a/53185632
   constructor(injector: Injector) {
     AppInjector.setInjector(injector);
-  } 
+  }
 }

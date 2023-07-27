@@ -11,6 +11,9 @@ import { QuestionModule } from './question/question.module';
 import { AuthModule } from '../authentication/auth.module';
 import { AuthGuard } from '../authentication/auth.guard';
 import { EditProfileGuard } from '../authentication/edit-profile.guard';
+import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
+import { HoverDirective } from 'src/app/directives/hover.directive';
+import { NavbarModule } from 'src/app/components/navbar/navbar.module';
 
 @NgModule({
   declarations: [HomeComponent, ContactComponent],
@@ -20,6 +23,7 @@ import { EditProfileGuard } from '../authentication/edit-profile.guard';
     ComponentsWithFormsModule,
     UserRoutingModule,
     RouterModule,
+    NavbarModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -1,12 +1,7 @@
 import {
-  AfterContentChecked,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  Input,
-  OnChanges,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
@@ -43,8 +38,10 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
             *ngIf="isAdmin"
             HoverDirective
             [hoverText]="'admin'"
+            routerLink="/admin"
+            routerLinkActive="active"
           >
-            <a class="nav-link" [class.active]="activePage == 'admin'">
+            <a class="nav-link">
               <i class="fas fa-user-shield"></i>
             </a>
           </li>
@@ -54,8 +51,10 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
             (click)="onMenuNavigated('home')"
             HoverDirective
             [hoverText]="'home'"
+            routerLink="/home"
+            routerLinkActive="active"
           >
-            <a class="nav-link" [class.active]="activePage == 'home'">
+            <a class="nav-link">
               <i class="fas fa-home"></i>
             </a>
           </li>
@@ -65,8 +64,10 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
             (click)="onMenuNavigated('contact')"
             HoverDirective
             [hoverText]="'contact'"
+            routerLink="/contact"
+            routerLinkActive="active"
           >
-            <a class="nav-link" [class.active]="activePage == 'contact'">
+            <a class="nav-link">
               <i class="fas fa-envelope"></i>
             </a>
           </li>
@@ -154,7 +155,6 @@ export class NavbarComponent implements OnInit {
   }
 
   onMenuNavigated(url) {
-    this.router.navigate([`/${url}`]);
     this.activePage = url;
   }
 

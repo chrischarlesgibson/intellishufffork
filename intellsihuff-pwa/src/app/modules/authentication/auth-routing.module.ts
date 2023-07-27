@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { EditProfileGuard } from './edit-profile.guard';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [

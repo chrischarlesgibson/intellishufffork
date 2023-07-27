@@ -17,22 +17,39 @@
   ul {
     margin: 0 auto !important;
     li {
-      margin-left: 1rem;
-      &.nav-item {
-        position: relative;
-        .hover-div {
+      margin: 0 0.5rem;
+      position: relative;
+
+      .hover-div {
+        position: absolute;
+        top: 40px;
+        width: fit-content;
+        height: fit-content;
+        background-color: var(--color-primary);
+        border-radius: 5px;
+        color: #fff;
+        padding: 0 6px;
+
+        /* Arrow styles */
+        &::before {
+          content: "";
           position: absolute;
-          top: 34px;
-          width: fit-content;
-          height: fit-content;
-          background-color: var(--color-primary);
-          border: 1px solid var(--color-primary);
-          border-radius: 5px;
-          color: #fff;
-          padding: 0 6px;
+          bottom: 100%; /* Place the arrow above the tooltip */
+          left: 50%;
+          border: 5px solid transparent;
+          border-top-color: var(
+            --color-primary
+          ); /* Color the top border of the arrow */
+          transform: rotate(180deg);
         }
       }
-
+      &.active {
+        a {
+          i {
+            color: var(--color-primary) !important;
+          }
+        }
+      }
       a {
         font-size: 1.2rem;
         font-weight: bold;
@@ -42,10 +59,6 @@
           width: fit-content;
           i {
             font-size: 20px;
-          }
-
-          &.active {
-            color: var(--color-primary) !important;
           }
 
           &:before {
@@ -91,7 +104,7 @@
         display: flex;
         flex-direction: row;
         list-style: none;
-        margin: 50px 0px 0 0;
+        margin: 50px 0px 0 0 !important;
         justify-content: center;
       }
 

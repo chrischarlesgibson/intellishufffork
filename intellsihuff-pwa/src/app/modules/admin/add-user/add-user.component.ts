@@ -66,6 +66,7 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     // await loader.present();
 
     const params = {
+      id: this.currentUser.id || undefined,
       email: data.email,
       name: data.name,
       password: data.password,

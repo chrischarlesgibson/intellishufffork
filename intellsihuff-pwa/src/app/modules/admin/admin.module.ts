@@ -10,6 +10,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RolesListingComponent } from './role/roles-listing/roles-listing.component';
 import { RoleService } from './role/role.service';
 import { NgModule } from '@angular/core';
+import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
+import { HoverDirective } from 'src/app/directives/hover.directive';
+import { NavbarModule } from 'src/app/components/navbar/navbar.module';
 
 @NgModule({
   declarations: [
@@ -18,10 +21,10 @@ import { NgModule } from '@angular/core';
     AddUserComponent,
     InstitutionComponent,
     SubjectsListingComponent,
-    RolesListingComponent,
+    RolesListingComponent 
   ],
   providers: [RoleService],
-  imports: [AdminRoutingModule, ComponentsWithFormsModule, FontAwesomeModule],
+  imports: [AdminRoutingModule, ComponentsWithFormsModule, FontAwesomeModule, NavbarModule],
   exports: [RouterModule],
 })
 export class AdminModule {}

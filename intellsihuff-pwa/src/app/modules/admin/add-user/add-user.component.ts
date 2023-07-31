@@ -78,9 +78,8 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if (resp.status) {
-        this.router.navigate(['/admin/user-listing']);
-
         await this.helperSvc.presentAlert(resp.message, 'success');
+        this.router.navigate(['/admin/user-listing']);
       } else {
         await this.helperSvc.presentAlert(resp.message, 'warning');
       }

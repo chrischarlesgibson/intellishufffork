@@ -36,13 +36,13 @@ export class AppComponent {
 
   shouldShowNavbar() {
     const currentUrl = this.router.url;
-    return currentUrl.includes('/login') || 
-      currentUrl.includes('/register') || 
-        currentUrl.includes('/access-denied') ||
-          currentUrl.includes('404') || 
-            currentUrl.includes('403')
-
-      ? false : true;
+    return currentUrl.includes('/login') ||
+      currentUrl.includes('/register') ||
+      currentUrl.includes('/access-denied') ||
+      currentUrl.includes('404') ||
+      currentUrl.includes('403')
+      ? false
+      : true;
   }
 
   initializeWeb() {

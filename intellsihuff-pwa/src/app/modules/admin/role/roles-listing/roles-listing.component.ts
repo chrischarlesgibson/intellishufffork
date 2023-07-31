@@ -52,6 +52,10 @@ export class RolesListingComponent extends BasePage implements OnInit {
     }
   }
 
+  trackByRoles(index, role: IRole) {
+    return role ? role.id : undefined
+  }
+
   private async _getAllRoles() {
     const roles = await this.roleSvc.getAll();
     this.roles = roles.data as any;

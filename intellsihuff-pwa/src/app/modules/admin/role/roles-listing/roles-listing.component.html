@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody *ngIf="roles">
-      <tr *ngFor="let role of roles; let idx = index">
+      <tr *ngFor="let role of roles; trackBy: trackByRoles; let idx = index">
         <th scope="row">{{ idx + 1 }}</th>
         <td *ngIf="!role.isEditingMode">
           {{ role.role }}

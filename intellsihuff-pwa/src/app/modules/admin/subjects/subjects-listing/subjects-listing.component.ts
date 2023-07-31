@@ -22,7 +22,7 @@ export class SubjectsListingComponent
   extends BasePage
   implements OnInit, OnDestroy
 {
-  @ViewChild('myModalRef') myModalRef: NgbModal;
+  @ViewChild('closeModal') closeModal: ElementRef;
 
   editMode = false;
   subjects: ISubject[];
@@ -31,14 +31,14 @@ export class SubjectsListingComponent
 
   constructor(
     private subjectSvc: SubjectService,
-    private formBuilder: FormBuilder,
-    private renderer: Renderer2,
-    private elementRef: ElementRef
+    private formBuilder: FormBuilder
   ) {
     super();
 
     this.addSubjectFg = this.formBuilder.group({
       name: [null, Validators.required],
+      id: [null],
+
     });
   }
 
@@ -55,19 +55,15 @@ export class SubjectsListingComponent
 
   onEditSubjectClicked(subject) {
     this.editMode = true;
-    this.addSubjectFg.patchValue({ name: subject.name });
+    this.addSubjectFg.patchValue({ name: subject.name, id: subject.id });
   }
 
   async onUpdateSubjectClicked(data) {
-    const sub = <ISubject>this.subjects.find((s) => {
-      return (s.name = data.name);
-    });
 
     try {
-      const resp = await this.subjectSvc.updateSubject(sub);
+      const resp = await this.subjectSvc.updateSubject(data);
+      this._closeModal();
       await this._getAllSubjects();
-      this.addSubjectFg.reset();
-      this.editMode = false;
 
       if (resp.status) {
         this.helperSvc.presentAlert(resp.message, 'success');
@@ -85,9 +81,11 @@ export class SubjectsListingComponent
 
     try {
       const resp = await this.subjectSvc.addSubject(data);
-      await this._getAllSubjects();
+
       if (resp.status) {
+        this._closeModal();
         this.helperSvc.presentAlert(resp.message, 'success');
+        await this._getAllSubjects();
       } else {
         this.helperSvc.presentAlert(resp.message, 'warning');
       }
@@ -97,10 +95,6 @@ export class SubjectsListingComponent
     }
   }
 
-  clodeModal(ev) {
-    this.editMode = false;
-    this.addSubjectFg.reset();
-  }
 
   async onDltSubjectClicked(subject) {
     const resp = await this.helperSvc.presentConfirmDialogue(
@@ -121,6 +115,12 @@ export class SubjectsListingComponent
     } finally {
       this.helperSvc.dismissLoader();
     }
+  }
+
+  private _closeModal(ev?) {
+    this.editMode = false;
+    this.addSubjectFg.reset();
+    this.closeModal.nativeElement.click();
   }
 
   private async _getAllSubjects() {

@@ -7,11 +7,12 @@ import { InstitutionComponent } from './institution/institution.component';
 import { AuthGuard } from '../authentication/auth.guard';
 import { SubjectsListingComponent } from './subjects/subjects-listing/subjects-listing.component';
 import { RolesListingComponent } from './role/roles-listing/roles-listing.component';
+import { AuthAdminGuard } from './auth-admin-guard.service';
 
 const routes: Routes = [
   {
     path: 'admin',
-    canActivate: [AuthGuard],
+    canActivate: [AuthAdminGuard],
     component: AdminHomeComponent,
     children: [
       {

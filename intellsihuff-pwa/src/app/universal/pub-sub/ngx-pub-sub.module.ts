@@ -4,6 +4,6 @@ import { NgxPubSubService } from './ngx-pub-sub.service';
 
 @NgModule({
   imports: [CommonModule],
-  providers: [NgxPubSubService]
+  providers: [NgxPubSubService],
 })
 export class NgxPubSubModule {}

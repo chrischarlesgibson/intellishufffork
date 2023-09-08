@@ -1,31 +1,46 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject, Subscription, ReplaySubject, Observable, BehaviorSubject, SchedulerLike } from 'rxjs';
+import {
+  Subject,
+  Subscription,
+  ReplaySubject,
+  Observable,
+  BehaviorSubject,
+  SchedulerLike,
+} from 'rxjs';
 
 import { IHash } from './i-hash';
 import { SubjectType } from './subject-type.enum';
 
 @Injectable()
 export class NgxPubSubService implements OnDestroy {
-
   private eventObservableMapping: IHash;
 
   constructor() {
     this.eventObservableMapping = {};
   }
-  
+
   publishEvent(eventName: string, data?: any) {
     this.validateEventName(eventName);
     this.createSubjectIfNotExist(eventName);
 
     this.publishNext(eventName, SubjectType.Subject, data);
   }
-  
-  subscribe(eventName: string, next?: (value: any) => void, error?: (error: any) => any, complete?: () => void): Subscription {
+
+  subscribe(
+    eventName: string,
+    next?: (value: any) => void,
+    error?: (error: any) => any,
+    complete?: () => void,
+  ): Subscription {
     this.validateEventName(eventName);
     // subject will be created if the provided eventName is not registered
     this.createSubjectIfNotExist(eventName);
 
-    return this.eventObservableMapping[eventName].ref.subscribe(next, error, complete);
+    return this.eventObservableMapping[eventName].ref.subscribe(
+      next,
+      error,
+      complete,
+    );
   }
 
   /**
@@ -36,7 +51,7 @@ export class NgxPubSubService implements OnDestroy {
     this.validateEventName(eventName);
     // subject will be created if the provided eventName is not registered
     this.createSubjectIfNotExist(eventName);
-    
+
     return this.eventObservableMapping[eventName].ref.asObservable();
   }
 
@@ -47,18 +62,23 @@ export class NgxPubSubService implements OnDestroy {
     // create one
     this.eventObservableMapping[name] = {
       type: SubjectType.BehaviorSubject,
-      ref: new BehaviorSubject(defaultValue)
+      ref: new BehaviorSubject(defaultValue),
     };
   }
 
-  registerEventWithHistory(name: string, bufferSize?: number, windowTime?: number, scheduler?: SchedulerLike) {
+  registerEventWithHistory(
+    name: string,
+    bufferSize?: number,
+    windowTime?: number,
+    scheduler?: SchedulerLike,
+  ) {
     this.validateEventName(name);
     // type and name check
     this.checkEventType(name, SubjectType.ReplaySubject, true);
     // create one
     this.eventObservableMapping[name] = {
       type: SubjectType.ReplaySubject,
-      ref: new ReplaySubject(bufferSize, windowTime, scheduler)
+      ref: new ReplaySubject(bufferSize, windowTime, scheduler),
     };
   }
 
@@ -71,7 +91,7 @@ export class NgxPubSubService implements OnDestroy {
     this.validateEventName(eventName);
     this.publishNext(eventName, SubjectType.ReplaySubject, data);
   }
-  
+
   completeEvent(eventName: string) {
     this.validateEventName(eventName);
     if (!this.eventObservableMapping[eventName]) {
@@ -87,41 +107,55 @@ export class NgxPubSubService implements OnDestroy {
       }
     }
   }
-  
-  private publishNext(eventName: string, type: SubjectType = SubjectType.Subject, data?: any) {
+
+  private publishNext(
+    eventName: string,
+    type: SubjectType = SubjectType.Subject,
+    data?: any,
+  ) {
     this.checkEventType(eventName, type);
     this.eventObservableMapping[eventName].ref.next(data);
   }
 
-  private checkEventType(eventName: string, type: SubjectType = SubjectType.Subject, shouldNotExist = false) {
+  private checkEventType(
+    eventName: string,
+    type: SubjectType = SubjectType.Subject,
+    shouldNotExist = false,
+  ) {
     const object = this.eventObservableMapping[eventName];
     let errorMessage;
-    if(!object && shouldNotExist) { return; }
-    if(!object) {
-      errorMessage = `Event doesn't exist of type: ${SubjectType[type]} or it has been completed`;
-    } else if(object.type !== type) {
-      errorMessage = `Event exists with other type: ${SubjectType[object.type]}. Expected type: ${SubjectType[type]}`;
+    if (!object && shouldNotExist) {
+      return;
     }
-    if(shouldNotExist && object.type === type) {
+    if (!object) {
+      errorMessage = `Event doesn't exist of type: ${SubjectType[type]} or it has been completed`;
+    } else if (object.type !== type) {
+      errorMessage = `Event exists with other type: ${
+        SubjectType[object.type]
+      }. Expected type: ${SubjectType[type]}`;
+    }
+    if (shouldNotExist && object.type === type) {
       errorMessage = `Event already registerd with the same type. Don't register a second time`;
     }
-    if(errorMessage) {
+    if (errorMessage) {
       throw Error(`Error (${eventName}): ${errorMessage}`);
     }
   }
 
   private createSubjectIfNotExist(eventName: string) {
     const object = this.eventObservableMapping[eventName];
-    if(object) { return; }
-  
+    if (object) {
+      return;
+    }
+
     this.eventObservableMapping[eventName] = {
       type: SubjectType.Subject,
-      ref: new Subject()
+      ref: new Subject(),
     };
   }
 
   private validateEventName(eventName: string) {
-    if(!eventName) {
+    if (!eventName) {
       throw Error('Event name not provided');
     }
   }
@@ -130,5 +164,4 @@ export class NgxPubSubService implements OnDestroy {
     this.eventObservableMapping[eventName].ref.complete();
     delete this.eventObservableMapping[eventName];
   }
-
 }

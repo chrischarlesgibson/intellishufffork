@@ -10,18 +10,17 @@ import {
   Semisters,
 } from '../question.model';
 
-import { jsPDF } from 'jspdf';
 import { ISubject } from '../../subject/subject.model';
 import { UserSettingService } from '../../user-setting.service';
 import { BasePage } from 'src/app/universal/base.page';
 import { SharedService } from '../shared.service';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import {
   IUser,
   InstitutionType,
 } from 'src/app/modules/authentication/auth.model';
 import * as moment from 'moment';
-import { AppConstant } from 'src/app/universal/app-constant';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'questions-bank',
@@ -42,8 +41,6 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   Semisters = Semisters;
   Year = CollegeYear;
 
-  faFilter = faFilter;
-
   getLetter(index: number): string {
     return String.fromCharCode(97 + index);
   }
@@ -53,7 +50,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
     private subjectSvc: SubjectService,
     private formBuilder: FormBuilder,
     private userSettingSvc: UserSettingService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {
     super();
     this.formGroup = this.formBuilder.group({
@@ -114,7 +111,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       const resp: any = await this.questionSvc.filterQuestions(data);
 
       if (resp.message) {
-        this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
         return;
       }
 
@@ -149,11 +146,9 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       const j = this._generateRandomNumber(
         generatedRandomNumbers,
         arrayLength,
-        i
+        i,
       );
-      if (i == j) {
-        console.log('macthed');
-      }
+
       generatedRandomNumbers.push(j);
       [array[i], array[j]] = [array[j], array[i]];
     }
@@ -200,7 +195,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   private async _exportPdf(
     schoolLogo?: any, // URL or file path to the school's logo
     headerColor?: string, // Hex code or RGB value for header color
-    bodyColor?: string //
+    bodyColor?: string, //
   ) {
     return new Promise<void>((resolve) => {
       const doc = new jsPDF({
@@ -254,7 +249,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
             institutionNameX,
             underlineY,
             institutionNameX + underlineWidth,
-            underlineY
+            underlineY,
           );
           yPos += 30;
 
@@ -425,7 +420,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   private _generateRandomNumber(
     usedNumbers: any,
     max: any,
-    currentNum: number
+    currentNum: number,
   ) {
     const maxAttempts = 100; // Maximum number of attempts to find a unique random number
     let attempts = 0;
@@ -442,7 +437,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
 
     // If a unique random number cannot be found within the maximum attempts, use a fallback approach
     const unusedNumbers = Array.from(Array(max).keys()).filter(
-      (num) => !usedNumbers.includes(num) && num !== currentNum
+      (num) => !usedNumbers.includes(num) && num !== currentNum,
     );
     if (unusedNumbers.length > 0) {
       const randomIndex = Math.floor(Math.random() * unusedNumbers.length);
@@ -451,6 +446,10 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
 
     // If no unused numbers are available, return the current number as a fallback
     return currentNum;
+  }
+
+  trackQuestions(index, question: IQuestion) {
+    return question ? question.id : undefined;
   }
 
   private async _getCurrentUser() {

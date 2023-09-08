@@ -1,6 +1,7 @@
 import { BaseService } from 'src/app/universal/base.service';
 import { IRegister, IUser, Ilogin, UserRole, UserStatus } from './auth.model';
 import { IResponse } from 'src/app/universal/shared.model';
+import { HttpHeaders } from '@angular/common/http';
 
 export class AuthService extends BaseService {
   /**
@@ -10,13 +11,11 @@ export class AuthService extends BaseService {
     super();
   }
 
-  uploadLogo(args, image) {
-    console.log(args, image);
+  uploadLogo( image) {
     return this.postData<any>({
       url: `institution/uploadLogo`,
       body: {
-        args: args,
-        image: image,
+        file: image
       },
     });
   }
@@ -27,9 +26,15 @@ export class AuthService extends BaseService {
     });
   }
 
-  getCurrentUser(id: number) {
+  async getCurrentUser(id: number) {
+    const token = await this.userSettingSvc.getAccessToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
     return this.getData<IUser>({
       url: `user/getCurrentUser?id=${id}`,
+      httpHeaders: headers
     });
   }
 

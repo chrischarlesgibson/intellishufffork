@@ -36,7 +36,10 @@ import { Router } from '@angular/router';
   ],
 })
 export class PageNotFoundComponent {
-  constructor(private router: Router, private titleService: Title) {
+  constructor(
+    private router: Router,
+    private titleService: Title,
+  ) {
     this.titleService.setTitle('Page Not Found');
   }
   onGoToClicked() {

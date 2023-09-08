@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -11,51 +16,58 @@ import { AppConstant } from './universal/app.constant';
 import { InstitutionModule } from './institution/institution.module';
 import { QuestionModule } from './question/question.module';
 import { SubjectModule } from './subject/subject.module';
-import { UserRole, UserStatus } from './user/user.model';
+import { UserStatus } from './user/user.model';
 import { InstitutionType } from './institution/institution.model';
+import { QuizModule } from './quiz/quiz.module';
+import { RoleModule } from './role/role/role.module';
+import { RoleService } from './role/role/role.service';
 
-const CONNECTION_NAME = "default";
+const CONNECTION_NAME = 'default';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.development.env'],
       isGlobal: true,
-      cache: true
+      cache: true,
     }),
     MailerModule.forRoot({
       transport: {
         host: AppConstant.DEFAULT_EMAIL_SMTP,
-        port: 465,
+        port: 587,
+        ignoreTLS: true,
         secure: false,
         auth: {
           user: AppConstant.DEFAULT_EMAIL_USERNAME,
           pass: AppConstant.DEFAULT_EMAIL_PASSWORD,
         },
       },
+      preview: true,
+
       // defaults: {
       //   from: ' "No Reply" <noreply@SmartEagles.com>',
       // },
- 
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       name: CONNECTION_NAME,
-       // database: `./_db/amanah.db`,
+      // database: `./_db/amanah.db`,
       // entities: [Trip],
       // synchronize: true,
       useFactory: (configService: ConfigService) => ({
         type: 'sqlite',
-        database: './_db/intellishuff.db',  
+        database: configService.get('DATABASE'),
         autoLoadEntities: true,
-        synchronize: true
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UserModule,
     InstitutionModule,
     QuestionModule,
-    SubjectModule
+    SubjectModule,
+    QuizModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -64,24 +76,21 @@ export class AppModule implements NestModule {
   /**
    *
    */
-  constructor(
-    private userSvc: UserService
-  ) {
-    
-    
-  }
+  constructor(private userSvc: UserService) {}
 
-  async configure(consumer: MiddlewareConsumer ) {
-    if(process.env.NODE_ENV == 'production') {
-      let SuperAdmin = await this.userSvc.getUserByEmail('dev.faisalK@gmail.com');
+  async configure(consumer: MiddlewareConsumer) {
+    if (process.env.NODE_ENV == 'production') {
+      let SuperAdmin = await this.userSvc.getUserByEmail(
+        'dev.faisalK@gmail.com',
+      );
       console.log('prod');
-     
+
       if (!SuperAdmin) {
         await this.userSvc.register({
           email: 'dev.faisalK@gmail.com',
           name: 'faisal khan',
           password: '</>Intellishuff256',
-          role: UserRole.ADMIN,
+          roles: ['Admin'], // Pass an array of role names
           status: UserStatus.APPROVED,
           tourVisited: true,
           institution: {
@@ -96,6 +105,5 @@ export class AppModule implements NestModule {
 
     console.log('development');
     consumer.apply(SeedDataMiddleware).forRoutes('/');
-
   }
 }

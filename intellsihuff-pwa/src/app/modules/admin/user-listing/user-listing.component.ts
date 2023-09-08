@@ -3,6 +3,7 @@ import { HelperService } from 'src/app/universal/helper.service';
 import { AuthService } from '../../authentication/auth.service';
 import { IUser, UserRole, UserStatus } from '../../authentication/auth.model';
 import { BasePage } from 'src/app/universal/base.page';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'app-user-listing',
@@ -33,7 +34,7 @@ export class UserListingComponent extends BasePage implements OnInit {
       await this.authSvc.changeRole(user, role);
       this.helperSvc.presentAlert(
         `Role successfully changed for ${user.email}`,
-        'success'
+        SweetAlertIcon.SUCCESS,
       );
     } catch (error) {
     } finally {
@@ -50,7 +51,7 @@ export class UserListingComponent extends BasePage implements OnInit {
       await this.authSvc.changeStatus(user, status);
       this.helperSvc.presentAlert(
         `Status successfully changed to ${status} for ${user.email}`,
-        'success'
+        'success',
       );
     } catch (error) {
     } finally {

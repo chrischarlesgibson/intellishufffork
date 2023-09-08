@@ -7,7 +7,7 @@ body {
     }
   }
   .container {
-    margin: var(--under-nav-margin);
+    margin: var(--under-nav-margin) !important;
   }
 }
 
@@ -65,5 +65,12 @@ form {
     height: 37px; /* Customize the height of the loader cells */
     background-color: rgba(0, 0, 0, 0.1);
     animation: loaderAnimation 1s ease-in infinite; /* Add animation to the loader */
+  }
+}
+
+
+@media (max-width: 990px) {
+  .container {
+    margin: 70px auto 0 auto !important;
   }
 }

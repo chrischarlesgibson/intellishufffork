@@ -3,7 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 import { UserSettingService } from '../user/user-setting.service';
 
@@ -13,14 +13,13 @@ import { UserSettingService } from '../user/user-setting.service';
 export class AuthAdminGuard implements CanActivate {
   constructor(
     private userSettingSvc: UserSettingService,
-    private router: Router
+    private router: Router,
   ) {}
 
   async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) //  boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree>
-  {
+    state: RouterStateSnapshot, //  boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree>
+  ) {
     const user = <any>await this.userSettingSvc.getCurrentUser();
     let isAdmin = false;
     if (user) {

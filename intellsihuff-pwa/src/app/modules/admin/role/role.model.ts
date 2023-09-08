@@ -1,5 +1,5 @@
-export interface IRole{
-    id?: number
-    role: string
-    isEditingMode: boolean
+export interface IRole {
+  id?: number;
+  role: string;
+  isEditingMode: boolean;
 }

@@ -13,10 +13,11 @@ export class InstitutionComponent extends BasePage implements OnInit {
   currentUser: IUser;
   InstitutionType = InstitutionType;
   selectedImage: File;
+  fileName = '';
 
   constructor(
     private userSettingSvc: UserSettingService,
-    private userSvc: AuthService
+    private userSvc: AuthService,
   ) {
     super();
   }
@@ -29,19 +30,21 @@ export class InstitutionComponent extends BasePage implements OnInit {
     this.selectedImage = ev.target.files[0] as File;
   }
 
-  async uploadImage(event: Event) {
-    event.preventDefault();
+  async uploadImage(event: any) {
+    
+    if (this.selectedImage) {
+      const fileName = this.selectedImage.name;
 
-    const formData: FormData = new FormData();
-    formData.append('image', this.selectedImage, this.selectedImage.name);
+      const formData = new FormData();
+      formData.append("thumbnail", this.selectedImage);
+      console.log(formData);
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Content-Type', 'multipart/form-data');
+      await this.userSvc.uploadLogo(
+        this.selectedImage
+      );
+    }
 
-    await this.userSvc.uploadLogo(
-      this.currentUser.institution,
-      this.selectedImage
-    );
+ 
   }
 
   private async _getCurrentUser() {

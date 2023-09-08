@@ -1,22 +1,45 @@
 export class DbService {
-  get Db(): any { return; }
-      // @ts-ignore
-  putLocal(store, data): Promise<{ rowsAffected, insertId }>{ return; }
-      // @ts-ignore
-  
-  get<T>(store: string, key: any): Promise<T> { return; }
-      // @ts-ignore
+  get Db(): any {
+    return;
+  }
+  putLocal(store, data): Promise<{ rowsAffected; insertId }> {
+  // @ts-ignore
+    return;
+  }
 
-  getAll<T>(store: string): Promise<T> { return; }
-      // @ts-ignore
+  get<T>(store: string, key: any): Promise<T> {
+  // @ts-ignore
+    return;
+  }
 
-  remove(store, id): Promise<any>{ return; }
-      // @ts-ignore
 
-  removeAll(store): Promise<any>{ return; }
-      // @ts-ignore
-  count(store, opts?: { key }): Promise<number> { return; }
+  getAll<T>(store: string): Promise<T> {
+  // @ts-ignore
+    return;
+  }
+  // @ts-ignore
 
-    // @ts-ignore
-  delete(): Promise<any> { return; }
+  remove(store, id): Promise<any> {
+  // @ts-ignore
+
+    return;
+  }
+
+  removeAll(store): Promise<any> {
+  // @ts-ignore
+
+    return;
+  }
+  count(store, opts?: { key }): Promise<number> {
+  // @ts-ignore
+
+    return;
+  }
+
+  // @ts-ignore
+  delete(): Promise<any> {
+  // @ts-ignore
+    
+    return;
+  }
 }

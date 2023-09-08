@@ -7,7 +7,7 @@ import { AbstractControl, NgControl } from '@angular/forms';
 export class MaxLengthDirective {
   constructor(
     private el: ElementRef<HTMLInputElement>,
-    private ngControl: NgControl
+    private ngControl: NgControl,
   ) {}
 
   @HostListener('input') onInput() {

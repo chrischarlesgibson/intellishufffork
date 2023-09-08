@@ -34,7 +34,7 @@ export class BaseService {
     this.pubsubSvc = injector.get(NgxPubSubService);
 
     setTimeout(async () => {
-      this.dbService = injector.get(DbWebService);
+      this.dbService = injector.get(DbWebService) as any;
     }, 0);
   }
 
@@ -76,7 +76,7 @@ export class BaseService {
             } else {
               reject(error);
             }
-          }
+          },
         );
     });
   }
@@ -111,7 +111,7 @@ export class BaseService {
             } else {
               reject(error);
             }
-          }
+          },
         );
     });
   }
@@ -153,7 +153,7 @@ export class BaseService {
     if (!args.ignoreContentType) {
       headers = headers.append(
         'Content-Type',
-        'application/json;charset=utf-8'
+        'application/json;charset=utf-8',
       );
     }
 

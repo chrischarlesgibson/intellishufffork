@@ -36,7 +36,10 @@ import { Router } from '@angular/router';
   ],
 })
 export class AccessDeniedComponent {
-  constructor(private router: Router, private titleService: Title) {
+  constructor(
+    private router: Router,
+    private titleService: Title,
+  ) {
     this.titleService.setTitle('403 Forbidden');
   }
 

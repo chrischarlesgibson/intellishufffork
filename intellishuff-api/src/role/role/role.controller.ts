@@ -4,23 +4,18 @@ import { RoleService } from './role.service';
 
 @Controller(`${AppConstant.ROUTE_PREFIX}/role`)
 export class RoleController {
-    /**
-     *
-     */
-    constructor(
-        private roleSvc: RoleService
-    ) {
-        
-    }
+  /**
+   *
+   */
+  constructor(private roleSvc: RoleService) {}
 
-    @Post('addRole')
-    async addRole(@Body() args: any) {
-        return  this.roleSvc.addRole(args);
-    }
+  @Post('addRole')
+  async addRole(@Body() args: any) {
+    return this.roleSvc.addRole(args);
+  }
 
-    @Get('getAll')
-    async getAll() {
-        return this.roleSvc.getAll();
-    }
-
+  @Get('getAll')
+  async getAll() {
+    return this.roleSvc.getAll();
+  }
 }

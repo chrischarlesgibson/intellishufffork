@@ -26,6 +26,7 @@ import {
 import { AuthService } from 'src/app/modules/authentication/auth.service';
 import * as moment from 'moment';
 import { AppConstant } from 'src/app/universal/app-constant';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'add-questions',
@@ -33,6 +34,8 @@ import { AppConstant } from 'src/app/universal/app-constant';
   styleUrls: ['./add-questions.component.scss'],
 })
 export class AddQuestionsComponent implements OnInit {
+
+  @ViewChild('closeModalBtn') closeModalBtn: ElementRef;
   mcqFormGroup: FormGroup;
   aboutQuestionFg: FormGroup;
 
@@ -57,7 +60,7 @@ export class AddQuestionsComponent implements OnInit {
     private userSettingSvc: UserSettingService,
     private subjectSvc: SubjectService,
     private helperSvc: HelperService,
-    private authSvc: AuthService
+    private authSvc: AuthService,
   ) {
     this.mcqFormGroup = this.formBuilder.group({
       questionText: [null, Validators.required],
@@ -81,7 +84,7 @@ export class AddQuestionsComponent implements OnInit {
     await this._getCurrentUser();
     await this._getAllSubjects();
     if (!this.currentUser.tourVisited) {
-      this.startTour();
+      this._startTour();
     }
   }
 
@@ -129,9 +132,10 @@ export class AddQuestionsComponent implements OnInit {
       const resp = await this.subjectSvc.addSubject(data);
       await this._getAllSubjects();
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, 'success');
+        this._closeModal();
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
       } else {
-        this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -148,7 +152,7 @@ export class AddQuestionsComponent implements OnInit {
       this.currentUser?.institution.type == InstitutionType.COLLEGE &&
       this.aboutQuestionFg.controls['collegeYear'].value == null
     ) {
-      this.helperSvc.presentAlert('Please select Year', 'warning');
+      this.helperSvc.presentAlert('Please select Year', SweetAlertIcon.INFO);
       return;
     }
 
@@ -156,7 +160,7 @@ export class AddQuestionsComponent implements OnInit {
       this.currentUser?.institution.type == InstitutionType.SCHOOL &&
       this.aboutQuestionFg.controls['scchoolClass'].value == null
     ) {
-      this.helperSvc.presentAlert('Please select Class', 'warning');
+      this.helperSvc.presentAlert('Please select Class', SweetAlertIcon.INFO);
       return;
     }
 
@@ -180,7 +184,7 @@ export class AddQuestionsComponent implements OnInit {
     try {
       const resp = await this.questionSvc.addQuestion(question);
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
       }
     } catch (error) {
     } finally {
@@ -190,7 +194,7 @@ export class AddQuestionsComponent implements OnInit {
     this.mcqFormGroup.reset();
   }
 
-  startTour() {
+  private _startTour() {
     this.intro = introJs();
     let steps = [
       {
@@ -258,10 +262,14 @@ export class AddQuestionsComponent implements OnInit {
   private async _getCurrentUser() {
     let user: any = await this.userSettingSvc.getCurrentUser();
     this.currentUser = user;
-    console.log(this.currentUser);
   }
 
   private async _getAllSubjects() {
     this.subjects = await this.subjectSvc.getAllSubjects();
+  }
+
+  private _closeModal() {
+    this.addSubjectFg.reset();
+    this.closeModalBtn.nativeElement.click();
   }
 }

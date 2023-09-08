@@ -3,7 +3,7 @@
     <div class="card-header">
       <h3 class="card-title">
         MCQs Filter
-        <fa-icon [icon]="faFilter"></fa-icon>
+        <!-- <fa-icon [icon]="faFilter"></fa-icon> -->
       </h3>
 
       <div class="card-tools">
@@ -194,7 +194,7 @@
   </div>
 
   <ng-container>
-    <div class="card" *ngFor="let m of shuffled; let idx = index">
+    <div class="card" *ngFor="let m of shuffled; trackBy: trackQuestions; let idx = index">
       <div class="card-header">
         <div class="quest" id="q">
           <b *ngIf="(idx + 1) % questionsCount > 0">

@@ -21,7 +21,7 @@ export class UserSettingService extends AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           UserConstant.KEY_ACCESS_TOKEN,
-          token
+          token,
         );
       });
   }
@@ -53,7 +53,7 @@ export class UserSettingService extends AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           UserConstant.KEY_FINGERPRINT_ENABLED,
-          value
+          value,
         );
       });
   }
@@ -80,7 +80,7 @@ export class UserSettingService extends AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           UserConstant.KEY_CURRENT_USER,
-          values
+          values,
         );
       });
   }
@@ -109,7 +109,7 @@ export class UserSettingService extends AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           UserConstant.KEY_LOGGEDIN_METHOD,
-          values
+          values,
         );
       });
   }
@@ -131,7 +131,7 @@ export class UserSettingService extends AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           UserConstant.KEY_CURRENT_USER_PASSWORD,
-          values
+          values,
         );
       });
   }
@@ -140,11 +140,11 @@ export class UserSettingService extends AppSettingService {
     return this.dbService
       .remove(
         this.schemaSvc.tables.setting,
-        UserConstant.KEY_CURRENT_USER_PASSWORD
+        UserConstant.KEY_CURRENT_USER_PASSWORD,
       )
       .then(() => {
         AppSettingService.settingCache.delete(
-          UserConstant.KEY_CURRENT_USER_PASSWORD
+          UserConstant.KEY_CURRENT_USER_PASSWORD,
         );
       });
   }
@@ -153,7 +153,7 @@ export class UserSettingService extends AppSettingService {
     return this.get<string>(UserConstant.KEY_CURRENT_USER_PASSWORD).then(
       (currentUserPassword) => {
         return currentUserPassword;
-      }
+      },
     );
   }
 
@@ -170,7 +170,7 @@ export class UserSettingService extends AppSettingService {
       username = username.toLowerCase();
       let profile = await this.dbService.get<IUser>(
         this.schemaSvc.tables.user,
-        username
+        username,
       );
       profile = this.setUserDefaults(profile as IUser);
 

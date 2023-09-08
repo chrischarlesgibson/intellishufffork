@@ -11,14 +11,13 @@ import { UserSettingService } from '../user/user-setting.service';
 export class EditProfileGuard implements CanActivate {
   constructor(
     private router: Router,
-    private userSettingSvc: UserSettingService
+    private userSettingSvc: UserSettingService,
   ) {}
 
   async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) //   : Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree
-  {
+    state: RouterStateSnapshot, //   : Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree
+  ) {
     const canActivate = await this.userSettingSvc.canActivate();
     if (canActivate && route.queryParams['id']) {
       return true; // Allow access to the edit profile page

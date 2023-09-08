@@ -14,25 +14,31 @@ import { AdminModule } from './modules/admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthModule } from './modules/authentication/auth.module';
 import { environment } from 'src/environments/environment.prod';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { NoDataModule } from './components/no-data/no-data.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarModule } from './components/navbar/navbar.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
+import { HomeComponent } from './modules/user/home/home.component';
+import { AuthGuard } from './modules/authentication/auth.guard';
 
 const routes: Routes = [
   {
+    path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard ]
+  },
+  {
     path: '403',
-    component: AccessDeniedComponent
+    component: AccessDeniedComponent,
   },
   {
     path: '404',
-    component: PageNotFoundComponent
+    component: PageNotFoundComponent,
   },
   {
     path: '**',
-    redirectTo: '/404'
+    redirectTo: '/404',
   },
   // Other routes...
 ];
@@ -51,13 +57,9 @@ const routes: Routes = [
     NoDataModule,
     NavbarModule,
     FontAwesomeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
   ],
   providers: [BaseService, NgxPubSubService],
   bootstrap: [AppComponent],
-
 })
 export class AppModule {
   // null ijector issue

@@ -1,7 +1,8 @@
 .container {
   button {
-    background: var(--color-primary) !important;
+    background: #fff !important;
     border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
   }
   .card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add the desired shadow effect */

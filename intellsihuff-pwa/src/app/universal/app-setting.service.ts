@@ -31,7 +31,7 @@ export class AppSettingService {
       .then(() => {
         AppSettingService.settingCache.set(
           AppConstant.KEY_WORKING_LANGUAGE,
-          lang
+          lang,
         );
       });
   }

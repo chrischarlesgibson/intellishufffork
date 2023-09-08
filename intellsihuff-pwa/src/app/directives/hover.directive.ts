@@ -16,7 +16,10 @@ export class HoverDirective implements OnInit {
   private divElement: HTMLElement;
   private isHoverEnabled = true;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   ngOnInit(): void {
     this.createDivElement();
@@ -29,7 +32,7 @@ export class HoverDirective implements OnInit {
     this.renderer.addClass(this.divElement, 'hover-div');
     this.renderer.appendChild(
       this.divElement,
-      this.renderer.createText(this.hoverText)
+      this.renderer.createText(this.hoverText),
     );
     this.renderer.appendChild(this.elementRef.nativeElement, this.divElement);
   }

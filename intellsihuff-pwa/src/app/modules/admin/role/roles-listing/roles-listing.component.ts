@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../role.service';
 import { BasePage } from 'src/app/universal/base.page';
 import { IRole } from '../role.model';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'roles-listing',
@@ -10,11 +11,16 @@ import { IRole } from '../role.model';
   styleUrls: ['./roles-listing.component.scss'],
 })
 export class RolesListingComponent extends BasePage implements OnInit {
+  @ViewChild('closeModalBtn') closeModalBtn: ElementRef;
+
   roleFormGroup: FormGroup;
   roles: IRole[];
   editMode = false;
 
-  constructor(private formBuilder: FormBuilder, private roleSvc: RoleService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private roleSvc: RoleService,
+  ) {
     super();
     this.roleFormGroup = this.formBuilder.group({
       role: [null, Validators.required],
@@ -41,10 +47,11 @@ export class RolesListingComponent extends BasePage implements OnInit {
       const resp = await this.roleSvc.addRole(data);
 
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this._closeModal();
         await this._getAllRoles();
       } else {
-        this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -53,11 +60,16 @@ export class RolesListingComponent extends BasePage implements OnInit {
   }
 
   trackByRoles(index, role: IRole) {
-    return role ? role.id : undefined
+    return role ? role.id : undefined;
   }
 
   private async _getAllRoles() {
     const roles = await this.roleSvc.getAll();
     this.roles = roles.data as any;
+  }
+
+  private _closeModal() {
+    this.roleFormGroup.reset();
+    this.closeModalBtn.nativeElement.click();
   }
 }

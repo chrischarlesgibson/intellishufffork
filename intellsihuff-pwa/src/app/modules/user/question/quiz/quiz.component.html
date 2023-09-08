@@ -58,8 +58,6 @@
           class="btn transparent-btn"
           [disabled]="!quizMcqs[currentQuestionIndex].options"
           (click)="nextQuestion(quizMcqs[currentQuestionIndex])"
-          (mouseenter)="animateOnHover(nextIcon)"
-          (mouseleave)="resetAnimation(nextIcon)"
           [disabled]="!atLeastOneOptionSelected()"
         >
           <i class="fas fa-chevron-right"></i>

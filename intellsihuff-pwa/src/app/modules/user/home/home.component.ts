@@ -18,6 +18,8 @@ import { UserSettingService } from '../user-setting.service';
 import Swal from 'sweetalert2';
 import { BasePage } from 'src/app/universal/base.page';
 import { IUser, UserRole } from '../../authentication/auth.model';
+import { Title } from '@angular/platform-browser';
+import { AppConstant } from 'src/app/universal/app-constant';
 
 @Component({
   selector: 'home',
@@ -32,9 +34,11 @@ export class HomeComponent extends BasePage implements OnInit {
 
   constructor(
     private userSettingSvc: UserSettingService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private titleService: Title,
   ) {
     super();
+    this.titleService.setTitle(`Home | ${AppConstant.SITE_NAME}`);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Check if the current route is a child route
@@ -52,11 +56,8 @@ export class HomeComponent extends BasePage implements OnInit {
     if (!this.currentUser?.tourVisited) {
       // this.startTour();
     }
-    // Slide In animation
-    // gsap.from(".card", { x: -100, duration: 1 });
+
     gsap.from('.card', { opacity: 0, stagger: 0.2, duration: 1 });
-    // Scroll-based Animation
-    // gsap.from(".card", { opacity: 0, y: 100, scrollTrigger: ".card", duration: 1 });
   }
 
   animateOnHover(card: HTMLElement) {

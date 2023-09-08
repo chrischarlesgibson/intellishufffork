@@ -4,7 +4,7 @@ import { IRegister, IUser, InstitutionType, UserRole } from '../auth.model';
 import { AuthService } from '../auth.service';
 import { HelperService } from 'src/app/universal/helper.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { IResponse } from 'src/app/universal/shared.model';
+import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
 import { AppConstant } from 'src/app/universal/app-constant';
 import { UserConstant } from '../../user/user-constant';
 import { BasePage } from 'src/app/universal/base.page';
@@ -27,7 +27,7 @@ export class RegisterComponent extends BasePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authSvc: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     super();
     this.formGroup = formBuilder.group({
@@ -59,7 +59,7 @@ export class RegisterComponent extends BasePage implements OnInit {
     }
 
     if (AppConstant.DEBUG) {
-      // this._preFill();
+      this._preFill();
     }
   }
 
@@ -91,9 +91,12 @@ export class RegisterComponent extends BasePage implements OnInit {
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if (resp.status) {
-        await this.helperSvc.presentAlert(resp.message, 'success');
+        this.formGroup.reset();
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+
+        this.router.navigate(['/login']);
       } else {
-        await this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -112,7 +115,7 @@ export class RegisterComponent extends BasePage implements OnInit {
   private _preFill() {
     this.fg['name'].setValue('hello');
     this.fg['email'].setValue('hello@hello');
-    this.fg['password'].setValue('hello');
+    this.fg['password'].setValue('password');
     this.fg['institutionName'].setValue('hello');
     this.fg['institutionType'].setValue(InstitutionType.COLLEGE);
   }

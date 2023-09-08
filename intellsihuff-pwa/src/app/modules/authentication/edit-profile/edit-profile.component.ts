@@ -2,12 +2,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IRegister, IRole, IUser, InstitutionType } from '../auth.model';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { IResponse } from 'src/app/universal/shared.model';
+import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
 import { AppConstant } from 'src/app/universal/app-constant';
 import { UserConstant } from '../../user/user-constant';
 import { BasePage } from 'src/app/universal/base.page';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { UserSettingService } from '../../user/user-setting.service';
 
 @Component({
   selector: 'edit-profile',
@@ -29,10 +30,11 @@ export class EditProfileComponent extends BasePage implements OnInit {
     private formBuilder: FormBuilder,
     private authSvc: AuthService,
     private route: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private userSettingSvc: UserSettingService
   ) {
     super();
-    this.titleService.setTitle(`Edit Profile | ${AppConstant.SITE_NAME}` )
+    this.titleService.setTitle(`Profile | ${AppConstant.SITE_NAME}`);
 
     this.formGroup = formBuilder.group({
       name: ['', Validators.required],
@@ -50,9 +52,10 @@ export class EditProfileComponent extends BasePage implements OnInit {
 
     if (this.id) {
       this.helperSvc.presentLoader('Fetching User');
-      try {
-        this.user = await this.authSvc.getCurrentUser(this.id);
 
+      try {
+        const resp:any = await this.authSvc.getCurrentUser(this.id);
+        this.user = resp.user;
         if (this.user) {
           this._populateFormGroup();
         }
@@ -93,9 +96,9 @@ export class EditProfileComponent extends BasePage implements OnInit {
         this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_PROFILE_UPDATED, {
           ...resp.data,
         });
-        await this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
       } else {
-        await this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {

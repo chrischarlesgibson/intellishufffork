@@ -1,10 +1,9 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { UserConstant } from '../modules/user/user-constant';
 import { AppInjector } from './app-injector';
 import { NgxPubSubService } from './pub-sub';
 
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +73,7 @@ export class HelperService {
         cancelButtonText: 'No',
       }).then((result) => {
         if (result.isConfirmed) {
+          // this.presentAlert('success', 'Sucessfully loggedout');
           resolve(result.isConfirmed);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           resolve(result.isConfirmed);

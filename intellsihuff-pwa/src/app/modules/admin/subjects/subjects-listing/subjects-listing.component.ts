@@ -3,15 +3,13 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { QuestionService } from 'src/app/modules/user/question/question.service';
 import { ISubject } from 'src/app/modules/user/subject/subject.model';
 import { SubjectService } from 'src/app/modules/user/subject/subject.service';
 import { BasePage } from 'src/app/universal/base.page';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'app-subjects-listing',
@@ -22,7 +20,7 @@ export class SubjectsListingComponent
   extends BasePage
   implements OnInit, OnDestroy
 {
-  @ViewChild('closeModal') closeModal: ElementRef;
+  @ViewChild('closeModalBtn') closeModalBtn: ElementRef;
 
   editMode = false;
   subjects: ISubject[];
@@ -31,14 +29,13 @@ export class SubjectsListingComponent
 
   constructor(
     private subjectSvc: SubjectService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     super();
 
     this.addSubjectFg = this.formBuilder.group({
       name: [null, Validators.required],
       id: [null],
-
     });
   }
 
@@ -59,16 +56,15 @@ export class SubjectsListingComponent
   }
 
   async onUpdateSubjectClicked(data) {
-
     try {
       const resp = await this.subjectSvc.updateSubject(data);
       this._closeModal();
       await this._getAllSubjects();
 
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
       } else {
-        this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -84,10 +80,10 @@ export class SubjectsListingComponent
 
       if (resp.status) {
         this._closeModal();
-        this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
         await this._getAllSubjects();
       } else {
-        this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -95,12 +91,11 @@ export class SubjectsListingComponent
     }
   }
 
-
   async onDltSubjectClicked(subject) {
     const resp = await this.helperSvc.presentConfirmDialogue(
       'Are you sure',
       'You want to delete this subject?',
-      'warning'
+      SweetAlertIcon.WARNING,
     );
     if (!resp) {
       return;
@@ -120,7 +115,7 @@ export class SubjectsListingComponent
   private _closeModal(ev?) {
     this.editMode = false;
     this.addSubjectFg.reset();
-    this.closeModal.nativeElement.click();
+    this.closeModalBtn.nativeElement.click();
   }
 
   private async _getAllSubjects() {

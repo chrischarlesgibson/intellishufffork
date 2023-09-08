@@ -1,13 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ nullable: true, type: 'date' })
-  createdOn?: Date
+  createdOn?: Date;
 
   @Column({ nullable: true })
-  updatedOn?: Date
+  updatedOn?: Date;
 }

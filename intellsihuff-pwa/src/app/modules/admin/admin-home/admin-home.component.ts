@@ -8,20 +8,16 @@ import { BasePage } from 'src/app/universal/base.page';
   templateUrl: './admin-home.component.html',
   styleUrls: ['./admin-home.component.scss'],
 })
-
 export class AdminHomeComponent extends BasePage implements OnInit {
   isChildComponentActivated: boolean = false;
   isSidebarOpen = false;
 
-  constructor(
-    private titleService: Title
-  ) {
+  constructor(private titleService: Title) {
     super();
-    this.titleService.setTitle(`Admin | ${AppConstant.SITE_NAME}` )
+    this.titleService.setTitle(`Admin | ${AppConstant.SITE_NAME}`);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onLogoClicked() {
     this.router.navigate(['/admin']);

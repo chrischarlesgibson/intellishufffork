@@ -9,11 +9,12 @@ import { HelperService } from './universal/helper.service';
 import { UserSettingService } from './modules/user/user-setting.service';
 import { NgxPubSubService } from './universal/pub-sub';
 import { UserConstant } from './modules/user/user-constant';
-import { IResponse } from './universal/shared.model';
+import { IResponse, SweetAlertIcon } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
 import { AuthService } from './modules/authentication/auth.service';
 import { IUser } from './modules/authentication/auth.model';
 import { AppSettingService } from './universal/app-setting.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent {
     private pubsubSvc: NgxPubSubService,
     private userSvc: AuthService,
     private helperSvc: HelperService,
-    private appSettingSvc: AppSettingService
+    private appSettingSvc: AppSettingService,
   ) {
     this.initializeWeb();
   }
@@ -111,7 +112,7 @@ export class AppComponent {
         if (AppConstant.DEBUG) {
           console.log(
             'AppComponent: EVENT_USER_LOGGEDIN_CLICKED: params',
-            params
+            params,
           );
         }
 
@@ -127,6 +128,7 @@ export class AppComponent {
         try {
           response = await this.userSvc.login(user);
           currentUser = response.data as IUser;
+          this.userSettingSvc.putAccessToken(response.access_token)
         } catch (error) {
         } finally {
           this.helperSvc.dismissLoader();
@@ -137,7 +139,7 @@ export class AppComponent {
         }
 
         if (!response?.status) {
-          this.helperSvc.presentAlert(response.message, 'warning');
+          this.helperSvc.presentAlert(response.message, SweetAlertIcon.WARNING);
         }
 
         await this.userSettingSvc.putCurrentUser(currentUser as IUser);
@@ -147,7 +149,7 @@ export class AppComponent {
           redirectToHome: true,
           displayWelcomeMessage: true,
         });
-      }
+      },
     );
 
     this.pubsubSvc.subscribe(
@@ -164,7 +166,7 @@ export class AppComponent {
         if (params.redirectToHome) {
           this._navigateTo('/home');
         }
-      }
+      },
     );
 
     this.pubsubSvc.subscribe(
@@ -193,7 +195,7 @@ export class AppComponent {
             return;
           }
         }
-      }
+      },
     );
 
     // this.pubsubSvc.subscribe(UserConstant.EVENT_USER_FORGOT_PASSWORD

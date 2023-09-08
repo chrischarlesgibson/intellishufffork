@@ -1,52 +1,60 @@
-import { InjectRepository } from "@nestjs/typeorm";
-import { IInstitution } from "./institution.model";
-import { Institution } from "./institution.entity";
-import { Repository } from "typeorm";
-import { IResponse } from "src/user/user.model";
-import { Injectable } from "@nestjs/common";
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { IInstitution } from './institution.model';
+import { Institution } from './institution.entity';
+import { Repository } from 'typeorm';
+import { IResponse } from 'src/user/user.model';
+import { Injectable, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Injectable()
 export class InstitutionService {
-    /**
-     *
-     */
-    constructor(
-        @InjectRepository(Institution)
-            private institutionRepo: Repository<Institution>,
-    ) {   
+  /**
+   *
+   */
+  constructor(
+    @InjectRepository(Institution)
+    private institutionRepo: Repository<Institution>,
+  ) {}
+
+  // async uploadLogo(inst, image) {
+  //     const institution = await this.getInstById(inst.id) // Assuming you have a method to find the institution
+
+  //     // Update the institution with the uploaded image buffer
+  //     institution.image = image.buffer;
+
+  //     await this.institutionRepo.save(institution);
+
+  //     return { message: 'Image uploaded successfully' };
+  //   }
+  
+  @Post('uploadLogo')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadLogo(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+    console.log('file');
+
+  }
+
+
+  async addInstitution(args: IInstitution): Promise<IResponse<any>> {
+    if (!args) {
+      return null;
     }
 
-    // async uploadLogo(inst, image) {
-    //     const institution = await this.getInstById(inst.id) // Assuming you have a method to find the institution
-    
-    //     // Update the institution with the uploaded image buffer
-    //     institution.image = image.buffer;
-    
-    //     await this.institutionRepo.save(institution);
-    
-    //     return { message: 'Image uploaded successfully' };
-    //   }
+    await this.institutionRepo.save(args);
 
-    async addInstitution(args: IInstitution): Promise<IResponse<any>> {
-        if(!args) {
-            return null;
-        }
+    return {
+      status: true,
+    };
+  }
 
-        await this.institutionRepo.save(args);
-
-        return {
-            status: true,
-        }
+  async getInstById(id: number) {
+    if (!id) {
+      return null;
     }
 
-    async getInstById(id: number) {
-        if(!id) {
-            return null;
-        }
+    const inst = await this.institutionRepo.findOne({ where: { id: id } });
 
-        const inst = await this.institutionRepo.findOne({ where: { id: id }});
-
-        return inst
-    }
+    return inst;
+  }
 }

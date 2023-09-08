@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IResponse } from 'src/app/universal/shared.model';
+import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
 import { BasePage } from 'src/app/universal/base.page';
 import { AuthService } from '../../authentication/auth.service';
 import {
@@ -9,9 +9,9 @@ import {
   UserStatus,
 } from '../../authentication/auth.model';
 import { RoleService } from '../role/role.service';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -28,7 +28,7 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private authSvc: AuthService,
     private roleSvc: RoleService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     super();
     this.formGroup = formBuilder.group({
@@ -78,10 +78,10 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if (resp.status) {
-        await this.helperSvc.presentAlert(resp.message, 'success');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
         this.router.navigate(['/admin/user-listing']);
       } else {
-        await this.helperSvc.presentAlert(resp.message, 'warning');
+        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -94,7 +94,9 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     this.fg['email'].setValue(this.currentUser.email);
     this.fg['password'].setValue(this.currentUser.password);
     this.fg['roles'].setValue(this.currentUser.roles);
-    this.fg['isUserApproved'].setValue(this.currentUser.status);
+    this.fg['isUserApproved'].setValue(
+      this.currentUser.status == UserStatus.APPROVED ? true : false,
+    );
   }
 
   private async _getCurrentUser(userId) {

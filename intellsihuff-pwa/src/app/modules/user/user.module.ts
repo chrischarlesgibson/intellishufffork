@@ -14,6 +14,11 @@ import { EditProfileGuard } from '../authentication/edit-profile.guard';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { HoverDirective } from 'src/app/directives/hover.directive';
 import { NavbarModule } from 'src/app/components/navbar/navbar.module';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [HomeComponent, ContactComponent],
@@ -23,7 +28,11 @@ import { NavbarModule } from 'src/app/components/navbar/navbar.module';
     ComponentsWithFormsModule,
     UserRoutingModule,
     RouterModule,
-    NavbarModule
+    NavbarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatButtonModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

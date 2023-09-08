@@ -21,10 +21,15 @@ import { NavbarModule } from 'src/app/components/navbar/navbar.module';
     AddUserComponent,
     InstitutionComponent,
     SubjectsListingComponent,
-    RolesListingComponent 
+    RolesListingComponent,
   ],
   providers: [RoleService],
-  imports: [AdminRoutingModule, ComponentsWithFormsModule, FontAwesomeModule, NavbarModule],
+  imports: [
+    AdminRoutingModule,
+    ComponentsWithFormsModule,
+    FontAwesomeModule,
+    NavbarModule,
+  ],
   exports: [RouterModule],
 })
 export class AdminModule {}

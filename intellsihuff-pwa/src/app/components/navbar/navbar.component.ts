@@ -11,6 +11,7 @@ import { UserSettingService } from 'src/app/modules/user/user-setting.service';
 import { AppConstant } from 'src/app/universal/app-constant';
 import { HelperService } from 'src/app/universal/helper.service';
 import { NgxPubSubService } from 'src/app/universal/pub-sub';
+import { SweetAlertIcon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'navbar',
@@ -35,11 +36,11 @@ import { NgxPubSubService } from 'src/app/universal/pub-sub';
           <li
             class="nav-item"
             (click)="onMenuNavigated('admin')"
-            *ngIf="isAdmin"
             HoverDirective
             [hoverText]="'admin'"
             routerLink="/admin"
             routerLinkActive="active"
+            *ngIf="isAdmin"
           >
             <a class="nav-link">
               <i class="fas fa-user-shield"></i>
@@ -126,7 +127,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private pubSub: NgxPubSubService,
     private cdRef: ChangeDetectorRef,
-    private pubsubSvc: NgxPubSubService
+    private pubsubSvc: NgxPubSubService,
   ) {
     this.pubsubSvc.subscribe(
       UserConstant.EVENT_USER_PROFILE_UPDATED,
@@ -138,7 +139,7 @@ export class NavbarComponent implements OnInit {
         await this.userSettingSvc.removeCurrentUser();
         await this.userSettingSvc.putCurrentUser(user);
         await this._getCurrentUser();
-      }
+      },
     );
   }
 
@@ -162,7 +163,7 @@ export class NavbarComponent implements OnInit {
     const resp = await this.helperSvc.presentConfirmDialogue(
       'Are you sure',
       'You want to Logout?',
-      'warning'
+      SweetAlertIcon.WARNING,
     );
     if (!resp) {
       return;

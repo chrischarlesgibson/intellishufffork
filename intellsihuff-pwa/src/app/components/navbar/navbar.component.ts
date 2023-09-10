@@ -129,18 +129,7 @@ export class NavbarComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private pubsubSvc: NgxPubSubService,
   ) {
-    this.pubsubSvc.subscribe(
-      UserConstant.EVENT_USER_PROFILE_UPDATED,
-      async (user: IUser) => {
-        if (AppConstant.DEBUG) {
-          console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
-        }
 
-        await this.userSettingSvc.removeCurrentUser();
-        await this.userSettingSvc.putCurrentUser(user);
-        await this._getCurrentUser();
-      },
-    );
   }
 
   async ngOnInit() {
@@ -153,6 +142,19 @@ export class NavbarComponent implements OnInit {
       }
     });
     await this._getCurrentUser();
+
+    this.pubsubSvc.subscribe(
+      UserConstant.EVENT_USER_PROFILE_UPDATED,
+      async (user: IUser) => {
+        if (AppConstant.DEBUG) {
+          console.log('AppComponent: EVENT_USER_PROFILE_UPDATED: params', user);
+        }
+
+        await this.userSettingSvc.removeCurrentUser();
+        await this.userSettingSvc.putCurrentUser(user);
+        await this._getCurrentUser();
+      },
+    );
   }
 
   onMenuNavigated(url) {

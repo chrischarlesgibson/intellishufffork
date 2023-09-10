@@ -9,125 +9,61 @@
         [formGroup]="formGroup"
         (ngSubmit)="onFormSubmitted(formGroup.value)"
       >
-        <div class="form-group">
-          <label for="name">Name</label>
+        <div class="form-floating mb-3">
           <input
             type="text"
-            formControlName="name"
             class="form-control"
+            formControlName="name"
             placeholder="Enter your name"
           />
+          <label for="floatingInput">Name</label>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
+        <div class="form-floating mb-3">
           <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('email')?.errors && formGroup.get('email')?.touched
-            "
-          >
-            &#x002A;</span
-          >
+          class="text-danger"
+          *ngIf="
+            formGroup.get('email')?.errors && formGroup.get('email')?.touched
+          "
+        >
+          &#x002A;</span
+        >
           <input
             type="email"
-            formControlName="email"
             class="form-control"
+            formControlName="email"
             placeholder="Enter your email"
-            [readOnly]="id"
           />
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('email')?.errors && formGroup.get('email')?.touched
-            "
-          >
-            Email is required
+          <label for="floatingInput">Email address</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            formControlName="password"
+            placeholder="Enter your email"
+          />
+          <label for="floatingInput">Password</label>
+          <span class="show-hide-icon" (click)="togglePasswordVisibility()">
+            <i [ngClass]="{ 'fas fa-eye-slash': !showPassword }"></i>
+            <i [ngClass]="{ 'fas fa-eye': showPassword }"> </i>
           </span>
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('password')?.errors &&
-              formGroup.get('password')?.touched
-            "
-          >
-            &#x002A;</span
-          >
-          <div class="input-group" style="flex-wrap: nowrap !important">
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              formControlName="password"
-              class="form-control"
-              placeholder="Enter your password"
-              [readOnly]="id"
-            />
-
-            <div class="input-group-append">
-              <span class="icon-container" (click)="togglePasswordVisibility()">
-                <i [ngClass]="{ 'fas fa-eye-slash': !showPassword }"></i>
-                <i [ngClass]="{ 'fas fa-eye': showPassword }"> </i>
-              </span>
-            </div>
-          </div>
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('password')?.errors &&
-              formGroup.get('password')?.touched
-            "
-          >
-            Password is required
-          </span>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Institution Name</label>
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('institutionName')?.errors &&
-              formGroup.get('institutionName')?.touched
-            "
-          >
-            &#x002A;</span
-          >
+        <div class="form-floating mb-3">
           <input
             type="text"
-            formControlName="institutionName"
             class="form-control"
+            formControlName="institutionName"
             placeholder="Enter your institution Name"
           />
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('institutionName')?.errors &&
-              formGroup.get('institutionName')?.touched
-            "
-          >
-            Institution name is required
-          </span>
+          <label for="floatingInput">Institution Name</label>
         </div>
 
-        <div class="form-group">
-          <label for="password">Institution Type</label>
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('institutionType')?.errors &&
-              formGroup.get('institutionType')?.touched
-            "
-          >
-            &#x002A;</span
-          >
-          <select
-            class="form-select form-select-md mb-3"
-            aria-label=""
-            formControlName="institutionType"
-          >
+        <div class="form-floating mb-3">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="institutionType">
             <option [value]="InstitutionType.SCHOOL">
               {{ InstitutionType.SCHOOL }}
             </option>
@@ -138,15 +74,7 @@
               {{ InstitutionType.UNIVERSITY }}
             </option>
           </select>
-          <span
-            class="text-danger"
-            *ngIf="
-              formGroup.get('institutionType')?.errors &&
-              formGroup.get('institutionType')?.touched
-            "
-          >
-            Institution type is required
-          </span>
+          <label for="floatingSelect">Institution Type</label>
         </div>
 
         <button
@@ -159,7 +87,7 @@
       </form>
     </div>
     <div class="card-header">
-      <div class="login-link" *ngIf="!id">
+      <div class="link" *ngIf="!id">
         Already have an account? <a (click)="onLoginClicked()">Sign in</a>
       </div>
     </div>

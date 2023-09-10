@@ -11,6 +11,77 @@ body {
   }
 }
 
+// forms 
+login, register, edit-profile{
+  .card {
+    width: 350px;
+    padding: 30px 0 0 0;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  
+    .card-title {
+      display: flex;
+      justify-content: center;
+      i {
+        font-size: 100px;
+        color: var(--color-primary);
+      }
+    }
+  
+    .card-body {
+      form{
+        .form-floating {
+          label {
+            font-size: 14px;
+            font-weight: bold;
+          }
+
+          .form-control {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+          }
+        
+          .show-hide-icon {
+            position: absolute !important;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 999;
+          }
+        }
+
+        .btn-primary {
+          width: 100%;
+          padding: 10px;
+          background-color: var(--color-primary);
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          font-size: 14px;
+        }
+      
+        .btn-primary:hover {
+          background-color: var(--color-primary);
+        }
+      }
+    }
+
+    .link {
+      text-align: center;
+      a {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+
+
+
 label {
   cursor: default !important;
   user-select: none !important;

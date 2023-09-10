@@ -1,7 +1,6 @@
-<div class="container">
+<!-- <div class="container">
   <div class="card">
     <h2 class="card-title">
-      <i class="fas fa-user"></i>
     </h2>
 
     <div class="card-body">
@@ -87,5 +86,82 @@
         </button>
       </form>
     </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="card">
+    <h2 class="card-title">
+      <i class="fas fa-user"></i>
+    </h2>
+
+    <div class="card-body">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter your name"
+          />
+          <label for="floatingInput">Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <span
+          class="text-danger"
+          *ngIf="
+            formGroup.get('email')?.errors && formGroup.get('email')?.touched
+          "
+        >
+          &#x002A;</span
+        >
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+          <label for="floatingInput">Email address</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="institutionName"
+            placeholder="Enter your institution Name"
+          />
+          <label for="floatingInput">Institution Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="institutionType">
+            <option [value]="InstitutionType.SCHOOL">
+              {{ InstitutionType.SCHOOL }}
+            </option>
+            <option [value]="InstitutionType.COLLEGE">
+              {{ InstitutionType.COLLEGE }}
+            </option>
+            <option [value]="InstitutionType.UNIVERSITY">
+              {{ InstitutionType.UNIVERSITY }}
+            </option>
+          </select>
+          <label for="floatingSelect">Institution Type</label>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!formGroup.valid"
+        >
+        Update
+        </button>
+      </form>
+    </div>
+
   </div>
 </div>

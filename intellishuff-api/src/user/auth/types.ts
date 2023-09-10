@@ -1,6 +1,5 @@
-import { IUser } from "../user.model";
-
 export type JwtPayload = {
-  user: IUser
+  userId: number;
+  email: string;
 };
 export type JwtPayloadWithRefreshToken = JwtPayload & { refreshToken: string };

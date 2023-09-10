@@ -3,20 +3,21 @@ import {
   UnauthorizedException,
   ExecutionContext,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class JwtAccessTokenAuthGuard extends AuthGuard('jwt') {
   constructor(
-    private readonly reflector: Reflector,
-    private readonly userSvc: UserService,
     private readonly jwtSvc: JwtService,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    private readonly tokenSvc: TokenService
   ) {
     super();
   }
@@ -26,17 +27,17 @@ export class JwtAccessTokenAuthGuard extends AuthGuard('jwt') {
     const token = this.extractToken(req);
     
     if(!token) {
-      throw new UnauthorizedException()
+      throw new UnauthorizedException();
     }
     
     try {
       const payload = await this.jwtSvc.verifyAsync(token, {
         secret: this.config.get<string>('ACCESS_TOKEN_KEY')
-      })
+      });
       
-      req['user'] = payload;
+      // req['user'] = payload;
     } catch (error) {
-      throw new HttpException(error, 401);
+      throw new HttpException({ name: 'TokenExpiredError' }, HttpStatus.UNAUTHORIZED)
     }
 
     return true;

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,7 +10,8 @@ import { Role } from 'src/role/role/role.entity';
 import { RoleService } from 'src/role/role/role.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConstant } from 'src/universal/app.constant';
-
+import { TokenService } from './auth/token.service'; 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Institution, Role]),
@@ -18,10 +19,10 @@ import { AppConstant } from 'src/universal/app.constant';
       secret: AppConstant.ACCESS_TOKEN_SECRET_KEY,
       signOptions: { expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION },
     }),
-    InstitutionModule,
+    InstitutionModule
   ],
   controllers: [UserController],
-  providers: [UserService, HelperService],
+  providers: [UserService, HelperService, TokenService],
   exports: [UserService],
 })
 export class UserModule {}

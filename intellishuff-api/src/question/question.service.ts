@@ -54,6 +54,7 @@ export class QuestionService {
       where: whereCondition,
       take: limit,
     });
+    
     return {
       data: quest,
       status: true,

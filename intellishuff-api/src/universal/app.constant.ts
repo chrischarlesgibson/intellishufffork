@@ -5,8 +5,8 @@ export class AppConstant {
   public static readonly REFRESH_TOKEN_SECRET_KEY = '123456789';
 
   //must be in seconds
-  public static readonly DEFAULT_JWT_TOKEN_EXPIRATION = '300s'; //5 minutes
-  public static readonly DEFAULT_JWT_REFRESH_TOKEN_EXPIRATION = '1800s'; //30 minutes
+  public static readonly DEFAULT_JWT_TOKEN_EXPIRATION = '5m'; //10 minutes
+  public static readonly DEFAULT_JWT_REFRESH_TOKEN_EXPIRATION = '1d'; //7 days 
 
   public static readonly ADMIN_EMAIL = 'dev.faisalkhan@gmail.com';
   public static readonly DEFAULT_EMAIL_USERNAME = 'dev.faisalkhan@gmail.com';

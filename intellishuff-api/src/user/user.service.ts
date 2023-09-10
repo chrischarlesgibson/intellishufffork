@@ -132,7 +132,12 @@ export class UserService {
   async login(data: ILoginParams) {
     const user = await this.getUserByEmail(data.email);
 
-    if (!user) {
+    const validateUser = await this.vaildateUserByEmail({
+      email: data.email,
+      password: data.password
+    });
+
+    if (!validateUser) {
       return {
         status: false,
         message: 'wrong email or password',
@@ -146,37 +151,32 @@ export class UserService {
       };
     }
 
-    const validateUser = await this.vaildateUserByEmail({
-      email: data.email,
-      password: data.password
-    });
-
-    if (!validateUser) {
-      return {
-        status: false,
-        message: 'wrong email or password',
-      };
-    }
-
-    const payLoad: JwtPayload = {user};
-      
-    const accessToken = this.jwtService.sign(payLoad, {
-      expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION,
-      secret: this.config.get<string>('ACCESS_TOKEN_KEY'),
-    });
-
-    const refreshToken = this.jwtService.sign(payLoad, {
-      expiresIn: AppConstant.DEFAULT_JWT_REFRESH_TOKEN_EXPIRATION,
-      secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),
-    });
+    const payLoad: JwtPayload = {
+      userId: user.id,
+      email: user.email
+    };
 
     return {
-      access_token: accessToken,
-      refresh_token: refreshToken,
+      access_token: this.generateAccessToken(payLoad),
+      refresh_token: this.generateRefreshToken(payLoad),
       data: user,
       status: true,
       message: 'successfully logged in',
     };
+  }
+
+  generateAccessToken(payLoad: JwtPayload){
+    return this.jwtService.sign(payLoad, {
+      expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION,
+      secret: this.config.get<string>('ACCESS_TOKEN_KEY'),
+    });
+  }
+
+  generateRefreshToken(payLoad: JwtPayload){
+    return this.jwtService.sign(payLoad, {
+      expiresIn: AppConstant.DEFAULT_JWT_REFRESH_TOKEN_EXPIRATION,
+      secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),
+    });
   }
 
   async changeRole(data: IUser, role: IRole) {

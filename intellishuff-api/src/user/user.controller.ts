@@ -7,6 +7,7 @@ import {
   Query,
   Req,
   Request,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,6 +21,10 @@ import {
 import { AppConstant } from 'src/universal/app.constant';
 import { InstitutionService } from 'src/institution/Institution.service';
 import { JwtAccessTokenAuthGuard } from './auth/access-token-auth.guard';
+import { JwtPayload } from './auth/types';
+import { TokenService } from './auth/token.service';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller(`${AppConstant.ROUTE_PREFIX}/user`)
 export class UserController {
@@ -27,10 +32,14 @@ export class UserController {
    *
    */
   constructor(
+    private config: ConfigService,
+    private jwtSvc: JwtService,
     private userSvc: UserService,
     private institutionSvc: InstitutionService,
+    private tokenSvc: TokenService
   ) {}
 
+  @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('sendMail')
   async sendMail(@Body() args: { to; subject }) {
@@ -41,6 +50,8 @@ export class UserController {
       };
     }
   }
+
+  @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('changeRole')
   async changeRole(@Body() args: { user: IUser; role: any }) {
@@ -51,6 +62,7 @@ export class UserController {
     return await this.userSvc.changeRole(args.user, args.role);
   }
 
+  @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('changeStatus')
   async changeStatus(@Body() args: { user: IUser; status: UserStatus }) {
@@ -61,6 +73,7 @@ export class UserController {
     return await this.userSvc.changeStatus(args.user, args.status);
   }
 
+  @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('getAllUsers')
   async getALlUsers() {
@@ -71,8 +84,30 @@ export class UserController {
   @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('getCurrentUser')
-  async getCurrentUser(@Request() req) { 
-    return req?.user;
+  async getCurrentUser(@Request() req,  @Query('id') id: number) { 
+    const user = await this.userSvc.getCurrentUser(id);
+    return user;
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('generateAccessToken')
+  async generateAccessToken(@Body() args) { 
+    try {
+      const payload = await this.jwtSvc.verifyAsync(args.args, {
+        secret: this.config.get<string>('REFRESH_TOKEN_SECRET')
+      });
+
+    const accessToken = await this.tokenSvc.generateAccessToken({userId: payload.userId, email: payload.email});
+    const refresh_Token = await this.tokenSvc.generateRefreshToken({userId: payload.userId, email: payload.email});
+
+    return{
+      access_token: accessToken,
+      refresh_token: refresh_Token
+    };
+    
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -91,6 +126,7 @@ export class UserController {
     return resp;
   }
 
+  @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('updateTourStatus')
   async updateTourStatus(@Body() args: IUser) {

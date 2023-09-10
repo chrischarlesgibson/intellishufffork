@@ -26,6 +26,20 @@ export class UserSettingService extends AppSettingService {
       });
   }
 
+  putRefreshToken(refreshToken: any) {
+    return this.dbService
+      .putLocal(this.schemaSvc.tables.setting, {
+        key: UserConstant.KEY_REFRESH_TOKEN,
+        value: refreshToken,
+      })
+      .then(() => {
+        AppSettingService.settingCache.set(
+          UserConstant.KEY_REFRESH_TOKEN,
+          refreshToken,
+        );
+      });
+  }
+
   removeAccessToken() {
     return this.dbService
       .remove(this.schemaSvc.tables.setting, UserConstant.KEY_ACCESS_TOKEN)
@@ -34,8 +48,22 @@ export class UserSettingService extends AppSettingService {
       });
   }
 
+  removeRefreshToken() {
+    return this.dbService
+      .remove(this.schemaSvc.tables.setting, UserConstant.KEY_REFRESH_TOKEN)
+      .then(() => {
+        AppSettingService.settingCache.delete(UserConstant.KEY_REFRESH_TOKEN);
+      });
+  }
+
   getAccessToken() {
     return this.get<string>(UserConstant.KEY_ACCESS_TOKEN).then((token) => {
+      return token;
+    });
+  }
+
+  getRefreshToken() {
+    return this.get<string>(UserConstant.KEY_REFRESH_TOKEN).then((token) => {
       return token;
     });
   }

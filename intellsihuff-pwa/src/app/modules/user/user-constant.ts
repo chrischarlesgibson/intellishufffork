@@ -6,6 +6,7 @@ export class UserConstant {
   public static readonly KEY_LOGGEDIN_METHOD = 'key:loggedInMethod';
   public static readonly KEY_FINGERPRINT_ENABLED = 'key:fingerprintEnabled';
   public static readonly KEY_ACCESS_TOKEN = 'key:accessToken';
+  public static readonly KEY_REFRESH_TOKEN = 'key:refreshToken';
 
   public static readonly FACEBOOK_APP_ID = '1721262398219194';
   public static readonly GOOGLE_SIGNIN_CLIENT_ID =

@@ -7,7 +7,7 @@ import {
 import { ISubject } from 'src/subject/subject.model';
 
 export interface IQuestion {
-  id?: any;
+  id?: string;
   text: string;
   options: [];
   institutionType: InstitutionType;
@@ -22,7 +22,7 @@ export interface IQuestion {
 
 export interface IQuestionFilter {
   institutionType?: InstitutionType;
-  subject: number;
+  subject: string;
   createdOn: Date;
   collegeYear?: CollegeYear;
   schoolCLass?: SchoolCLass;

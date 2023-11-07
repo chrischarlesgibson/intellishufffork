@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 
 import { JwtAccessTokenStrategy } from './access-token.strategy';
-import { JwtRefreshTokenStrategy } from './refresh-token.strategy';
+// import { JwtRefreshTokenStrategy } from './refresh-token.strategy';
 import { JwtAccessTokenAuthGuard } from './access-token-auth.guard';
 
 @Global()
@@ -11,7 +11,7 @@ import { JwtAccessTokenAuthGuard } from './access-token-auth.guard';
   imports: [],
   providers: [
     JwtAccessTokenStrategy,
-    JwtRefreshTokenStrategy,
+    // JwtRefreshTokenStrategy,
     { provide: APP_GUARD, useClass: JwtAccessTokenAuthGuard },
   ],
   // exports: [AuthService]

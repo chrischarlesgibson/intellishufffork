@@ -1,12 +1,14 @@
-export interface IRegister {
+export interface IRegistrationParams {
   id?: number;
   email: string;
   name: string;
-  password: string;
+  password?: string;
   roles?: IRole[];
   status: UserStatus;
   institution?: IInstitution;
   isUserApproved?: boolean;
+  externalAuth?: any;
+  loginType?: LoginType
 }
 
 export interface IInstitution {
@@ -33,8 +35,16 @@ export interface IRole {
 }
 
 export interface Ilogin {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  loginType?: LoginType
+}
+
+export interface ILoginParams {
+  email? 
+  password? 
+  loginType: LoginType;
+  user: IUser
 }
 
 export enum UserRole {
@@ -51,4 +61,11 @@ export enum InstitutionType {
   UNIVERSITY = 'university',
   SCHOOL = 'School',
   COLLEGE = 'college',
+}
+
+export enum LoginType {
+  STANDARD = 'standard',
+  GOOGLE = 'GOOGLE',
+  APPLE = 'apple',
+  FACEBOOK =  'facebook'
 }

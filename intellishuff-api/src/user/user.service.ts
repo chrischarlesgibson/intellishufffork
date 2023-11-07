@@ -18,6 +18,11 @@ import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './auth/types';
 import { ConfigService } from '@nestjs/config';
+import {
+  IInstitution,
+  InstitutionType,
+} from 'src/institution/institution.model';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 @Injectable()
 export class UserService {
@@ -68,7 +73,53 @@ export class UserService {
     return users;
   }
 
-  async register(data: IRegistrationParams): Promise<IResponse<IUser>> {
+  async register(data: any): Promise<IResponse<IUser>> {
+    let result = {
+      userStatus: null,
+      alreadyExist: false,
+      alreadyRegisteredWithNormalAuth: false,
+      mobileRequired: true,
+      mobileVerified: false,
+      emailVerified: true,
+    };
+
+    let existingUser = await this.getUserByEmail(data.email);
+
+    if (!data.externalAuth) {
+      if (existingUser) {
+        result.alreadyExist = true;
+
+        if (existingUser.status !== UserStatus.APPROVED) {
+          result.userStatus = existingUser.status;
+        }
+      }
+    } else {
+      //User is trying to login via external auth, so check by email and see if it has already entered mobile number before...
+      existingUser = await this.getUserByEmail(data.email);
+      if (existingUser && existingUser.status != UserStatus.APPROVED) {
+        result.userStatus = existingUser.status;
+        return { status: true, message: 'user not approved' };
+      }
+
+      const inst: IInstitution = {
+        name: 'Peshawar Model Degree College',
+        type: InstitutionType.COLLEGE,
+      };
+
+      const user: IUser = {
+        email: data.email,
+        name: data.name,
+        roles: [],
+        status: UserStatus.PENDING,
+        institution: inst,
+        tourVisited: false,
+      };
+
+      const regRes = await this.userRepo.save<User>(data);
+
+      return { status: true, data: regRes as any };
+    }
+
     let newOrUpdated: any = Object.assign({}, data);
 
     if (newOrUpdated.id) {
@@ -132,18 +183,6 @@ export class UserService {
   async login(data: ILoginParams) {
     const user = await this.getUserByEmail(data.email);
 
-    const validateUser = await this.vaildateUserByEmail({
-      email: data.email,
-      password: data.password
-    });
-
-    if (!validateUser) {
-      return {
-        status: false,
-        message: 'wrong email or password',
-      };
-    }
-
     if (user.status !== this.userStatus.APPROVED) {
       return {
         status: false,
@@ -153,7 +192,7 @@ export class UserService {
 
     const payLoad: JwtPayload = {
       userId: user.id,
-      email: user.email
+      email: user.email,
     };
 
     return {
@@ -165,14 +204,14 @@ export class UserService {
     };
   }
 
-  generateAccessToken(payLoad: JwtPayload){
+  generateAccessToken(payLoad: JwtPayload) {
     return this.jwtService.sign(payLoad, {
       expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION,
       secret: this.config.get<string>('ACCESS_TOKEN_KEY'),
     });
   }
 
-  generateRefreshToken(payLoad: JwtPayload){
+  generateRefreshToken(payLoad: JwtPayload) {
     return this.jwtService.sign(payLoad, {
       expiresIn: AppConstant.DEFAULT_JWT_REFRESH_TOKEN_EXPIRATION,
       secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),

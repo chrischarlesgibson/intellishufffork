@@ -26,7 +26,7 @@ import {
 import { AuthService } from 'src/app/modules/authentication/auth.service';
 import * as moment from 'moment';
 import { AppConstant } from 'src/app/universal/app-constant';
-import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import { Icon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'add-questions',
@@ -133,9 +133,9 @@ export class AddQuestionsComponent implements OnInit {
       await this._getAllSubjects();
       if (resp.status) {
         this._closeModal();
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -152,7 +152,7 @@ export class AddQuestionsComponent implements OnInit {
       this.currentUser?.institution.type == InstitutionType.COLLEGE &&
       this.aboutQuestionFg.controls['collegeYear'].value == null
     ) {
-      this.helperSvc.presentAlert('Please select Year', SweetAlertIcon.INFO);
+      this.helperSvc.presentAlert('Please select Year', Icon.INFO);
       return;
     }
 
@@ -160,7 +160,7 @@ export class AddQuestionsComponent implements OnInit {
       this.currentUser?.institution.type == InstitutionType.SCHOOL &&
       this.aboutQuestionFg.controls['scchoolClass'].value == null
     ) {
-      this.helperSvc.presentAlert('Please select Class', SweetAlertIcon.INFO);
+      this.helperSvc.presentAlert('Please select Class', Icon.INFO);
       return;
     }
 
@@ -184,7 +184,7 @@ export class AddQuestionsComponent implements OnInit {
     try {
       const resp = await this.questionSvc.addQuestion(question);
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
       }
     } catch (error) {
     } finally {

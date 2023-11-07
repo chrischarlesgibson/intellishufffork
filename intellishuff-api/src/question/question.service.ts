@@ -1,12 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Between,
-  FindConditions,
-  LessThanOrEqual,
-  MoreThanOrEqual,
-  Repository,
-} from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { Question } from './question.entity';
 import { IQuestion, IQuestionFilter } from './question.model';
 import { IResponse } from 'src/user/user.model';
@@ -23,14 +17,14 @@ export class QuestionService {
   async generateQuizResult(questions) {}
 
   async filterQuestions(args: IQuestionFilter): Promise<IResponse<any>> {
-    let whereCondition: FindConditions<Question> = {};
-
-    if (args.createdOn) {
-      whereCondition.createdOn = args.createdOn;
-    }
+    let whereCondition: FindOptionsWhere<Question> = {};
 
     if (args.subject) {
       whereCondition.subject = { id: args.subject };
+    }
+
+    if (args.createdOn) {
+      whereCondition.createdOn = args.createdOn;
     }
 
     if (args.collegeYear) {
@@ -54,7 +48,7 @@ export class QuestionService {
       where: whereCondition,
       take: limit,
     });
-    
+
     return {
       data: quest,
       status: true,

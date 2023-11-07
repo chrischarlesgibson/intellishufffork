@@ -26,5 +26,16 @@
         ]
       }
     }
+  ], "dataGroups": [
+    {
+      "name": "api",
+      "urls": ["http://localhost:3000/api/v1/user/*"], 
+      "cacheConfig": {
+        "maxAge": "1d",
+        "maxSize": 1000,
+        "strategy": "freshness",
+        "timeout": "1s"
+      }
+    }
   ]
 }

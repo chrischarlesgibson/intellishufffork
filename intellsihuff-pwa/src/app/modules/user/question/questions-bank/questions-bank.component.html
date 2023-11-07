@@ -17,11 +17,12 @@
         <div class="row">
           <div class="col-md-3">
             <div class="form-group m-2">
-              <label for="password">Subject</label>
+              <label for="subject">Subject</label>
               <select
                 class="form-select mb-3"
                 formControlName="subject"
                 placeholder="select subject"
+                id="subject"
               >
                 <option *ngFor="let sub of subjects" [value]="sub.id">
                   {{ sub.name }}
@@ -32,8 +33,9 @@
 
           <div class="col-md-3">
             <div class="form-group m-2 date">
-              <label for="password">Date</label>
+              <label for="date">Date</label>
               <input
+                id="date"
                 class="date-input"
                 type="date"
                 formControlName="createdOn"
@@ -144,9 +146,10 @@
               <input
                 type="number"
                 class="form-control"
-                maxLength
+                maxLengthDirective
                 placeholder="Number of versions to Generate"
                 formControlName="versions"
+                id="versions"
               />
             </div>
             <div
@@ -194,7 +197,10 @@
   </div>
 
   <ng-container>
-    <div class="card" *ngFor="let m of shuffled; trackBy: trackQuestions; let idx = index">
+    <div
+      class="card"
+      *ngFor="let m of shuffled; trackBy: trackQuestions; let idx = index"
+    >
       <div class="card-header">
         <div class="quest" id="q">
           <b *ngIf="(idx + 1) % questionsCount > 0">

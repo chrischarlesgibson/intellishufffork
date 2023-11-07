@@ -8,9 +8,9 @@ export class UserConstant {
   public static readonly KEY_ACCESS_TOKEN = 'key:accessToken';
   public static readonly KEY_REFRESH_TOKEN = 'key:refreshToken';
 
-  public static readonly FACEBOOK_APP_ID = '1721262398219194';
+  public static readonly FACEBOOK_APP_ID = '645191637430374';
   public static readonly GOOGLE_SIGNIN_CLIENT_ID =
-    '235087515392-rhf45sd7ejecvji82e3t9si5uvhub1dr.apps.googleusercontent.com';
+    '833763583936-ua7mksfec28qot9hptkkpk12eq7r81ab.apps.googleusercontent.com';
 
   public static readonly EVENT_USER_LOGGEDIN = 'event:userLoggedIn';
   public static readonly EVENT_USER_LOGGEDIN_CLICKED =

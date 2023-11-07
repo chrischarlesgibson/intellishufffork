@@ -51,9 +51,6 @@ const CONNECTION_NAME = 'default';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       name: CONNECTION_NAME,
-      // database: `./_db/amanah.db`,
-      // entities: [Trip],
-      // synchronize: true,
       useFactory: (configService: ConfigService) => ({
         type: 'sqlite',
         database: configService.get('DATABASE'),
@@ -67,7 +64,7 @@ const CONNECTION_NAME = 'default';
     QuestionModule,
     SubjectModule,
     QuizModule,
-    RoleModule
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -98,7 +95,6 @@ export class AppModule implements NestModule {
             name: 'Peshwar Model College',
           },
         });
-
         return;
       }
     }

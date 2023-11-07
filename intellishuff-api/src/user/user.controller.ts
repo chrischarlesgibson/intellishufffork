@@ -1,8 +1,10 @@
 import {
+  BadRequestException,
   Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
+  HttpStatus,
   Post,
   Query,
   Req,
@@ -36,7 +38,7 @@ export class UserController {
     private jwtSvc: JwtService,
     private userSvc: UserService,
     private institutionSvc: InstitutionService,
-    private tokenSvc: TokenService
+    private tokenSvc: TokenService,
   ) {}
 
   @UseGuards(JwtAccessTokenAuthGuard)
@@ -84,46 +86,56 @@ export class UserController {
   @UseGuards(JwtAccessTokenAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('getCurrentUser')
-  async getCurrentUser(@Request() req,  @Query('id') id: number) { 
+  async getCurrentUser(@Request() req, @Query('id') id: number) {
     const user = await this.userSvc.getCurrentUser(id);
     return user;
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('generateAccessToken')
-  async generateAccessToken(@Body() args) { 
+  async generateAccessToken(@Body() args) {
     try {
       const payload = await this.jwtSvc.verifyAsync(args.args, {
-        secret: this.config.get<string>('REFRESH_TOKEN_SECRET')
+        secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),
       });
 
-    const accessToken = await this.tokenSvc.generateAccessToken({userId: payload.userId, email: payload.email});
-    const refresh_Token = await this.tokenSvc.generateRefreshToken({userId: payload.userId, email: payload.email});
+      const accessToken = await this.tokenSvc.generateAccessToken({
+        userId: payload.userId,
+        email: payload.email,
+      });
+      const refresh_Token = await this.tokenSvc.generateRefreshToken({
+        userId: payload.userId,
+        email: payload.email,
+      });
 
-    return{
-      access_token: accessToken,
-      refresh_token: refresh_Token
-    };
-    
+      return {
+        access_token: accessToken,
+        refresh_token: refresh_Token,
+      };
     } catch (error) {
       throw new UnauthorizedException();
     }
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('login')
+  @Post('authenticate')
   async login(@Body() args) {
-    const resp = await this.userSvc.login(args);
+    const user = await this.userSvc.vaildateUserByEmail({
+      email: args.email,
+      password: args.password,
+    });
 
-    return resp;
+    if (!user) {
+      throw new BadRequestException({ userNotFound: HttpStatus.NOT_FOUND });
+    }
+
+    return this.userSvc.login(args);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('register')
   async register(@Body() args: IRegistrationParams) {
-    const resp = await this.userSvc.register(args);
-
-    return resp;
+    return this.userSvc.register(args);
   }
 
   @UseGuards(JwtAccessTokenAuthGuard)

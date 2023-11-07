@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
       .big-403 {
         font-size: 5rem;
         font-weight: bold;
-        color: #f44336; /* You can change the color to your preference */
+        color: #f44336;
       }
 
       a {

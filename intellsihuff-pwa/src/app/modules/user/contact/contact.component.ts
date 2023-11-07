@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HelperService } from 'src/app/universal/helper.service';
 import { AuthService } from '../../authentication/auth.service';
-import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import { Icon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'contact',
@@ -38,7 +38,7 @@ export class ContactComponent implements OnInit {
     try {
       const resp: any = await this.authSvc.sendMail(mail);
       if (resp.message) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
       }
     } catch (error) {
     } finally {

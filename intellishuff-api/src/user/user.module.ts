@@ -10,16 +10,17 @@ import { Role } from 'src/role/role/role.entity';
 import { RoleService } from 'src/role/role/role.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConstant } from 'src/universal/app.constant';
-import { TokenService } from './auth/token.service'; 
+import { TokenService } from './auth/token.service';
+import { ExternalAuth } from './external-auth/external-auth.entity';
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Institution, Role]),
+    TypeOrmModule.forFeature([User, Institution, Role, ExternalAuth]),
     JwtModule.register({
       secret: AppConstant.ACCESS_TOKEN_SECRET_KEY,
       signOptions: { expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION },
     }),
-    InstitutionModule
+    InstitutionModule,
   ],
   controllers: [UserController],
   providers: [UserService, HelperService, TokenService],

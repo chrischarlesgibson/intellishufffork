@@ -1,4 +1,4 @@
-<div *ngIf="!showContent">
+<ng-container *ngIf="!showContent">
   <div class="container home">
     <div class="row">
       <div class="col-md-4">
@@ -32,17 +32,30 @@
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <router-outlet></router-outlet>
 
-
-<!-- <mat-form-field appearance="fill">
-  <mat-label>Select an option</mat-label>
-  <mat-select [multiple]="true">
-    <mat-option>None</mat-option>
-    <mat-option value="option1">Option 1</mat-option>
-    <mat-option value="option2">Option 2</mat-option>
-    <mat-option value="option3">Option 3</mat-option>
-  </mat-select>
-</mat-form-field> -->
+<div class="col-12 col-sm-6">
+  <div class="form-group">
+    <label>Multiple (.select2-purple)</label>
+    <div class="select2">
+      <select
+        #select2
+        class="select2"
+        multiple="multiple"
+        data-placeholder="Select a State"
+        style="width: 100%"
+      >
+        <option>Alabama</option>
+        <option>Alaska</option>
+        <option>California</option>
+        <option>Delaware</option>
+        <option>Tennessee</option>
+        <option>Texas</option>
+        <option>Washington</option>
+      </select>
+    </div>
+  </div>
+  <!-- /.form-group -->
+</div>

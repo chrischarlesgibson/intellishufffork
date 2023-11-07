@@ -1,21 +1,38 @@
 import { BaseService } from 'src/app/universal/base.service';
-import { IRegister, IUser, Ilogin, UserRole, UserStatus } from './auth.model';
-import { IResponse } from 'src/app/universal/shared.model';
-import { HttpHeaders } from '@angular/common/http';
+import {
+  ILoginParams,
+  IRegistrationParams,
+  IUser,
+  Ilogin,
+  LoginType,
+  UserRole,
+  UserStatus,
+} from './auth.model';
+import { IResponse, Icon } from 'src/app/universal/shared.model';
+import { Injectable } from '@angular/core';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
+@Injectable({ providedIn: 'root' })
 export class AuthService extends BaseService {
-  /**
-   *
-   */
-  constructor() {
+  constructor(
+    private socialAuthService: SocialAuthService
+  ) {
     super();
   }
 
-  uploadLogo( image) {
+  uploadLogo(image) {
     return this.postData<any>({
       url: `institution/uploadLogo`,
+      body: image,
+    });
+  }
+
+  async getNewAccessToken() {
+    const refreshToken = await this.userSettingSvc.getRefreshToken();
+    return this.postData({
+      url: `user/generateAccessToken`,
       body: {
-        file: image
+        args: refreshToken,
       },
     });
   }
@@ -26,19 +43,13 @@ export class AuthService extends BaseService {
     });
   }
 
-  async getCurrentUser(id: number) {
-    const token = await this.userSettingSvc.getAccessToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
+  getCurrentUser(id: number) {
     return this.getData<IUser>({
       url: `user/getCurrentUser?id=${id}`,
-      httpHeaders: headers
     });
   }
 
-  regsiter(args: IRegister) {
+  regsiter(args: IRegistrationParams) {
     return this.postData<IResponse<any>>({
       url: `user/register`,
       body: {
@@ -47,9 +58,78 @@ export class AuthService extends BaseService {
     });
   }
 
-  login(args: Ilogin) {
+  async login(args: Ilogin, externalUser?) {
+    this.helperSvc.presentLoader('Signing In');
+    try {
+      let response: IResponse<IUser> = {};
+      switch (args.loginType) {
+        case LoginType.STANDARD:
+          response = await this.authenticate({
+            email: args.email,
+            password: args.password,
+            loginType: args.loginType,
+          });
+        break;
+      }
+
+      if(args.loginType !== LoginType.STANDARD) {
+        // debugger
+        let regRes = await this.regsiter({ 
+          email: externalUser.email, 
+          name: externalUser.name, 
+          externalAuth: externalUser.idToken,
+          loginType: args.loginType,
+          status: UserStatus.PENDING
+        });
+        
+        if(regRes.data) {
+          response = regRes;
+        } else {
+          return null;
+        }
+      }
+
+      if (!response) {
+        return null;
+      }
+      
+      return this._handleLoginResponse(
+        {
+          loginType: args.loginType as LoginType,
+          user: response.data as IUser,
+        },
+        response.refresh_token,
+        response.access_token,
+      );
+    } catch (e: any) {
+      if(!e) {
+        return;
+      }
+
+      if(e.status == 400) {
+         this.helperSvc.presentAlert(e.statusText, Icon.ERROR);
+        return;
+      }
+
+      // let msg = e.toString();
+      // if(e.message) {
+      //   msg = e.message;
+      // } else if(e.error) {
+      //   msg = e.error.toString();
+      // }
+      // if(e.error?.error_description) {
+      //   msg += "\n" + e.error.error_description;
+      // }
+      // await this.helperSvc.presentToast(msg, false);
+
+    } finally {
+      this.helperSvc.dismissLoader();
+    }
+  }
+
+  authenticate(args: Ilogin) {
     return this.postData<IUser>({
-      url: `user/login`,
+      url: `user/authenticate`,
       body: {
         ...args,
       },
@@ -120,13 +200,54 @@ export class AuthService extends BaseService {
       await Promise.all([
         // this.userSettingSvc.removeUserProfileLocal(username),
         this.userSettingSvc.removeAccessToken(),
+        this.userSettingSvc.removeRefreshToken(),
         this.userSettingSvc.removeCurrentUser(),
-        this.userSettingSvc.removeLoggedInMethod(),
-        this.userSettingSvc.removeCurrentUserPassword(),
+        // this.userSettingSvc.removeLoggedInMethod(),
+        // this.userSettingSvc.removeCurrentUserPassword(),
       ]);
 
       // this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT);
       resolve(null);
     });
+  }
+
+  private async _handleLoginResponse(
+    args: ILoginParams,
+    refresh_token,
+    access_token,
+  ) {
+    const promises: any = [];
+    // let profilePromise = this.userSettingSvc.putUserProfileLocal(args.user);
+    // promises.push(profilePromise);
+    
+
+    let loginTypePromise = this.userSettingSvc.putLoggedInMethod(args.loginType);
+    promises.push(loginTypePromise);
+
+    if(args.loginType == LoginType.STANDARD) {
+      //TODO: need to remvoe storing password
+      // let passwordPromise =  this.userSettingSvc.putCurrentUserPassword(args.password);
+      // promises.push(passwordPromise);
+    }
+
+    let currentUserPromise = this.userSettingSvc.putCurrentUser(args.user);
+    promises.push(currentUserPromise);
+
+    const tokenPromise = this.userSettingSvc.putAccessToken(access_token);
+    promises.push(tokenPromise);
+
+    
+    const refreeshtokenPromise = this.userSettingSvc.putRefreshToken(refresh_token);
+    promises.push(refreeshtokenPromise);
+
+    try {
+      await Promise.all(promises);
+
+      //fire the user loggedin event
+      const profile = this.userSettingSvc.setUserDefaults(args.user);
+      return profile;
+    } catch(e) {
+      throw e;
+    }
   }
 }

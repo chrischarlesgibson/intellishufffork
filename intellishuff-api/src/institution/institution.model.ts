@@ -1,5 +1,5 @@
 export interface IInstitution {
-  id?: number;
+  id?: string;
   name: string;
   type: InstitutionType;
 }

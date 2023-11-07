@@ -32,8 +32,8 @@ export class DbWebService extends Dexie implements DbService {
     this.open()
       .then((d) => {
         this.db = d;
-
         this.pubsubSvc.publishEvent(AppConstant.EVENT_DB_INITIALIZED);
+        
       })
       .catch((e) => alert(e));
   }

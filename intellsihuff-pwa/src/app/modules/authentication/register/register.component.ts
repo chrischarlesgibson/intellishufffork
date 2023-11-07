@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRegister, IUser, InstitutionType, UserRole } from '../auth.model';
+import { IRegistrationParams, IUser, InstitutionType, UserRole } from '../auth.model';
 import { AuthService } from '../auth.service';
 import { HelperService } from 'src/app/universal/helper.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
+import { IResponse, Icon } from 'src/app/universal/shared.model';
 import { AppConstant } from 'src/app/universal/app-constant';
 import { UserConstant } from '../../user/user-constant';
 import { BasePage } from 'src/app/universal/base.page';
@@ -71,7 +71,7 @@ export class RegisterComponent extends BasePage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  async onFormSubmitted(data: IRegister) {
+  async onFormSubmitted(data: IRegistrationParams) {
     // const loader = await this.helperSvc.loader;
     // await loader.present();
     const institution = {
@@ -92,11 +92,11 @@ export class RegisterComponent extends BasePage implements OnInit {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if (resp.status) {
         this.formGroup.reset();
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
 
         this.router.navigate(['/login']);
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {

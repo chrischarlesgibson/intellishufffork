@@ -29,7 +29,6 @@ export class SeedDataMiddleware implements NestMiddleware {
       const admin = {
         role: 'admin',
       };
-
       const user = {
         role: 'user',
       };
@@ -51,19 +50,21 @@ export class SeedDataMiddleware implements NestMiddleware {
         },
       });
 
-      const inst = await this.institutionSvc.getInstById(1);
+      const inst = await this.institutionSvc.getFirstIns();
       const subject: ISubject = {
         name: `mathematics`,
-        institution: inst, // Assign the Institution entity instead of the institutionType
+        institution: inst,
       };
       await this.subjectSvc.addSubject(subject);
+      const sub = await this.subjectSvc.getFirstSub();
+
       const localDateTime = moment().format('MM/DD/YY');
       const question1 = {
         text: 'What is the capital of France?',
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -80,7 +81,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -97,7 +98,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -114,7 +115,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -131,7 +132,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -148,7 +149,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
 
@@ -166,7 +167,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([
@@ -183,7 +184,7 @@ export class SeedDataMiddleware implements NestMiddleware {
         createdOn: localDateTime,
         institutionType: InstitutionType.SCHOOL,
         subject: {
-          id: 1,
+          id: sub[0].id,
           name: 'mathematics',
         },
         options: JSON.stringify([

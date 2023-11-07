@@ -11,7 +11,7 @@ import {
   selector: '[HoverDirective]',
 })
 export class HoverDirective implements OnInit {
-  @Input() hoverText: string; // Input property to receive text
+  @Input() hoverText: string; 
 
   private divElement: HTMLElement;
   private isHoverEnabled = true;

@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ISubject } from 'src/app/modules/user/subject/subject.model';
 import { SubjectService } from 'src/app/modules/user/subject/subject.service';
 import { BasePage } from 'src/app/universal/base.page';
-import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import { Icon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'app-subjects-listing',
@@ -62,9 +62,9 @@ export class SubjectsListingComponent
       await this._getAllSubjects();
 
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -80,10 +80,10 @@ export class SubjectsListingComponent
 
       if (resp.status) {
         this._closeModal();
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
         await this._getAllSubjects();
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {
@@ -95,7 +95,7 @@ export class SubjectsListingComponent
     const resp = await this.helperSvc.presentConfirmDialogue(
       'Are you sure',
       'You want to delete this subject?',
-      SweetAlertIcon.WARNING,
+      Icon.WARNING,
     );
     if (!resp) {
       return;

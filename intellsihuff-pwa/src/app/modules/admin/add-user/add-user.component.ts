@@ -1,28 +1,39 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
+import { IResponse, Icon } from 'src/app/universal/shared.model';
 import { BasePage } from 'src/app/universal/base.page';
 import { AuthService } from '../../authentication/auth.service';
 import {
-  IRegister,
+  IRegistrationParams,
   IRole,
   IUser,
   UserStatus,
 } from '../../authentication/auth.model';
 import { RoleService } from '../role/role.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
+
+declare var $: any;
+
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
+  @ViewChild('select2') select2: ElementRef;
+
   formGroup: FormGroup;
-  roles: any;
-  private _subscription: Subscription;
+  roles: IRole[] = [];
   currentUser: IUser;
   id: number;
+  private _subscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +53,7 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this._subscription = this.route.queryParams.subscribe(async (params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
       if (this.id) {
         await this._getCurrentUser(this.id);
         this._populateFg();
@@ -50,18 +61,25 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     });
 
     const roles = await this.roleSvc.getAll();
-    this.roles = roles.data;
+    this.roles = [roles.data as IRole];
+    console.log(this.roles);
+  }
+
+  ngAfterViewInit() {
+    $(this.select2.nativeElement).select2();
   }
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
+    const selectElement = $(this.select2.nativeElement);
+    selectElement.select2('destroy');
   }
 
   get fg() {
     return this.formGroup.controls;
   }
 
-  async onFormSubmitted(data: IRegister) {
+  async onFormSubmitted(data: IRegistrationParams) {
     // const loader = await this.helperSvc.loader;
     // await loader.present();
 
@@ -78,10 +96,10 @@ export class AddUserComponent extends BasePage implements OnInit, OnDestroy {
     try {
       const resp: IResponse<any> = await this.authSvc.regsiter(params);
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
         this.router.navigate(['/admin/user-listing']);
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {

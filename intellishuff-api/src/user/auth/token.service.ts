@@ -20,7 +20,7 @@ export class TokenService {
     return refreshToken;
   }
 
-  generateAccessToken(payLoad: JwtPayload) {    
+  generateAccessToken(payLoad: JwtPayload) {
     const accessToken = this.jwtService.sign(payLoad, {
       expiresIn: AppConstant.DEFAULT_JWT_TOKEN_EXPIRATION,
       secret: this.config.get<string>('ACCESS_TOKEN_KEY'),

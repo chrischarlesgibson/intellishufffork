@@ -19,7 +19,7 @@ import {
   InstitutionType,
 } from 'src/app/modules/authentication/auth.model';
 import * as moment from 'moment';
-import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import { Icon } from 'src/app/universal/shared.model';
 import jsPDF from 'jspdf';
 
 @Component({
@@ -111,7 +111,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
       const resp: any = await this.questionSvc.filterQuestions(data);
 
       if (resp.message) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
         return;
       }
 
@@ -453,7 +453,7 @@ export class QuestionsBankComponent extends BasePage implements OnInit {
   }
 
   private async _getCurrentUser() {
-    const user: any = await this.userSettingSvc.getCurrentUser();
-    this.currentUser = user;
+    this.currentUser = await this.userSettingSvc.getCurrentUser();
+    console.log(this.currentUser);
   }
 }

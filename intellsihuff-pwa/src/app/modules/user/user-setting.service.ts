@@ -96,29 +96,35 @@ export class UserSettingService extends AppSettingService {
   }
 
   getCurrentUser() {
-    return this.get<string>(UserConstant.KEY_CURRENT_USER);
+    const user = <any>localStorage.getItem(UserConstant.KEY_CURRENT_USER);
+    return JSON.parse(user);
+    // return this.get<string>(UserConstant.KEY_CURRENT_USER);
   }
 
   putCurrentUser(values) {
-    return this.dbService
-      .putLocal(this.schemaSvc.tables.setting, {
-        key: UserConstant.KEY_CURRENT_USER,
-        value: values,
-      })
-      .then(() => {
-        AppSettingService.settingCache.set(
-          UserConstant.KEY_CURRENT_USER,
-          values,
-        );
-      });
+    localStorage.setItem(UserConstant.KEY_CURRENT_USER, JSON.stringify(values));
+    console.log(values);
+    
+    // return this.dbService
+    //   .putLocal(this.schemaSvc.tables.setting, {
+    //     key: UserConstant.KEY_CURRENT_USER,
+    //     value: values,
+    //   })
+    //   .then(() => {
+    //     AppSettingService.settingCache.set(
+    //       UserConstant.KEY_CURRENT_USER,
+    //       values,
+    //     );
+    //   });
   }
 
   removeCurrentUser() {
-    return this.dbService
-      .remove(this.schemaSvc.tables.setting, UserConstant.KEY_CURRENT_USER)
-      .then(() => {
-        AppSettingService.settingCache.delete(UserConstant.KEY_CURRENT_USER);
-      });
+    localStorage.clear();
+    // return this.dbService
+    //   .remove(this.schemaSvc.tables.setting, UserConstant.KEY_CURRENT_USER)
+    //   .then(() => {
+    //     AppSettingService.settingCache.delete(UserConstant.KEY_CURRENT_USER);
+    //   });
   }
 
   // getLoggedInMethod(): Promise<LoginType> {

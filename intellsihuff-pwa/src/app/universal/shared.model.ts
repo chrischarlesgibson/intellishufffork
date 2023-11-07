@@ -3,9 +3,10 @@ export interface IResponse<T> {
   status?: any;
   message?: any;
   access_token?: string;
+  refresh_token?: string;
 }
 
-export enum SweetAlertIcon {
+export enum Icon {
   SUCCESS = 'success',
   ERROR = 'error',
   WARNING = 'warning',

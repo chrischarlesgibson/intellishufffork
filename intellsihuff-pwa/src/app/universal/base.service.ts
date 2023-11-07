@@ -12,7 +12,11 @@ import { UserSettingService } from '../modules/user/user-setting.service';
 import { HelperService } from './helper.service';
 import { NgxPubSubService } from './pub-sub';
 import { DbWebService } from './db/db-web.service';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class BaseService {
   protected http: HttpClient;
   protected dbService: DbService;
@@ -25,6 +29,8 @@ export class BaseService {
    *
    */
   constructor() {
+    console.log('base service');
+
     const injector = AppInjector.getInjector();
     this.http = injector.get(HttpClient);
     this.schemaSvc = injector.get(SchemaService);
@@ -41,7 +47,6 @@ export class BaseService {
   protected getData<T>(args: HttpParams): Promise<T> {
     return new Promise(async (resolve, reject) => {
       let headers: HttpHeaders = await this.prepareHeaders(args);
-
       args.body = args.body || {};
       if (!args.overrideUrl) {
         let newUrl = `${AppConstant.BASE_API_URL + args.url}`;
@@ -125,9 +130,18 @@ export class BaseService {
       //     const u = await this.userSettingSvc.getCurrentUser();
       //     if(u) {
       //         //TODO: check for token expiration...
-      //         //kickout...
-      //         this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT, { clearCache: true, displayLoginDialog: true });
+      //         let response: any = await this.getNewAccessToken();
+      //         await this.userSettingSvc.removeAccessToken();
+      //         await this.userSettingSvc.removeAccessToken();
+      //         await this.userSettingSvc.putAccessToken(response.access_token);
+      //         await this.userSettingSvc.putRefreshToken(response.refresh_token);
+      //         debugger;
+      //         // args.errorCallback(e, args);
       //     }
+      //     // else{
+      //     //     //kickout...
+      //     //     this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDOUT, { clearCache: true, displayLoginDialog: true });
+      //     // }
       // break;
       default:
         if (!args.errorCallback) {

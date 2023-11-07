@@ -1,20 +1,20 @@
 import {
-  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Output,
+  OnInit,
 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
 import { HelperService } from './universal/helper.service';
 import { UserSettingService } from './modules/user/user-setting.service';
 import { NgxPubSubService } from './universal/pub-sub';
 import { UserConstant } from './modules/user/user-constant';
-import { IResponse, SweetAlertIcon } from './universal/shared.model';
+import { IResponse, Icon } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
 import { AuthService } from './modules/authentication/auth.service';
-import { IUser } from './modules/authentication/auth.model';
+import { IRegistrationParams, IUser, LoginType } from './modules/authentication/auth.model';
 import { AppSettingService } from './universal/app-setting.service';
 import { log } from 'console';
+import { Platform } from '@angular/cdk/platform';
+import { NavigationStart, Router } from '@angular/router';
+import { SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,8 @@ import { log } from 'console';
 })
 export class AppComponent {
   existingRouteUrl: any = null;
+  user: SocialUser;
+  loggedIn: boolean;
 
   constructor(
     private userSettingSvc: UserSettingService,
@@ -31,15 +33,17 @@ export class AppComponent {
     private userSvc: AuthService,
     private helperSvc: HelperService,
     private appSettingSvc: AppSettingService,
+    private platform: Platform,
+
   ) {
     this.initializeWeb();
   }
+
 
   shouldShowNavbar() {
     const currentUrl = this.router.url;
     return currentUrl.includes('/login') ||
       currentUrl.includes('/register') ||
-      currentUrl.includes('/access-denied') ||
       currentUrl.includes('404') ||
       currentUrl.includes('403')
       ? false
@@ -108,46 +112,36 @@ export class AppComponent {
 
     this.pubsubSvc.subscribe(
       UserConstant.EVENT_USER_LOGGEDIN_CLICKED,
-      async (params: { email; password }) => {
+      async (params: { email, password, loginType } ) => {
         if (AppConstant.DEBUG) {
           console.log(
             'AppComponent: EVENT_USER_LOGGEDIN_CLICKED: params',
             params,
           );
         }
-
-        let currentUser: IUser | undefined;
-        let response: IResponse<IUser> | undefined;
-
-        const user = {
-          email: params.email,
-          password: params.password,
-        };
-
-        this.helperSvc.presentLoader('Signing In');
+        let user: IUser | undefined;
         try {
-          response = await this.userSvc.login(user);
-          currentUser = response.data as IUser;
-          this.userSettingSvc.putAccessToken(response.access_token)
-        } catch (error) {
-        } finally {
-          this.helperSvc.dismissLoader();
-        }
+          user = await this.userSvc.login({
+            email: params.email,
+            password: params.password,
+            loginType: params.loginType
+          }, params);
 
-        if (!response) {
+        } catch (error) {
+
+        }
+        
+        if (!user) {
           return;
         }
 
-        if (!response?.status) {
-          this.helperSvc.presentAlert(response.message, SweetAlertIcon.WARNING);
+        if (!user?.status) {
+          // this.helperSvc.presentAlert(user.message , SweetAlertIcon.WARNING);
         }
-
-        await this.userSettingSvc.putCurrentUser(currentUser as IUser);
-
         this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDIN, {
-          user: currentUser,
+          user: user,
           redirectToHome: true,
-          displayWelcomeMessage: true,
+          displayWelcomeMessage: true
         });
       },
     );
@@ -158,11 +152,12 @@ export class AppComponent {
         user: IUser;
         redirectToHome?: boolean;
         displayWelcomeMessage?: boolean;
+        access_token: string;
+        refresh_token: string;
       }) => {
         if (AppConstant.DEBUG) {
           console.log('AppComponent: EVENT_USER_LOGGEDIN: params', params);
         }
-
         if (params.redirectToHome) {
           this._navigateTo('/home');
         }
@@ -243,7 +238,7 @@ export class AppComponent {
   private async _setDefaults() {
     const res = await Promise.all([
       this.appSettingSvc.getWorkingLanguage(),
-      // this._configureWeb()
+      this._configureWeb()
     ]);
 
     let wkl = res[0];
@@ -275,25 +270,20 @@ export class AppComponent {
   }
 
   private async _logout() {
-    // const resp = await this.helperSvc.presentConfirmDialog();
-    // if(resp) {
-    // const loader = await this.helperSvc.loader;
-    // await loader.dismiss();
 
     try {
       await this.userSvc.logoutEverywhere();
     } catch (e) {
     } finally {
-      // await loader.dismiss();
     }
     // }
   }
 
-  // private async _configureWeb() {
-  //   if(this.platform.is('capacitor')) {
-  //     return;
-  //   }
+  private async _configureWeb() {
+    if(!this.platform.isBrowser) {
+      return;
+    }
 
-  //   await this.userSvc.init();
-  // }
+    // await this.userSvc.init();
+  }
 }

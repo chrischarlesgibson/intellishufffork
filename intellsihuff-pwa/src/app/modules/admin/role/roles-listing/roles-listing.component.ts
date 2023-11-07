@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../role.service';
 import { BasePage } from 'src/app/universal/base.page';
 import { IRole } from '../role.model';
-import { SweetAlertIcon } from 'src/app/universal/shared.model';
+import { Icon } from 'src/app/universal/shared.model';
 
 @Component({
   selector: 'roles-listing',
@@ -47,11 +47,11 @@ export class RolesListingComponent extends BasePage implements OnInit {
       const resp = await this.roleSvc.addRole(data);
 
       if (resp.status) {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
         this._closeModal();
         await this._getAllRoles();
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {

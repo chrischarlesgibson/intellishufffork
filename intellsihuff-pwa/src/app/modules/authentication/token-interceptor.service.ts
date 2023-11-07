@@ -75,12 +75,10 @@ export class TokenInterceptor implements HttpInterceptor {
         switchMap((tokens: any) => {
             this.isRefreshing = false;
             this.refreshTokenSubject.next(tokens.access_token);
-
+            
             //update local db...
             const promises = [];
-            // this.userSettingSvc.removeCurrentUser();
-            // const user = this.userSvc.getCurrentUser(1);
-            // this.userSettingSvc.putCurrentUser(user);
+            
           
             this.userSettingSvc.removeAccessToken();
             this.userSettingSvc.removeRefreshToken();

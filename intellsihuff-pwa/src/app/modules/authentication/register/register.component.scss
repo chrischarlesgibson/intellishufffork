@@ -1,13 +1,6 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 
 @media (max-width: 576px) {
   .container {
-    margin: 50px auto !important;
+    // margin: 0 !important;
   }
 }

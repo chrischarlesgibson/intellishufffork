@@ -18,6 +18,7 @@ const routes: Routes = [
       {
         path: 'user-listing',
         component: UserListingComponent,
+        resolve: {},
       },
       {
         path: 'add-user',

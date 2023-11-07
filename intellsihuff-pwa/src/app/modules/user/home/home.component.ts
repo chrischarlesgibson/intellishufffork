@@ -7,9 +7,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { gsap } from 'gsap';
-
+declare var $: any;
 // in tsconfig set "allowSyntheticDefaultImports": true,
 
 // import introJs from 'intro.js';
@@ -27,21 +32,24 @@ import { AppConstant } from 'src/app/universal/app-constant';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BasePage implements OnInit {
+  @ViewChild('select2') select2: ElementRef;
+
   formGroup: FormGroup;
   currentUser: IUser;
   userRole = UserRole;
   showContent: boolean;
+  isChildComponentActivated: boolean;
 
   constructor(
     private userSettingSvc: UserSettingService,
     private renderer: Renderer2,
     private titleService: Title,
+    public activatedRoute: ActivatedRoute,
   ) {
     super();
     this.titleService.setTitle(`Home | ${AppConstant.SITE_NAME}`);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Check if the current route is a child route
         if (this.router.url.includes('/home/')) {
           this.showContent = true; // Hide the content
         } else {
@@ -58,6 +66,19 @@ export class HomeComponent extends BasePage implements OnInit {
     }
 
     gsap.from('.card', { opacity: 0, stagger: 0.2, duration: 1 });
+  }
+
+  ngAfterViewInit() {
+    $(this.select2.nativeElement).select2();
+  }
+
+  onChildComponentActivate(event: any): void {
+    this.isChildComponentActivated = true;
+  }
+
+  isChildRouteActive() {
+    debugger;
+    const hello = this.activatedRoute.firstChild !== null;
   }
 
   animateOnHover(card: HTMLElement) {

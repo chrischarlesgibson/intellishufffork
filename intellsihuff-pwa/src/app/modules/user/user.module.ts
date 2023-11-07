@@ -11,36 +11,21 @@ import { QuestionModule } from './question/question.module';
 import { AuthModule } from '../authentication/auth.module';
 import { AuthGuard } from '../authentication/auth.guard';
 import { EditProfileGuard } from '../authentication/edit-profile.guard';
-import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { HoverDirective } from 'src/app/directives/hover.directive';
 import { NavbarModule } from 'src/app/components/navbar/navbar.module';
-import { MatSelectModule } from '@angular/material/select';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
+import { HomeModule } from './home/home.module';
+import { ContactModule } from './contact/contact.module';
 
 @NgModule({
-  declarations: [HomeComponent, ContactComponent],
+  declarations: [],
   imports: [
     QuestionModule,
     AuthModule,
-    ComponentsWithFormsModule,
+    HomeModule,
+    ContactModule,
     UserRoutingModule,
-    RouterModule,
     NavbarModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatNativeDateModule,
-    MatButtonModule,
+    RouterModule,
   ],
-  providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    AuthGuard,
-    EditProfileGuard,
-    QuestionService,
-    SubjectService,
-  ],
-  exports: [RouterModule],
+  providers: [AuthGuard, EditProfileGuard, QuestionService, SubjectService],
 })
 export class UserModule {}

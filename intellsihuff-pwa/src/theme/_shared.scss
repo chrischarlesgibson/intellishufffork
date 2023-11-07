@@ -1,86 +1,96 @@
 body {
+  height: 100% !important;
   &.dark-mode {
     background-color: var(--dark-bg);
     color: #fff;
     .card {
-      box-shadow: 0px 0px 20px 3px #fff !important  ;
+      box-shadow: 0px 0px 20px 3px #fff !important;
     }
   }
   .container {
-    margin: var(--under-nav-margin) !important;
+    margin: var(--under-nav-margin);
   }
 }
 
-// forms 
-login, register, edit-profile{
-  .card {
-    width: 350px;
-    padding: 30px 0 0 0;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  
-    .card-title {
-      display: flex;
-      justify-content: center;
-      i {
-        font-size: 100px;
-        color: var(--color-primary);
+// forms
+login,
+register,
+edit-profile {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0 auto !important;
+
+    .card {
+      width: 350px;
+      padding: 30px 0 0 0;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+
+      .card-title {
+        display: flex;
+        justify-content: center;
+        i {
+          font-size: 100px;
+          color: var(--color-primary);
+        }
       }
-    }
-  
-    .card-body {
-      form{
-        .form-floating {
-          label {
-            font-size: 14px;
-            font-weight: bold;
+
+      .card-body {
+        form {
+          .form-floating {
+            .text-danger {
+            }
+            label {
+              font-size: 14px;
+              font-weight: bold;
+            }
+
+            .form-control {
+              width: 100%;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              font-size: 14px;
+            }
+
+            .show-hide-icon {
+              position: absolute !important;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              cursor: pointer;
+              z-index: 999;
+            }
           }
 
-          .form-control {
+          .btn-primary {
             width: 100%;
-            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: var(--color-primary);
+            border: none;
             border-radius: 4px;
+            color: #fff;
             font-size: 14px;
           }
-        
-          .show-hide-icon {
-            position: absolute !important;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            z-index: 999;
+
+          .btn-primary:hover {
+            background-color: var(--color-primary);
           }
         }
-
-        .btn-primary {
-          width: 100%;
-          padding: 10px;
-          background-color: var(--color-primary);
-          border: none;
-          border-radius: 4px;
-          color: #fff;
-          font-size: 14px;
-        }
-      
-        .btn-primary:hover {
-          background-color: var(--color-primary);
-        }
       }
-    }
 
-    .link {
-      text-align: center;
-      a {
-        color: var(--color-primary);
+      .link {
+        text-align: center;
+        a {
+          color: var(--color-primary);
+        }
       }
     }
   }
 }
-
-
-
 
 label {
   cursor: default !important;
@@ -138,7 +148,6 @@ form {
     animation: loaderAnimation 1s ease-in infinite; /* Add animation to the loader */
   }
 }
-
 
 @media (max-width: 990px) {
   .container {

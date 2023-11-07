@@ -12,13 +12,14 @@ export interface IRegistrationParams {
   status?: UserStatus;
   institution: IInstitution;
   tourVisited?: boolean;
+  externalAuth?: any;
 }
 
 export interface IUser {
-  id?: number;
+  id?: string;
   email: string;
   name: string;
-  password: string;
+  password?: string;
   roles: IRole[];
   status: UserStatus;
   institution: IInstitution;

@@ -28,12 +28,11 @@ export class InstitutionController {
     await this.institutionSvc.addInstitution(args);
   }
 
-  @UseGuards(JwtAccessTokenAuthGuard)
-  @Post('uploadLogo')
-  @UseInterceptors(FileInterceptor('image') )
-  async uploadLogo(@UploadedFile() image: Express.Multer.File) {
-    // await this.institutionSvc.uploadLogo(args, image);
-    console.log('as', image)
-
-  }
+  // @UseGuards(JwtAccessTokenAuthGuard)
+  // @Post('uploadLogo')
+  // @UseInterceptors(FileInterceptor('image'))
+  // async uploadLogo(@UploadedFile() image: Express.Multer.File) {
+  //   // await this.institutionSvc.uploadLogo(args, image);
+  //   console.log('as', image);
+  // }
 }

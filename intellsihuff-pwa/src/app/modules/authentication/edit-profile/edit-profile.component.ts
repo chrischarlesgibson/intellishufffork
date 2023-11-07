@@ -1,8 +1,13 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRegister, IRole, IUser, InstitutionType } from '../auth.model';
+import {
+  IRegistrationParams,
+  IRole,
+  IUser,
+  InstitutionType,
+} from '../auth.model';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { IResponse, SweetAlertIcon } from 'src/app/universal/shared.model';
+import { IResponse, Icon } from 'src/app/universal/shared.model';
 import { AppConstant } from 'src/app/universal/app-constant';
 import { UserConstant } from '../../user/user-constant';
 import { BasePage } from 'src/app/universal/base.page';
@@ -31,7 +36,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
     private authSvc: AuthService,
     private route: ActivatedRoute,
     private titleService: Title,
-    private userSettingSvc: UserSettingService
+    private userSettingSvc: UserSettingService,
   ) {
     super();
     this.titleService.setTitle(`Profile | ${AppConstant.SITE_NAME}`);
@@ -46,40 +51,34 @@ export class EditProfileComponent extends BasePage implements OnInit {
   }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.id = params['id'];
-    });
+    console.log('profile');
 
-    if (this.id) {
-      this.helperSvc.presentLoader('Fetching User');
-
-      try {
-        const resp:any = await this.authSvc.getCurrentUser(this.id);
-        this.user = resp.user;
-        if (this.user) {
+    this.route.data.subscribe((data) => {
+      if (data) {
+        this.helperSvc.presentLoader('Fetching User');
+        try {
+          this.user = data.userData;
           this._populateFormGroup();
+        } catch (error: any) {
+        } finally {
+          this.helperSvc.dismissLoader();
         }
-      } catch (error) {
-      } finally {
-        this.helperSvc.dismissLoader();
       }
-    }
+    });
 
     if (AppConstant.DEBUG) {
       // this._preFill();
     }
   }
 
-  async onFormSubmitted(data: IRegister) {
-    // const loader = await this.helperSvc.loader;
-    // await loader.present();
+  async onFormSubmitted(data: IRegistrationParams) {
     const institution = {
       name: this.fg['institutionName'].value,
       type: this.user.institution.type,
     };
 
     const params = {
-      id: this.user.id,
+      id: this.user.id || undefined,
       email: this.user.email,
       name: data.name,
       roles: this.user.roles,
@@ -96,9 +95,9 @@ export class EditProfileComponent extends BasePage implements OnInit {
         this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_PROFILE_UPDATED, {
           ...resp.data,
         });
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.SUCCESS);
+        this.helperSvc.presentAlert(resp.message, Icon.SUCCESS);
       } else {
-        this.helperSvc.presentAlert(resp.message, SweetAlertIcon.WARNING);
+        this.helperSvc.presentAlert(resp.message, Icon.WARNING);
       }
     } catch (error) {
     } finally {

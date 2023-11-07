@@ -3,7 +3,12 @@ import { IInstitution } from './institution.model';
 import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
 import { IResponse } from 'src/user/user.model';
-import { Injectable, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Injectable,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Injectable()
@@ -26,15 +31,13 @@ export class InstitutionService {
 
   //     return { message: 'Image uploaded successfully' };
   //   }
-  
-  @Post('uploadLogo')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadLogo(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-    console.log('file');
 
-  }
-
+  // @Post('uploadLogo')
+  // @UseInterceptors(FileInterceptor('file'))
+  // uploadLogo(@UploadedFile() file: Express.Multer.File) {
+  //   console.log(file);
+  //   console.log('file');
+  // }
 
   async addInstitution(args: IInstitution): Promise<IResponse<any>> {
     if (!args) {
@@ -48,13 +51,18 @@ export class InstitutionService {
     };
   }
 
-  async getInstById(id: number) {
+  async getInstById(id: string) {
     if (!id) {
       return null;
     }
 
     const inst = await this.institutionRepo.findOne({ where: { id: id } });
 
+    return inst;
+  }
+
+  async getFirstIns() {
+    const inst = await this.institutionRepo.find();
     return inst;
   }
 }

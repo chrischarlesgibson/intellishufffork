@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { AbstractControl, NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[maxLength]',
+  selector: '[maxLengthDirective]',
 })
 export class MaxLengthDirective {
   constructor(
@@ -12,6 +12,7 @@ export class MaxLengthDirective {
 
   @HostListener('input') onInput() {
     const value = parseInt(this.el.nativeElement.value, 10);
+    console.log(value);
 
     if (value > 100) {
       if (this.ngControl) {

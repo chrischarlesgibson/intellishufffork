@@ -50,7 +50,18 @@ export class SubjectService {
     if (!subs) {
       return null;
     }
+
     return subs;
+  }
+
+  async getFirstSub() {
+    const sub = await this.subjectRepo.find();
+
+    if (!sub) {
+      return null;
+    }
+
+    return sub;
   }
 
   async deleteSubject(subject): Promise<IResponse<any>> {

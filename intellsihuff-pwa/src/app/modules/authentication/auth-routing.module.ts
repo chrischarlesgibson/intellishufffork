@@ -1,28 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UserProfileResolver } from './userprofile.resolver';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'edit-profile',
-    canActivate: [AuthGuard],
-    component: EditProfileComponent,
+    loadChildren: () =>
+      import('./register/register.module').then((m) => m.RegisterModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
 })
 export class AuthRoutingModule {}

@@ -9,15 +9,18 @@ import { QuizComponent } from './quiz/quiz.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NoDataComponent } from 'src/app/components/no-data/no-data.component';
 import { NoDataModule } from 'src/app/components/no-data/no-data.module';
+import { AddQuestionsModule } from './add-questions/add-questions.module';
+import { QuestionsBankModule } from './questions-bank/questions-bank.module';
 
 @NgModule({
-  declarations: [
-    AddQuestionsComponent,
-    QuestionsBankComponent,
-    QuizComponent,
-    MaxLengthDirective,
+  declarations: [QuizComponent],
+  imports: [
+    AddQuestionsModule,
+    QuestionsBankModule,
+    ComponentsWithFormsModule,
+    FontAwesomeModule,
+    NoDataModule,
   ],
-  imports: [ComponentsWithFormsModule, FontAwesomeModule, NoDataModule],
   providers: [QuestionService, DatePipe],
 })
 export class QuestionModule {

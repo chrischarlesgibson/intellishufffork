@@ -17,38 +17,40 @@ export class JwtAccessTokenAuthGuard extends AuthGuard('jwt') {
   constructor(
     private readonly jwtSvc: JwtService,
     private readonly config: ConfigService,
-    private readonly tokenSvc: TokenService
+    private readonly tokenSvc: TokenService,
   ) {
     super();
   }
-  
-  async canActivate(context: ExecutionContext):  Promise<boolean> {
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
     const token = this.extractToken(req);
-    
-    if(!token) {
+
+    if (!token) {
       throw new UnauthorizedException();
     }
-    
+
     try {
       const payload = await this.jwtSvc.verifyAsync(token, {
-        secret: this.config.get<string>('ACCESS_TOKEN_KEY')
+        secret: this.config.get<string>('ACCESS_TOKEN_KEY'),
       });
-      
+
       // req['user'] = payload;
     } catch (error) {
-      throw new HttpException({ name: 'TokenExpiredError' }, HttpStatus.UNAUTHORIZED)
+      throw new HttpException(
+        { name: 'TokenExpiredError' },
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     return true;
   }
 
   private extractToken(request: any) {
-    const [type, token] = request.headers.authorization?.split(' ') ?? []; 
-    
-    return type === 'Bearer' ? token : undefined; 
-  }
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
 
+    return type === 'Bearer' ? token : undefined;
+  }
 
   // async canActivate(context: ExecutionContext) {
   //   const isPublic = this.reflector.getAllAndOverride('allow-any', [

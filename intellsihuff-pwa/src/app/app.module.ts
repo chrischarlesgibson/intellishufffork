@@ -6,60 +6,55 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppInjector } from './universal/app-injector';
 import { UserModule } from './modules/user/user.module';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { RouterModule, Routes } from '@angular/router';
 import { NgxPubSubService } from './universal/pub-sub';
-import { BaseService } from './universal/base.service';
 import { AdminModule } from './modules/admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthModule } from './modules/authentication/auth.module';
-import { environment } from 'src/environments/environment.prod';
 import { NoDataModule } from './components/no-data/no-data.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarModule } from './components/navbar/navbar.module';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
-import { HomeComponent } from './modules/user/home/home.component';
-import { AuthGuard } from './modules/authentication/auth.guard';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard ]
-  },
-  {
-    path: '403',
-    component: AccessDeniedComponent,
-  },
-  {
-    path: '404',
-    component: PageNotFoundComponent,
-  },
-  {
-    path: '**',
-    redirectTo: '/404',
-  },
-  // Other routes...
-];
+import { tokenInterceptor } from './modules/authentication/token-interceptor.service';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { UserConstant } from './modules/user/user-constant';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { AppConstant } from './universal/app-constant';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    RouterModule.forRoot(routes), // Make sure to include the `forRoot` method
     BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     UserModule,
     AuthModule,
     AdminModule,
     AppRoutingModule,
-    NoDataModule,
-    NavbarModule,
+    RouterModule,
     FontAwesomeModule,
+    NavbarModule,
+    SocialLoginModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !AppConstant.DEBUG
+    })
   ],
-  providers: [BaseService, NgxPubSubService],
-  bootstrap: [AppComponent],
+  providers: [
+    NgxPubSubService, 
+    tokenInterceptor,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(UserConstant.GOOGLE_SIGNIN_CLIENT_ID),
+          },
+        ],
+      } as SocialAuthServiceConfig
+    },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
   // null ijector issue

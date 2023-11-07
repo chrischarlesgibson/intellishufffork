@@ -26,22 +26,21 @@ export class InstitutionComponent extends BasePage implements OnInit {
     await this._getCurrentUser();
   }
 
-  onFileSelected(ev) {
-    this.selectedImage = ev.target.files[0] as File;
+  async onFileChanged(ev) {
+    if(ev.target.files.length > 0) {
+      this.selectedImage = ev.target.files[0] as File;
+      const formData = new FormData();
+      formData.append('file', this.selectedImage)
+      await this.userSvc.uploadLogo(
+        formData
+      );
+    }
+
   }
 
   async uploadImage(event: any) {
-    
     if (this.selectedImage) {
-      const fileName = this.selectedImage.name;
-
-      const formData = new FormData();
-      formData.append("thumbnail", this.selectedImage);
-      console.log(formData);
-
-      await this.userSvc.uploadLogo(
-        this.selectedImage
-      );
+     
     }
 
  

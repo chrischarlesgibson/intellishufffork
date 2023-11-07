@@ -22,15 +22,17 @@ export class AuthAdminGuard implements CanActivate {
   ) {
     const user = <any>await this.userSettingSvc.getCurrentUser();
     let isAdmin = false;
-    if (user) {
-      user.roles.filter((r): any => {
-        if (r.role.includes('admin')) {
-          isAdmin = true;
-        }
-      });
-      if (isAdmin) {
-        return true;
+    if(!user) {
+      return false;
+    }
+    
+    user.roles.filter((r): any => {
+      if (r.role.includes('admin')) {
+        isAdmin = true;
       }
+    });
+    if (isAdmin) {
+      return true;
     }
 
     this.router.navigate(['/403']);

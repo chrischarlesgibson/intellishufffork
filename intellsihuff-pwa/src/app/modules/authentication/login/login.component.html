@@ -1,65 +1,38 @@
-<div class="container">
+
+<div class="login-container">
   <div class="card">
     <h2 class="card-title">
-      <i class="fas fa-user"></i>
+      <img src="assets/images/user.png" alt="Image" >
     </h2>
     <div class="card-body">
-      <form
-        [formGroup]="formGroup"
-        (ngSubmit)="onFormSubmitted(formGroup.value, LoginType.STANDARD)"
-      >
-        <div class="form-floating mb-3">
-          <input
-            type="email"
-            class="form-control"
-            formControlName="email"
-            placeholder="Enter your email"
-          />
-          <label for="floatingInput">Email address</label>
+      <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
+        <div class="form-group">
+          <label >Email</label>
+          <input type="email" formControlName="email" class="form-control" placeholder="Enter your email">
         </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="password"
-            [type]="showPassword ? 'text' : 'password'"
-            class="form-control"
-            formControlName="password"
-            placeholder="Enter your email"
-          />
-          <label for="floatingInput">Password</label>
-          <span class="show-hide-icon" (click)="togglePasswordVisibility()">
-            <i [ngClass]="{ 'fas fa-eye-slash': !showPassword }"></i>
-            <i [ngClass]="{ 'fas fa-eye': showPassword }"> </i>
-          </span>
+  
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group" style="flex-wrap: nowrap !important;">
+            <input [type]="showPassword ? 'text' : 'password' "  formControlName="password" class="form-control" placeholder="Enter your password" >
+            <div class="input-group-append" >
+              <span class="icon-container" (click)="togglePasswordVisibility()">
+                <i  [ngClass]="{'fas fa-eye-slash' : !showPassword}" ></i>
+                <i [ngClass]="{'fas fa-eye' : showPassword}"> </i>
+              </span>
+            </div>
+          </div>
         </div>
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="!formGroup.valid"
-        >
-          Sign in
-        </button>
+        
+        <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid">Sign in</button>
       </form>
-
-      <div class="login-divider">
-        <p>
-          or
-        </p>
-      </div>
-
-      <asl-google-signin-button
-        type="standard"
-        size="large"
-        shape="rectangular"
-        text="continue_with"
-        width="310"
-      ></asl-google-signin-button>
     </div>
     <div class="card-header">
-      <div class="link">
+      <div class="register-link">
         Don't have an account? <a (click)="onRegisterClicked()">Register</a>
       </div>
     </div>
   </div>
 </div>
+
+  

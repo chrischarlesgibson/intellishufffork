@@ -1,17 +1,19 @@
-.container {
-  button {
-    i {
+.container{
+    margin: 70px 0;
+   button{
+    i{
       color: var(--color-edit);
     }
-  }
+   } 
 }
+
 
 // Loader skeleton styles
 .table-loader {
   .skeleton-cell {
     height: 62px; /* Customize the height of the loader cells */
     background-color: #f0f0f0;
-    animation: loaderAnimation 0.3s ease-in infinite; /* Add animation to the loader */
+    animation: loaderAnimation .3s ease-in infinite ; /* Add animation to the loader */
   }
 }
 
@@ -28,8 +30,12 @@
   }
 }
 
+
+
+
 @media (max-width: 767px) {
-  .container {
-    margin: 63px 0;
-  }
+    .container{
+        margin: 63px 0;
+    }
+    
 }

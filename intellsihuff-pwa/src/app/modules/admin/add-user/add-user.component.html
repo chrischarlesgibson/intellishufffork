@@ -1,70 +1,37 @@
 <div class="container">
   <div class="content">
     <div class="add-user-form">
-      <h2 *ngIf="!id" class="form-title">Add User</h2>
-      <h2 *ngIf="id" class="form-title">Update user</h2>
-
-      <form
-        [formGroup]="formGroup"
-        (ngSubmit)="onFormSubmitted(formGroup.value)"
-      >
+      <h2 class="form-title">Add User</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
         <div class="form-group">
           <label for="name">Name</label>
-          <input
-            type="text"
-            formControlName="name"
-            class="form-control"
-            placeholder="Enter user name"
-          />
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter user name">
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            type="email"
-            formControlName="email"
-            class="form-control"
-            placeholder="Enter user email"
-          />
+          <input type="email" formControlName="email" class="form-control" placeholder="Enter user email">
         </div>
-        <!-- 
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" formControlName="password" class="form-control" placeholder="Enter user password">
+        </div>
         <div class="form-group">
           <label for="role">Role</label>
           <select class="form-control" formControlName="roles">
-            <option [value]="role.role" *ngFor="let role of roles">
-              {{ role.role }}
-            </option>
+            <option [value]="role.role" *ngFor="let role of roles"> {{role.role}} </option>
           </select>
-        </div> -->
-
-        <div class="form-group">
-          <label for="role">Role</label>
-          <div class="select2">
-            <select
-              #select2
-              class="select2"
-              multiple="multiple"
-              data-placeholder="Select a State"
-              style="width: 100%"
-            >
-              <option [value]="role.role" *ngFor="let role of roles">
-                {{ role.role }}
-              </option>
-            </select>
-          </div>
         </div>
 
         <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="isUserApproved"
-          />
-          <label class="form-check-label"> Approve this user </label>
+          <input class="form-check-input" type="checkbox" formControlName="isUserApproved">
+          <label class="form-check-label" >
+            Approve this user
+          </label>
         </div>
 
-        <button *ngIf="!id" type="submit" class="btn btn-primary">Save</button>
-        <button *ngIf="id" type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" >Save</button>
       </form>
     </div>
   </div>

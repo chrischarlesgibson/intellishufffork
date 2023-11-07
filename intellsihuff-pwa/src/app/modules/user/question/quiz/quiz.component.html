@@ -1,82 +1,67 @@
-<div class="container" *ngIf="quizMcqs && quizMcqs.length">
-  <div
-    class="card"
-    *ngIf="currentQuestionIndex < quizMcqs.length; else renderElse"
-  >
-    <div class="row m-3">
-      <div class="col d-flex">
-        <span class="badge">
-          {{ timer }}
-        </span>
-      </div>
-    </div>
+<div class="container"  *ngIf="quizMcqs && quizMcqs.length">
+    <div class="card" *ngIf="currentQuestionIndex < quizMcqs.length; else renderElse">
+        <div class="row m-3">
+            <div class="col d-flex">
+                <span class="badge">
+                    {{timer}}
+                </span>  
+            </div>
+        </div>
 
-    <div class="card-body" id="mcq">
-      <div class="mcq">
-        <div class="row">
-          <div class="col-12">
-            <div class="quest" id="q">
-              <b>{{ currentQuestionIndex + 1 }}: </b
-              >{{ quizMcqs[currentQuestionIndex].text }}
+        <div class="card-body" id="mcq">
+            <div class="mcq">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="quest" id="q">
+                            <b>{{currentQuestionIndex+1}}: </b>{{ quizMcqs[currentQuestionIndex].text }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let op of quizMcqs[currentQuestionIndex]?.options; let i = index">
+                    <div class="col-6">
+                        <div class="option">
+                            <div class="text" id="a">
+                            <b>{{ getLetter(i) }}</b>: {{ op.text }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                type="checkbox"
+                                [(ngModel)]="op.isOptionCorrect"
+                                (change)="uncheckOtherOptions(op, quizMcqs[currentQuestionIndex])">
+                            <label class="form-check-label">Correct Option</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="icon">
+                <button #nextIcon *ngIf="currentQuestionIndex < quizMcqs.length"
+                class="btn transparent-btn" [disabled]="!quizMcqs[currentQuestionIndex].options" 
+                    (click)="nextQuestion(quizMcqs[currentQuestionIndex])"
+                        (mouseenter)="animateOnHover(nextIcon)" (mouseleave)="resetAnimation(nextIcon)" 
+                            [disabled]="!atLeastOneOptionSelected()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
         </div>
-        <div
-          class="row"
-          *ngFor="
-            let op of quizMcqs[currentQuestionIndex]?.options;
-            let i = index
-          "
-        >
-          <div class="col-6">
-            <div class="option">
-              <div class="text" id="a">
-                <b>{{ getLetter(i) }}</b
-                >: {{ op.text }}
-              </div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                [(ngModel)]="op.isOptionCorrect"
-                (change)="
-                  uncheckOtherOptions(op, quizMcqs[currentQuestionIndex])
-                "
-              />
-              <label class="form-check-label">Correct Option</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="icon">
-        <button
-          #nextIcon
-          *ngIf="currentQuestionIndex < quizMcqs.length"
-          class="btn transparent-btn"
-          [disabled]="!quizMcqs[currentQuestionIndex].options"
-          (click)="nextQuestion(quizMcqs[currentQuestionIndex])"
-          [disabled]="!atLeastOneOptionSelected()"
-        >
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
     </div>
-  </div>
 </div>
 
+
 <ng-template #renderElse class="else">
-  <div class="card">
-    <div class="card-header">
-      <h3>Your Score</h3>
-    </div>
-    <div class="card-body">
-      <div class="score-board">
-        <h1>{{ correctCount }}</h1>
-        <p>Correct Answers</p>
+    <div class="card">
+      <div class="card-header">
+        <h3>Your Score</h3>
+      </div>
+      <div class="card-body">
+        <div class="score-board">
+          <h1>{{ correctCount }}</h1>
+          <p>Correct Answers</p>
+        </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+  

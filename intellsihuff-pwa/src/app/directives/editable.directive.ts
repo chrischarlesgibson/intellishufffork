@@ -1,21 +1,14 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  Output,
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
 
 @Directive({
-  selector: '[appEditable]',
+  selector: '[appEditable]'
 })
 export class EditableDirective {
   private isEditable = false;
 
   @Output() editableComplete = new EventEmitter<string>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   @HostBinding('style.cursor') get cursor() {
     return this.isEditable ? 'text' : 'pointer';

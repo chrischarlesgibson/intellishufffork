@@ -7,44 +7,43 @@ import { AuthService } from '../../authentication/auth.service';
 @Component({
   selector: 'app-institution',
   templateUrl: './institution.component.html',
-  styleUrls: ['./institution.component.scss'],
+  styleUrls: ['./institution.component.scss']
 })
 export class InstitutionComponent extends BasePage implements OnInit {
   currentUser: IUser;
-  InstitutionType = InstitutionType;
+  InstitutionType = InstitutionType; 
   selectedImage: File;
-  fileName = '';
 
   constructor(
     private userSettingSvc: UserSettingService,
-    private userSvc: AuthService,
+    private userSvc: AuthService
+
   ) {
     super();
+    
   }
 
   async ngOnInit() {
     await this._getCurrentUser();
   }
 
-  async onFileChanged(ev) {
-    if(ev.target.files.length > 0) {
-      this.selectedImage = ev.target.files[0] as File;
-      const formData = new FormData();
-      formData.append('file', this.selectedImage)
-      await this.userSvc.uploadLogo(
-        formData
-      );
-    }
-
+  onFileSelected(ev) {
+    this.selectedImage = ev.target.files[0] as File;
   }
 
-  async uploadImage(event: any) {
-    if (this.selectedImage) {
-     
-    }
+  async uploadImage(event: Event) {
+    event.preventDefault();
+  
+    const formData: FormData = new FormData();
+    formData.append('image', this.selectedImage, this.selectedImage.name);
 
- 
+    let headers = new Headers({ 'Content-Type': 'application/json' });    
+    headers.append('Content-Type', 'multipart/form-data');
+  
+    await this.userSvc.uploadLogo(this.currentUser.institution, this.selectedImage);
+  
   }
+  
 
   private async _getCurrentUser() {
     const user: any = await this.userSettingSvc.getCurrentUser();

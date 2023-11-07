@@ -1,5 +1,5 @@
 export interface ISubject {
-  id?: any;
-  name: string;
-  isEditingMode?: boolean;
+    id?: any;
+    name: string;
+    isEditingMode?: boolean
 }

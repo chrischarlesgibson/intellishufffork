@@ -1,130 +1,87 @@
+
+
 .larger-card {
   height: 200px; /* Adjust the height as needed */
 }
-
+  
 .shadow {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add the desired shadow effect */
 }
+  
+.container{ 
+  &.home 
+  form{
+      margin: 16px;
+      .row{
+          .button{
+              button{
+              width: 100%;
+  
+              }
+          }
 
-.container {
-  margin: var(--under-nav-margin);
-  &.home form {
-    margin: 16px;
-    .row {
-      .button {
-        button {
-          width: 100%;
-        }
       }
-    }
   }
-
-  .card {
+    
+  .card{
     margin: 16px;
     background-repeat: no-repeat;
     background-size: contain;
 
-    &.add-question {
-      background-image: url(/assets/images/Group1.png);
-    }
-
-    &.questions-bank {
-      background-image: url(/assets/images/store-setting.png);
-      background-position: bottom;
-    }
-
-    &.quiz {
-      background-image: url(/assets/images/quiz.png);
-      background-position: bottom;
-    }
-
-    .card-title {
-      font-weight: bold;
-    }
-
-    .mcqs {
-      margin: 16px;
-      display: flex;
-      justify-content: space-between;
-
-      h3 {
-        text-align: center;
+      &.add-question{
+        background-image: url(/assets/images/Group1.png);
       }
 
-      .mcq {
-        width: 85%;
-        .quest {
+      &.questions-bank{
+        background-image: url(/assets/images/store-setting.png);
+        background-position: bottom;
+
+      }
+
+      &.quiz{
+        background-image: url(/assets/images/quiz.png);
+        background-position: bottom;
+      }
+
+      .mcqs{
+          margin: 16px;
           display: flex;
-          margin-bottom: 8px;
-
-          button {
-            position: absolute;
-            right: 0;
+          justify-content: space-between;
+      
+          h3{
+              text-align: center;
           }
-        }
-        .option {
-          display: flex;
-          margin: 0 0px 0px 10px;
 
-          button {
-            position: absolute;
-            right: 0;
+          .mcq{
+              width: 85%;
+              .quest{
+                display: flex;
+                margin-bottom: 8px;
+
+                button{
+                    position: absolute;
+                    right: 0;
+                }
+              }
+              .option{
+                display: flex;
+                margin: 0 0px 0px 10px;
+
+                button{
+                  position: absolute;
+                  right: 0;
+                }
+              }
           }
-        }
+          .row{
+            height: 0;
+            .button{
+              button{
+                min-height: 37px;
+                min-width: 37px;
+              }
+            }
+          }
       }
-      .row {
-        height: 0;
-        .button {
-          button {
-            min-height: 37px;
-            min-width: 37px;
-          }
-        }
-      }
-    }
-  }
-}
-$ripple-color: rgba(255, 255, 255, 0.3);
-$ripple-duration: 0.6s;
-
-.ripple-container {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #ff4081;
-  border: none;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    background-color: $ripple-color;
-    transform: scale(0);
-    opacity: 0.8;
-    animation: rippleAnimation $ripple-duration;
-  }
-
-  @keyframes rippleAnimation {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-
-  &:hover {
-    background-color: #ff80ab;
-  }
-
-  &:active {
-    .ripple {
-      animation: none;
-    }
   }
 }

@@ -1,20 +1,22 @@
-import { BaseService } from 'src/app/universal/base.service';
-import { ISubject } from './subject.model';
-import { IResponse } from 'src/app/universal/shared.model';
+import { BaseService } from "src/app/universal/base.service";
+import { ISubject } from "./subject.model";
+import { IResponse } from "src/app/universal/shared.model";
+
+
 
 export class SubjectService extends BaseService {
   /**
    *
    */
   constructor() {
-    super();
+   super(); 
   }
-
+  
   getAllSubjects() {
     return this.getData<any>({
-      url: `subject/getAllSubjects`,
-    }).then((data) => {
-      return data.sort((a: any, b: any) => {
+        url: `subject/getAllSubjects`
+    }).then(data => {
+      return data.sort((a:any, b:any) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
         if (nameA < nameB) {
@@ -25,33 +27,33 @@ export class SubjectService extends BaseService {
         }
         return 0;
       });
-    });
+    })  
   }
 
   deleteSubject(arsgs) {
     return this.postData({
       url: `subject/deleteSubject`,
       body: {
-        ...arsgs,
-      },
-    });
+        ...arsgs
+      }
+    })
   }
 
   updateSubject(args: ISubject) {
     return this.postData<IResponse<any>>({
       url: `subject/updateSubject`,
       body: {
-        ...args,
-      },
-    });
+        ...args
+      }
+    })
   }
 
   addSubject(args: ISubject) {
     return this.postData<IResponse<any>>({
-      url: `subject/addSubject`,
-      body: {
-        ...args,
-      },
-    });
-  }
+        url: `subject/addSubject`,
+        body: {
+            ...args
+        }
+    })
+}
 }

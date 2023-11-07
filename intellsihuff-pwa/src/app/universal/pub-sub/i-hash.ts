@@ -6,6 +6,6 @@ import { SubjectType } from './subject-type.enum';
 export interface IHash {
   [key: string]: {
     type: SubjectType;
-    ref: Subject<any> | BehaviorSubject<any> | ReplaySubject<any>;
+    ref: Subject<any> | BehaviorSubject<any> | ReplaySubject<any>
   };
 }

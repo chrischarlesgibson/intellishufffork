@@ -1,71 +1,57 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { HelperService } from './universal/helper.service';
 import { UserSettingService } from './modules/user/user-setting.service';
 import { NgxPubSubService } from './universal/pub-sub';
 import { UserConstant } from './modules/user/user-constant';
-import { IResponse, Icon } from './universal/shared.model';
+import { IResponse } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
 import { AuthService } from './modules/authentication/auth.service';
-import { IRegistrationParams, IUser, LoginType } from './modules/authentication/auth.model';
-import { AppSettingService } from './universal/app-setting.service';
-import { log } from 'console';
-import { Platform } from '@angular/cdk/platform';
-import { NavigationStart, Router } from '@angular/router';
-import { SocialUser } from '@abacritt/angularx-social-login';
+import { IUser } from './modules/authentication/auth.model';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  existingRouteUrl: any = null;
-  user: SocialUser;
-  loggedIn: boolean;
+export class AppComponent {    
+  existingRouteUrl:any = null;
 
   constructor(
     private userSettingSvc: UserSettingService,
     private router: Router,
     private pubsubSvc: NgxPubSubService,
     private userSvc: AuthService,
-    private helperSvc: HelperService,
-    private appSettingSvc: AppSettingService,
-    private platform: Platform,
+    private helperSvc: HelperService
 
-  ) {
+  ) { 
     this.initializeWeb();
   }
-
 
   shouldShowNavbar() {
     const currentUrl = this.router.url;
     return currentUrl.includes('/login') ||
-      currentUrl.includes('/register') ||
-      currentUrl.includes('404') ||
-      currentUrl.includes('403')
-      ? false
-      : true;
+        currentUrl.includes('/register') ? false : true;
   }
 
-  initializeWeb() {
+   initializeWeb() {
     this.router.events.subscribe(async (val) => {
-      if (val instanceof NavigationStart) {
-        const urls = val.url.split('/').filter((u) => u.length);
-        if (urls.length) {
+      if(val instanceof NavigationStart) {
+        const urls = val.url.split('/').filter(u => u.length); 
+        if(urls.length) {
           this.existingRouteUrl = val.url;
         }
       }
     });
-
-    this._subscribeToEvents();
+    
+   this._subscribeToEvents();
   }
-
+ 
   private async _subscribeToEvents() {
+
     this.pubsubSvc.subscribe(AppConstant.EVENT_DB_INITIALIZED, async () => {
-      if (AppConstant.DEBUG) {
+      if(AppConstant.DEBUG) {
         console.log('Event received: EVENT_DB_INITIALIZED');
       }
       await this._setDefaults();
@@ -103,95 +89,96 @@ export class AppComponent {
     //   } else {
     //     this.document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     //     this.workingLanguage = wkLangauge;
-
+        
     //     setTimeout(() => {
     //       this.renderer.addClass(document.body, wkLangauge);
     //     });
     //   }
     // });
 
-    this.pubsubSvc.subscribe(
-      UserConstant.EVENT_USER_LOGGEDIN_CLICKED,
-      async (params: { email, password, loginType } ) => {
-        if (AppConstant.DEBUG) {
-          console.log(
-            'AppComponent: EVENT_USER_LOGGEDIN_CLICKED: params',
-            params,
-          );
-        }
-        let user: IUser | undefined;
-        try {
-          user = await this.userSvc.login({
-            email: params.email,
-            password: params.password,
-            loginType: params.loginType
-          }, params);
 
-        } catch (error) {
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDIN_CLICKED
+      , async (params: { email, password }) => {
+      if(AppConstant.DEBUG) {
+        console.log('AppComponent: EVENT_USER_LOGGEDIN_CLICKED: params', params);
+      }
+      
+      let currentUser: IUser | undefined;
+      let response: IResponse<IUser> | undefined;
 
-        }
+      const user = {
+        email: params.email,
+        password: params.password
+      }
+      
+      this.helperSvc.presentLoader('Signing In');
+      try {
+        response = await this.userSvc.login(user);
+        currentUser = response.data as IUser;   
+     
+      } catch (error) {
         
-        if (!user) {
+      } finally {
+        this.helperSvc.dismissLoader();
+      }
+        
+      if(!response) {
+        return;
+      }
+      
+      if(!response?.status) {
+        this.helperSvc.presentAlert(response.message, 'warning');
+      }
+
+      await this.userSettingSvc.putCurrentUser(currentUser as IUser);
+
+      this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDIN, { 
+        user: currentUser, 
+        redirectToHome: true,
+        displayWelcomeMessage: true
+      }); 
+
+    });
+
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDIN
+      , async (params: { user: IUser, redirectToHome?: boolean, displayWelcomeMessage?: boolean }) => {
+      if(AppConstant.DEBUG) {
+        console.log('AppComponent: EVENT_USER_LOGGEDIN: params', params);
+      }
+
+      if(params.redirectToHome) {
+        this._navigateTo('/home');
+      }
+    });
+
+
+    
+    this.pubsubSvc.subscribe(UserConstant.EVENT_USER_LOGGEDOUT
+      , async (args: { clearCache, displayLoginDialog, displayMessage }) => {
+      if(AppConstant.DEBUG) {
+        console.log('AppComponent: EVENT_USER_LOGGEDOUT: args', args);
+      }
+      // this.currentUser = null;
+
+      //redirect to login...
+      await this._navigateTo('/login', null, true);
+
+      if(args?.clearCache) {
+        await this._logout();
+      }
+
+      if(args?.displayMessage) {
+        // const msg = await this.localizationSvc.getResource('user.login.logged_out');
+        // await this.helperSvc.presentToast(msg);
+      }
+
+      if(args?.displayLoginDialog) {
+        const canActivate = await this.userSettingSvc.canActivate();
+        if(!canActivate) {
           return;
         }
-
-        if (!user?.status) {
-          // this.helperSvc.presentAlert(user.message , SweetAlertIcon.WARNING);
-        }
-        this.pubsubSvc.publishEvent(UserConstant.EVENT_USER_LOGGEDIN, {
-          user: user,
-          redirectToHome: true,
-          displayWelcomeMessage: true
-        });
-      },
-    );
-
-    this.pubsubSvc.subscribe(
-      UserConstant.EVENT_USER_LOGGEDIN,
-      async (params: {
-        user: IUser;
-        redirectToHome?: boolean;
-        displayWelcomeMessage?: boolean;
-        access_token: string;
-        refresh_token: string;
-      }) => {
-        if (AppConstant.DEBUG) {
-          console.log('AppComponent: EVENT_USER_LOGGEDIN: params', params);
-        }
-        if (params.redirectToHome) {
-          this._navigateTo('/home');
-        }
-      },
-    );
-
-    this.pubsubSvc.subscribe(
-      UserConstant.EVENT_USER_LOGGEDOUT,
-      async (args: { clearCache; displayLoginDialog; displayMessage }) => {
-        if (AppConstant.DEBUG) {
-          console.log('AppComponent: EVENT_USER_LOGGEDOUT: args', args);
-        }
-        // this.currentUser = null;
-
-        //redirect to login...
-        await this._navigateTo('/login', null, true);
-
-        if (args?.clearCache) {
-          await this._logout();
-        }
-
-        if (args?.displayMessage) {
-          // const msg = await this.localizationSvc.getResource('user.login.logged_out');
-          // await this.helperSvc.presentToast(msg);
-        }
-
-        if (args?.displayLoginDialog) {
-          const canActivate = await this.userSettingSvc.canActivate();
-          if (!canActivate) {
-            return;
-          }
-        }
-      },
-    );
+      }
+    });
 
     // this.pubsubSvc.subscribe(UserConstant.EVENT_USER_FORGOT_PASSWORD
     //   , async (params: { username }) => {
@@ -207,6 +194,7 @@ export class AppComponent {
     //   await this.helperSvc.presentToast(msg);
     // });
 
+    
     // this.pubsubSvc.subscribe(UserConstant.EVENT_USER_RESET_PASSWORD
     //   , async (params: { resetPasswordToken, newPassword }) => {
     //   if(AppConstant.DEBUG) {
@@ -218,7 +206,7 @@ export class AppComponent {
     //       resetPasswordToken: params.resetPasswordToken,
     //       newPassword: params.newPassword
     //     });
-
+  
     //     if(result) {
     //       await this.helperSvc.presentToastGenericSuccess();
     //     } else {
@@ -236,24 +224,7 @@ export class AppComponent {
   }
 
   private async _setDefaults() {
-    const res = await Promise.all([
-      this.appSettingSvc.getWorkingLanguage(),
-      this._configureWeb()
-    ]);
-
-    let wkl = res[0];
-    if (!wkl) {
-      wkl = 'en';
-      await this.appSettingSvc.putWorkingLanguage(wkl);
-    }
-
-    this.pubsubSvc.publishEvent(AppConstant.EVENT_LANGUAGE_CHANGED, {
-      wkLangauge: wkl,
-      reload: false,
-      isRtl: false,
-    });
-
-    if (this.existingRouteUrl) {
+    if(this.existingRouteUrl) {
       await this._navigateTo(this.existingRouteUrl);
       return;
     }
@@ -262,7 +233,7 @@ export class AppComponent {
   }
 
   private async _navigateTo(path, args?, replaceUrl = false) {
-    if (!args) {
+    if(!args) {
       await this.router.navigate([path], { replaceUrl: replaceUrl });
     } else {
       await this.router.navigate([path, args], { replaceUrl: replaceUrl });
@@ -270,20 +241,18 @@ export class AppComponent {
   }
 
   private async _logout() {
+    // const resp = await this.helperSvc.presentConfirmDialog();
+    // if(resp) {
+      // const loader = await this.helperSvc.loader;
+      // await loader.dismiss();
 
-    try {
-      await this.userSvc.logoutEverywhere();
-    } catch (e) {
-    } finally {
-    }
+      try {
+        await this.userSvc.logoutEverywhere();
+      } catch(e) {
+
+      } finally {
+        // await loader.dismiss();
+      }
     // }
-  }
-
-  private async _configureWeb() {
-    if(!this.platform.isBrowser) {
-      return;
-    }
-
-    // await this.userSvc.init();
   }
 }

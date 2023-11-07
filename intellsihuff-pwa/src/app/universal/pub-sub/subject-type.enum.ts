@@ -1,5 +1,6 @@
+
 export enum SubjectType {
-  Subject,
-  BehaviorSubject,
-  ReplaySubject,
+    Subject,
+    BehaviorSubject,
+    ReplaySubject
 }

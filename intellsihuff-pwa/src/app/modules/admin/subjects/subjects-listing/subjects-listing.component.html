@@ -1,53 +1,42 @@
+
+
 <div class="container">
-  <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">
-    Add Subject
-  </button>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#MyModal">Add Subject</button>
 
   <table class="table table-hover table-bordered table-loader table-sm">
     <thead>
-      <tr>
+      <tr>  
         <th scope="col">#</th>
         <th scope="col">Subject Name</th>
-        <th scope="col">Action</th>
-      </tr>
+        <th scope="col">Action</th> 
+      </tr> 
     </thead>
     <tbody *ngIf="subjects">
       <tr *ngFor="let subject of subjects; let index = index">
-        <th scope="row">{{ index + 1 }}</th>
+        <th scope="row"> {{ index+1 }} </th>
         <td *ngIf="!subject.isEditingMode">
-          <p>{{ subject.name }}</p>
+          <p >{{ subject.name }}</p>
         </td>
 
         <td *ngIf="subject.isEditingMode">
           <div>
-            <div class="row">
+            <div class="row"> 
               <div class="col12">
                 <div class="input-group">
-                  <input
-                    [(ngModel)]="subject.name"
-                    type="text"
-                    class="form-control"
-                  />
+                  <input [(ngModel)]="subject.name" type="text" class="form-control" />
                 </div>
+           
               </div>
             </div>
           </div>
         </td>
 
         <td>
-          <button
-            class="btn btn-danger btn-transparent"
-            (click)="onDltSubjectClicked(subject)"
-          >
-            <i class="fas fa-trash-alt"></i>
-          </button>
+          <button class="btn btn-danger" (click)="onDltSubjectClicked(subject)">
+              <i class="fas fa-trash-alt"></i>
+          </button> 
 
-          <button
-            class="btn btn-secondary btn-transparent"
-            (click)="onEditSubjectClicked(subject)"
-            data-toggle="modal"
-            data-target="#MyModal"
-          >
+          <button class="btn btn-secondary" (click)="onEditSubjectClicked(subject)" data-toggle="modal" data-target="#MyModal">
             <i class="fas fa-edit"></i>
           </button>
         </td>
@@ -55,17 +44,17 @@
     </tbody>
 
     <tbody *ngIf="!subjects">
-      <tr>
+      <tr scope="row">
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr>
+      <tr scope="row">
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
       </tr>
-      <tr>
+      <tr scope="row">
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
         <td colspan="1" class="skeleton-cell"></td>
@@ -74,33 +63,15 @@
   </table>
 </div>
 
-<div
-  class="modal fade"
-  id="MyModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  data-backdrop="static"
-  aria-hidden="true"
->
+
+
+
+<!-- <div class="modal fade" #myModalRef  id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 *ngIf="!editMode" class="modal-title" id="exampleModalLabel">
-          New Subject
-        </h5>
-        <h5 *ngIf="editMode" class="modal-title" id="exampleModalLabel">
-          Update Subject
-        </h5>
-
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          id="dismissBtn"
-          #closeModalBtn
-        >
+        <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -108,36 +79,54 @@
         <form [formGroup]="addSubjectFg">
           <div class="col-md-12">
             <div class="form-group m-2">
-              <label for="recipient-name" class="col-form-label"
-                >Subject name</label
-              >
-              <input type="text" class="form-control" formControlName="name" />
+              <label for="recipient-name" class="col-form-label">Subject name</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" 
+          [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">Add</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="modal fade" #myModalRef id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document"> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="!editMode"  class="modal-title" id="exampleModalLabel">New Subject </h5>
+        <h5 *ngIf="editMode" class="modal-title" id="exampleModalLabel">Update Subject </h5>
+     
+        <button type="button" class="close" data-dismiss="modal"  aria-label="Close" id="dismissBtn" (click)="clodeModal($event)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addSubjectFg">
+          <div class="col-md-12">
+            <div class="form-group m-2">
+              <label for="recipient-name" class="col-form-label">Subject name</label>
+              <input type="text" class="form-control" formControlName="name">
             </div>
           </div>
         </form>
       </div>
 
-      <div class="modal-footer">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          *ngIf="!editMode"
-          [disabled]="!addSubjectFg.valid"
-          (click)="onAddSubjectClicked(addSubjectFg.value)"
-        >
-          Add
-        </button>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" *ngIf="!editMode"
+        [disabled]="!addSubjectFg.valid" (click)="onAddSubjectClicked(addSubjectFg.value)">
+        Add
+      </button>
 
-        <button
-          type="submit"
-          class="btn btn-primary"
-          *ngIf="editMode"
-          [disabled]="!addSubjectFg.valid"
-          (click)="onUpdateSubjectClicked(addSubjectFg.value)"
-        >
-          Update
-        </button>
-      </div>
+      <button type="submit" class="btn btn-primary" *ngIf="editMode"
+        [disabled]="!addSubjectFg.valid" (click)="onUpdateSubjectClicked(addSubjectFg.value)">
+        Update
+      </button>
     </div>
   </div>
 </div>

@@ -1,10 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
-@import "theme/shared";
-@import "theme/_typogrophy";
-@import "theme/variables";
-
-@import '../../intellsihuff-pwa/node_modules/mdb-ui-kit/css/mdb.min.css';
-@import '../../intellsihuff-pwa/node_modules/@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
-// @import '../../intellsihuff-pwa/node_modules/@sweetalert2/theme-material-ui/material-ui.scss';
-
-
+@import "./shared/shared";

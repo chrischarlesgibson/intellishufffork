@@ -11,21 +11,28 @@ import { QuestionModule } from './question/question.module';
 import { AuthModule } from '../authentication/auth.module';
 import { AuthGuard } from '../authentication/auth.guard';
 import { EditProfileGuard } from '../authentication/edit-profile.guard';
-import { NavbarModule } from 'src/app/components/navbar/navbar.module';
-import { HomeModule } from './home/home.module';
-import { ContactModule } from './contact/contact.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HomeComponent,
+    ContactComponent
+  ],
   imports: [
     QuestionModule,
     AuthModule,
-    HomeModule,
-    ContactModule,
+    ComponentsWithFormsModule,
     UserRoutingModule,
-    NavbarModule,
-    RouterModule,
+    RouterModule
   ],
-  providers: [AuthGuard, EditProfileGuard, QuestionService, SubjectService],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    AuthGuard,
+    EditProfileGuard,
+    QuestionService,
+    SubjectService,
+  ],
+  exports: [
+    RouterModule
+  ]
 })
-export class UserModule {}
+export class UserModule { }

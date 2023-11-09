@@ -200,7 +200,6 @@ export class UserService {
       refresh_token: this.generateRefreshToken(payLoad),
       data: user,
       status: true,
-      message: 'successfully logged in',
     };
   }
 

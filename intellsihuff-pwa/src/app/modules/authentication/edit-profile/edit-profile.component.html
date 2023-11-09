@@ -1,43 +1,91 @@
 <div class="container">
-    <div class="card">
-      <h2 class="card-title">
-        <i class="fas fa-user"></i>
-      </h2>
+  <div class="card">
+    <h2 class="card-title">
+      <i class="fas fa-user"></i>
+    </h2>
 
-      <div class="card-body">
-        <form [formGroup]="formGroup" (ngSubmit)="onFormSubmitted(formGroup.value)">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" formControlName="name" class="form-control" placeholder="Enter your name">
-            <span class="text-danger" *ngIf="formGroup.get('name')?.errors  && formGroup.get('name')?.touched "> 
-              Name is required
-            </span>
-          </div>
-  
-          <div class="form-group" [class.drop-opacity]="id">
-            <label for="email">Email</label>
-            <input type="email" formControlName="email" class="form-control" placeholder="Enter your email">
-          </div>
-  
-          <div class="form-group">
-            <label for="password">Institution Name</label>
-            <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> &#x002A;</span>
-            <input type="text" formControlName="institutionName" class="form-control" placeholder="Enter your institution Name">
-            <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> 
-              Institution name is required
-            </span>
-          </div>
-  
-          <div class="form-group">
-            <label for="password">Institution Type</label>
-            <select class="form-select form-select-md mb-3" aria-label="" formControlName="institutionType">
-              <option [value]="fg['institutionType'].value" >{{fg['institutionType'].value }}</option>
-            </select>
-          </div>
-  
-          <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid" >Update </button>
-        </form>
-      </div>
+    <div class="card-body">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onFormSubmitted(formGroup.value)"
+      >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter your name"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('name')?.errors && formGroup.get('name')?.touched
+            "
+          >
+            Name is required
+          </span>
+        </div>
+
+        <div class="form-group" [class.drop-opacity]="id">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Institution Name</label>
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionName')?.errors &&
+              formGroup.get('institutionName')?.touched
+            "
+          >
+            &#x002A;</span
+          >
+          <input
+            type="text"
+            formControlName="institutionName"
+            class="form-control"
+            placeholder="Enter your institution Name"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formGroup.get('institutionName')?.errors &&
+              formGroup.get('institutionName')?.touched
+            "
+          >
+            Institution name is required
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Institution Type</label>
+          <select
+            class="form-select form-select-md mb-3"
+            aria-label=""
+            formControlName="institutionType"
+          >
+            <option [value]="fg['institutionType'].value">
+              {{ fg["institutionType"].value }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!formGroup.valid"
+        >
+          Update
+        </button>
+      </form>
     </div>
+  </div>
 </div>
-  

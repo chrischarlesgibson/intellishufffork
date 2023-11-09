@@ -46,7 +46,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
               "node_modules/select2/dist/js/select2.min.js",
-              "src/custom.js",
+              "node_modules/jspdf/dist/polyfills.es.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/sweetalert2/dist/sweetalert2.min.js",
               "node_modules/intro.js/minified/intro.min.js",
@@ -93,10 +93,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "intellsihuff-pwa:build:production"
+              "buildTarget": "intellsihuff-pwa:build:production"
             },
             "development": {
-              "browserTarget": "intellsihuff-pwa:build:development"
+              "buildTarget": "intellsihuff-pwa:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -104,7 +104,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "intellsihuff-pwa:build"
+            "buildTarget": "intellsihuff-pwa:build"
           }
         },
         "test": {

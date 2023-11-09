@@ -3,9 +3,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [
-      "node"
-    ]
+    "moduleResolution": "node",
+    "types": ["node", "moment"]
   },
   "files": [
     "src/main.ts"

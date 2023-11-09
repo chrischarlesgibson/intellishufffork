@@ -11,18 +11,20 @@ import { QuestionModule } from './question/question.module';
 import { AuthModule } from '../authentication/auth.module';
 import { AuthGuard } from '../authentication/auth.guard';
 import { EditProfileGuard } from '../authentication/edit-profile.guard';
+import { HomeModule } from './home/home.module';
+import { QuizModule } from './question/quiz/quiz.module';
+import { ContactModule } from './contact/contact.module';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    ContactComponent
-  ],
+  declarations: [],
   imports: [
+    HomeModule,
+    QuizModule,
     QuestionModule,
-    AuthModule,
-    ComponentsWithFormsModule,
     UserRoutingModule,
-    RouterModule
+    RouterModule,
+    ContactModule,
+    ComponentsWithFormsModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -31,8 +33,6 @@ import { EditProfileGuard } from '../authentication/edit-profile.guard';
     QuestionService,
     SubjectService,
   ],
-  exports: [
-    RouterModule
-  ]
+  // exports: [RouterModule],
 })
-export class UserModule { }
+export class UserModule {}

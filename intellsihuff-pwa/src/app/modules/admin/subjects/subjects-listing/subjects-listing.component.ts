@@ -1,6 +1,13 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionService } from 'src/app/modules/user/question/question.service';
 import { ISubject } from 'src/app/modules/user/subject/subject.model';
 import { SubjectService } from 'src/app/modules/user/subject/subject.service';
@@ -9,10 +16,13 @@ import { BasePage } from 'src/app/universal/base.page';
 @Component({
   selector: 'app-subjects-listing',
   templateUrl: './subjects-listing.component.html',
-  styleUrls: ['./subjects-listing.component.scss']
+  styleUrls: ['./subjects-listing.component.scss'],
 })
-export class SubjectsListingComponent extends BasePage implements OnInit, OnDestroy {
-  @ViewChild('myModalRef') myModalRef: NgbModal;
+export class SubjectsListingComponent
+  extends BasePage
+  implements OnInit, OnDestroy
+{
+  // @ViewChild('myModalRef') myModalRef: NgbModal;
 
   editMode = false;
   subjects: ISubject[];
@@ -23,7 +33,8 @@ export class SubjectsListingComponent extends BasePage implements OnInit, OnDest
     private subjectSvc: SubjectService,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private elementRef: ElementRef) {
+    private elementRef: ElementRef
+  ) {
     super();
 
     this.addSubjectFg = this.formBuilder.group({
@@ -34,7 +45,7 @@ export class SubjectsListingComponent extends BasePage implements OnInit, OnDest
   async ngOnInit() {
     try {
       await this._getAllSubjects();
-    } catch (error) {} 
+    } catch (error) {}
   }
 
   ngOnDestroy(): void {
@@ -48,82 +59,72 @@ export class SubjectsListingComponent extends BasePage implements OnInit, OnDest
   }
 
   async onUpdateSubjectClicked(data) {
-    const sub = <ISubject>this.subjects.find(  s => {
-      return s.name = data.name
-    } );
-        
+    const sub = <ISubject>this.subjects.find((s) => {
+      return (s.name = data.name);
+    });
+
     try {
-      const resp = await this.subjectSvc.updateSubject(sub);   
+      const resp = await this.subjectSvc.updateSubject(sub);
       await this._getAllSubjects();
       this.addSubjectFg.reset();
-      this.editMode = false
+      this.editMode = false;
 
-      if(resp.status) {
+      if (resp.status) {
         this.helperSvc.presentAlert(resp.message, 'success');
       } else {
         this.helperSvc.presentAlert(resp.message, 'warning');
       }
-
     } catch (error) {
-      
-    }  finally {
-      this.helperSvc.dismissLoader();    
+    } finally {
+      this.helperSvc.dismissLoader();
     }
   }
 
   async onAddSubjectClicked(data: any) {
-    this.helperSvc.presentLoader('Adding subject')
+    this.helperSvc.presentLoader('Adding subject');
 
     try {
-      const resp = await this.subjectSvc.addSubject(data);   
+      const resp = await this.subjectSvc.addSubject(data);
       await this._getAllSubjects();
-      if(resp.status) {
+      if (resp.status) {
         this.helperSvc.presentAlert(resp.message, 'success');
       } else {
         this.helperSvc.presentAlert(resp.message, 'warning');
       }
-
     } catch (error) {
-      
-    }  finally {
-      this.helperSvc.dismissLoader();    
+    } finally {
+      this.helperSvc.dismissLoader();
     }
   }
-  
-  clodeModal(ev){
+
+  clodeModal(ev) {
     this.editMode = false;
     this.addSubjectFg.reset();
-
   }
 
   async onDltSubjectClicked(subject) {
-    const resp = await this.helperSvc.presentConfirmDialogue('Are you sure', 'You want to delete this subject?', 'warning');
-    if(!resp) {
+    const resp = await this.helperSvc.presentConfirmDialogue(
+      'Are you sure',
+      'You want to delete this subject?',
+      'warning'
+    );
+    if (!resp) {
       return;
     }
 
     this.helperSvc.presentLoader('Deleting subject');
-    
+
     try {
       await this.subjectSvc.deleteSubject(subject);
       await this._getAllSubjects();
     } catch (error) {
-      
     } finally {
       this.helperSvc.dismissLoader();
-
     }
-
-
   }
-
-
 
   private async _getAllSubjects() {
     this.subjects = await this.subjectSvc.getAllSubjects();
     console.log(this.subjects);
-    
   }
-
-
 }

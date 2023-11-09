@@ -16,42 +16,34 @@ import { AuthModule } from './modules/authentication/auth.module';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NoDataModule } from './components/no-data/no-data.module';
-import { HoverDirective } from './directives/hover.directive';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarModule } from './components/navbar/navbar.module';
+import { tokenInterceptor } from './modules/authentication/token-interceptor.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    HoverDirective,
-  ],
+  declarations: [AppComponent],
   imports: [
     RouterModule.forRoot([]), // Make sure to include the `forRoot` method
     BrowserModule,
     HttpClientModule,
-    UserModule, 
+    UserModule,
     AuthModule,
     AdminModule,
-    AppRoutingModule,  
-    NoDataModule,
+    AppRoutingModule,
+    NavbarModule,
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.production,
     }),
-    NgbModule
   ],
-  providers: [
-    BaseService,
-    NgxPubSubService
-  ],
-  bootstrap: [AppComponent]
+  providers: [BaseService, NgxPubSubService, tokenInterceptor],
+  bootstrap: [AppComponent],
 })
-export class AppModule { 
+export class AppModule {
   // null ijector issue
   //avoid multiple instance of injector in case of inheritance
   //https://blogs.msdn.microsoft.com/premier_developer/2018/06/17/angular-how-to-simplify-components-with-typescript-inheritance/
   //https://stackoverflow.com/a/53185632
   constructor(injector: Injector) {
     AppInjector.setInjector(injector);
-  } 
+  }
 }

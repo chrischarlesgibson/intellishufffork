@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
 import { NavbarComponent } from './navbar.component';
-import { HoverDirective } from 'src/app/directives/hover.directive';
 import { ComponentsWithOutFormsModule } from '../components-without-forms.module';
+import { HoverDirective } from 'src/app/directives/hover.directive';
 import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [NavbarComponent, HoverDirective],
   imports: [ComponentsWithOutFormsModule, RouterModule],
-  exports: [NavbarComponent, HoverDirective],
+  exports: [NavbarComponent],
 })
 export class NavbarModule {
-  constructor() {
-  }
+  constructor() {}
 }

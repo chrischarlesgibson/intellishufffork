@@ -8,8 +8,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy:gh": "ng build --configuration production --base-href='https://devfaisalkhan.github.io/intellishuff/intellsihuff-pwa/' && ngh --no-silent",
-    "deploy": "ng build --configuration production --base-href='https://is.dotnetdreamer2.net/' "
+    "deploy:gh": "ng build --configuration production --base-href='https://devfaisalkhan.github.io/intellishuff/intellsihuff-pwa' && ngh --no-silent"
   },
   "private": true,
   "dependencies": {

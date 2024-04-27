@@ -5,7 +5,7 @@ export interface IRegister {
     password: string
     roles?: IRole[]
     status: UserStatus
-    institution?: IInstitution
+    institution?: string
     isUserApproved?: boolean
 }
 

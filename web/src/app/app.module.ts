@@ -25,15 +25,12 @@ import { tokenInterceptor } from './modules/authentication/token-interceptor.ser
     RouterModule.forRoot([]), // Make sure to include the `forRoot` method
     BrowserModule,
     HttpClientModule,
+    NavbarModule,
     UserModule,
     AuthModule,
     AdminModule,
     AppRoutingModule,
-    NavbarModule,
     FontAwesomeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
   ],
   providers: [BaseService, NgxPubSubService, tokenInterceptor],
   bootstrap: [AppComponent],
@@ -44,6 +41,7 @@ export class AppModule {
   //https://blogs.msdn.microsoft.com/premier_developer/2018/06/17/angular-how-to-simplify-components-with-typescript-inheritance/
   //https://stackoverflow.com/a/53185632
   constructor(injector: Injector) {
+
     AppInjector.setInjector(injector);
   }
 }

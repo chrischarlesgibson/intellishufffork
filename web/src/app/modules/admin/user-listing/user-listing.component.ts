@@ -30,6 +30,11 @@ export class UserListingComponent extends BasePage implements OnInit {
     this.router.navigate(['/admin/add-user'], { queryParams: { id: userId } });
   }
 
+  async onDeleteSubjectClicked(user) {
+    await this.authSvc.deleteUser(user);
+    await this._getAllUsers('')
+  }
+
 
   async onRoleChanged(user:IUser, ev: any) {
     const role = ev.target.value;
@@ -60,9 +65,9 @@ export class UserListingComponent extends BasePage implements OnInit {
   }
 
   private async _getAllUsers(loaderText) {
-
     try {
       this.users = await this.authSvc.getAllUsers();
+      console.log('this.users', this.users);
       
     } catch (error) {
       

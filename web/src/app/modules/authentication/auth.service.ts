@@ -21,6 +21,12 @@ export class AuthService extends BaseService {
     });
   }
 
+  getAllInstitutions() {
+    return this.getData<any[]>({
+      url: `institution/getAll`,
+    });
+  }
+
   getAllUsers() {
     return this.getData<IUser[]>({
       url: `user/getAllUsers`,
@@ -30,6 +36,15 @@ export class AuthService extends BaseService {
   getCurrentUser(id: number) {
     return this.getData<IUser>({
       url: `user/getCurrentUser?id=${id}`,
+    });
+  }
+
+  deleteUser(user: IUser) {
+    return this.postData({
+      url: `user/deleteUser`,
+      body: {
+        ...user
+      }
     });
   }
 

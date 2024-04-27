@@ -72,10 +72,6 @@ export class EditProfileComponent extends BasePage implements OnInit {
   async onFormSubmitted(data: IRegister) {
     // const loader = await this.helperSvc.loader;
     // await loader.present();
-    const institution = {
-      name: this.fg['institutionName'].value,
-      type: this.user.institution.type,
-    }
 
     const params =  {
       id: this.user.id,
@@ -84,7 +80,7 @@ export class EditProfileComponent extends BasePage implements OnInit {
       roles: this.user.roles,
       password: data.password,
       status: data.status,
-      institution: institution
+      institution: 'institution' 
     }
 
     this.helperSvc.presentLoader('Updating User');

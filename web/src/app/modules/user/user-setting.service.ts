@@ -230,12 +230,11 @@ export class UserSettingService extends AppSettingService {
 
   async canActivate() {
     const user = await this.getCurrentUser();
-    if (user) {
-      return true;
+    if (!user) {
+      this.router.navigate(['/login']);
+      return false;
     }
-
-    this.router.navigate(['/login']);
-    return false;
+    return true;
   }
 
   // async displayAuthModal(args?: { viewStep?, resetPasswordToken?, waitForDismiss? }) {

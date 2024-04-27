@@ -16,9 +16,6 @@ import { JwtAccessTokenAuthGuard } from 'src/user/auth/access-token-auth.guard';
 
 @Controller(`${AppConstant.ROUTE_PREFIX}/question`)
 export class QuestionController {
-  /**
-   *
-   */
   constructor(private questionSvc: QuestionService) {}
 
   @UseGuards(JwtAccessTokenAuthGuard)

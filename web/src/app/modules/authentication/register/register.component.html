@@ -39,24 +39,22 @@
             </span>
           </div>
   
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="password">Institution Name</label>
             <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> &#x002A;</span>
             <input type="text" formControlName="institutionName" class="form-control" placeholder="Enter your institution Name">
             <span class="text-danger" *ngIf="formGroup.get('institutionName')?.errors  && formGroup.get('institutionName')?.touched "> 
               Institution name is required
             </span>
-          </div>
+          </div> -->
   
           <div class="form-group">
             <label for="password">Institution Type</label>
-            <span class="text-danger" *ngIf="formGroup.get('institutionType')?.errors  && formGroup.get('institutionType')?.touched "> &#x002A;</span>
-            <select class="form-select form-select-md mb-3" aria-label="" formControlName="institutionType">
-              <option [value]="InstitutionType.SCHOOL">{{InstitutionType.SCHOOL}}</option>
-              <option [value]="InstitutionType.COLLEGE">{{InstitutionType.COLLEGE}}</option>
-              <option [value]="InstitutionType.UNIVERSITY">{{InstitutionType.UNIVERSITY}}</option>
+            <span class="text-danger" *ngIf="formGroup.get('institution')?.errors  && formGroup.get('institution')?.touched "> &#x002A;</span>
+            <select class="form-select form-select-md mb-3" aria-label="" formControlName="institution">
+              <option *ngFor="let inst of institutions" [value]="inst._id">{{inst.name}}</option>
             </select>
-            <span class="text-danger" *ngIf="formGroup.get('institutionType')?.errors  && formGroup.get('institutionType')?.touched "> 
+            <span class="text-danger" *ngIf="formGroup.get('institution')?.errors  && formGroup.get('institution')?.touched "> 
               Institution type is required
             </span>
           </div>

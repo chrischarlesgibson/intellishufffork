@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --hmr=true --host 0.0.0.0 ",
+    "start": "ng serve -o ",
     "build": "ng build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "watch": "ng build --watch --configuration development",
@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^17.0.1",
     "@angular/platform-browser-dynamic": "^17.0.1",
     "@angular/router": "^17.0.1",
-    "@angular/service-worker": "17.0.1",
     "@fortawesome/angular-fontawesome": "^0.14.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@popperjs/core": "^2.11.8",

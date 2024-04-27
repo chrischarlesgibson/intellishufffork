@@ -5,6 +5,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToOne,
 } from 'typeorm';
 import { UserStatus } from './user.model';
@@ -28,9 +29,10 @@ export class User extends BaseEntity {
   @Column({ enum: UserStatus, default: UserStatus.PENDING })
   status: UserStatus;
 
-  @OneToOne(() => Institution, { cascade: true })
+  @ManyToOne(() => Institution, { cascade: true })
   @JoinColumn()
   institution: Institution;
+
 
   @ManyToMany(() => Role, (role) => role.users)
   @JoinTable()

@@ -10,5 +10,7 @@ import { NgModule } from '@angular/core';
   exports: [NavbarComponent],
 })
 export class NavbarModule {
-  constructor() {}
+  constructor() {
+    console.log('navabr');
+  }
 }

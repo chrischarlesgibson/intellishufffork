@@ -4,15 +4,15 @@ import { HomeRoutingModule } from './home.routing.module';
 import { ComponentsWithFormsModule } from 'src/app/components/components-with-forms.module';
 import { RouterModule } from '@angular/router';
 import { ComponentsWithOutFormsModule } from 'src/app/components/components-without-forms.module';
+import { NavbarModule } from 'src/app/components/navbar/navbar.module';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-  ],
+  declarations: [HomeComponent],
   imports: [
     HomeRoutingModule,
+    NavbarModule,
     RouterModule,
-    ComponentsWithOutFormsModule
-  ]
+    ComponentsWithOutFormsModule,
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}

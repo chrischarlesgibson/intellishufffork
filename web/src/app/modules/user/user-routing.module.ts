@@ -3,9 +3,9 @@ import { ContactComponent } from './contact/contact.component';
 import { AddQuestionsComponent } from './question/add-questions/add-questions.component';
 import { QuestionsBankComponent } from './question/questions-bank/questions-bank.component';
 import { QuizComponent } from './question/quiz/quiz.component';
-import { AuthGuard } from '../authentication/auth.guard';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { AuthGuard } from '../authentication/auth.guard';
 
 const routes: Routes = [
   {

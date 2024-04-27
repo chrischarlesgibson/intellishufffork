@@ -48,4 +48,6 @@ export class Question extends BaseEntity {
   @ManyToOne(() => Subject, { onDelete: 'CASCADE' })
   @JoinColumn()
   subject: Subject;
+
+  
 }

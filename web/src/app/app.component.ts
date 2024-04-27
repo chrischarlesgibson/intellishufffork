@@ -9,7 +9,7 @@ import { HelperService } from './universal/helper.service';
 import { UserSettingService } from './modules/user/user-setting.service';
 import { NgxPubSubService } from './universal/pub-sub';
 import { UserConstant } from './modules/user/user-constant';
-import { IResponse } from './universal/shared.model';
+import { HttpStatus, IResponse } from './universal/shared.model';
 import { AppConstant } from './universal/app-constant';
 import { AuthService } from './modules/authentication/auth.service';
 import { IUser } from './modules/authentication/auth.model';
@@ -119,6 +119,7 @@ export class AppComponent {
         this.helperSvc.presentLoader('Signing In');
         try {
           response = await this.userSvc.login(user);
+          console.log(response);
 
           currentUser = response.data as IUser;
         } catch (error) {
@@ -130,8 +131,9 @@ export class AppComponent {
           return;
         }
 
-        if (!response?.status) {
+        if (response?.status == HttpStatus.NOT_FOUND) {
           this.helperSvc.presentAlert(response.message, 'warning');
+          return;
         }
 
         await this.userSettingSvc.putCurrentUser(currentUser as IUser);

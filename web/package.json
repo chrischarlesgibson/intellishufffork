@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "upgrade": "ng update @angular/cli @angular/core",
     "start": "ng serve -o ",
     "build": "ng build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
